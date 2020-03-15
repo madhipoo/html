@@ -1,0 +1,187 @@
+<!DOCTYPE html>
+<html>
+<head>
+ <style>
+	#info{
+		width: 100%;
+		padding: 5px;
+		text-align: center;
+		color: #3a3737
+	}
+	
+	body {
+		overflow: hidden;
+	}
+	</style>
+	<meta charset="utf-8"/>
+</head>
+<body>
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/109/three.min.js"></script>
+	<script src="https://threejs.org/build/three.min.js"></script>
+	<script src="https://threejs.org/examples/js/controls/OrbitControls.js">
+	</script>
+	<div id="info">HW1</div>
+	<script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
+	<script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/loaders/MTLLoader.js"></script>
+    <script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/loaders/OBJLoader.js"></script>
+	<script>
+		var orthoCam,cas;
+		var camera, scene, renderer, mesh, controls;
+		var car;
+		var angle = 0;
+		var theObject = new THREE.Object3D();
+		init();
+		animate();
+
+		function loadCubemap() {
+
+			var path = "back/";
+			var format = '.jpg';
+			var urls = [
+			path + 'posx' + format, path + 'negx' + format,
+			path + 'posy' + format, path + 'negy' + format,
+			path + 'posz' + format, path + 'negz' + format
+			];
+			var loader = new THREE.CubeTextureLoader();
+			loader.setCrossOrigin ('');
+			var cubeMap = loader.load(urls);
+			cubeMap.format = THREE.RGBFormat;
+			return cubeMap;
+
+		}
+
+		function init() {
+
+
+		  scene = new THREE.Scene();
+		  
+		  camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+
+		  orthoCam = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1000);
+
+		  var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
+		  scene.add(gridXZ);
+
+		  renderer = new THREE.WebGLRenderer();
+		  renderer.setSize(window.innerWidth, window.innerHeight);
+		  renderer.setClearColor(0x888888);
+
+		  document.body.appendChild(renderer.domElement);
+		  ////////////////////////////////////////////////////////////////////////
+		  let controls = new THREE.OrbitControls(camera, renderer.domElement);
+		  /*var mat = new THREE.MeshPhongMaterial({
+				color: 0xffffff
+			});
+			car = new THREE.Mesh(new THREE.BoxGeometry(20, 5, 10), mat);
+			scene.add(car);
+*/
+		  window.addEventListener('resize', onWindowResize, false);
+		  pointLight = new THREE.PointLight(0xffffff);
+		  scene.add(pointLight);
+		  /*lightSphere = new THREE.Mesh(new THREE.SphereGeometry(5),
+		  new THREE.MeshBasicMaterial({
+			  color: 0xffff00,
+		  }));
+		  scene.add(lightSphere);*/
+
+		  var ambientLight = new THREE.AmbientLight(0x111111);
+		  scene.add(ambientLight);
+		  	car = new THREE.Group();
+		 	readModel ('car');
+		  	scene.add(car);
+			cubeMap = loadCubemap();
+  			scene.background = cubeMap;
+			renderer.autoClear = false;
+		}
+		function animate() {
+			angle+=0.01;
+			car.rotation.y = -Math.PI/2 - angle;
+  			car.position.set (70*Math.cos(angle), 0, 70*Math.sin(angle));
+			pointLight.position.set(-50, 40, -50);
+			var d=Math.PI/7;
+			camera.position.set (70*Math.cos(angle-d),30,70*Math.sin(angle-d));
+		  	camera.lookAt (car.position);
+			//lightSphere.position.copy(pointLight.position);
+
+		  requestAnimationFrame(animate);
+		  render();
+		}
+		
+		function onWindowResize() {
+  camera.aspect = window.innerWidth / window.innerHeight;
+  camera.updateProjectionMatrix();
+  renderer.setSize(window.innerWidth, window.innerHeight);
+}
+		
+		function readModel(modelName='car', targetSize = 30) {
+
+		var onProgress = function(xhr) {
+		if (xhr.lengthComputable) {
+			var percentComplete = xhr.loaded / xhr.total * 100;
+			console.log(Math.round(percentComplete, 2) + '% downloaded');
+		}
+		};
+
+		var onError = function(xhr) {};
+
+		var mtlLoader = new THREE.MTLLoader();
+		mtlLoader.setPath('models/');
+		mtlLoader.load(modelName + '.mtl', function(materials) {
+
+		materials.preload();
+
+		var objLoader = new THREE.OBJLoader();
+		objLoader.setMaterials(materials);
+		objLoader.setPath('models/');
+		objLoader.load(modelName + '.obj', function(object) {
+			unitize(object, targetSize);
+			theObject.setRotationFromEuler(new THREE.Euler(3.1416 / 2, 0, -3.1416 / 2, 'ZYX'))
+			car.add(theObject);
+		}, onProgress, onError);
+
+
+		});
+
+		}
+
+
+		function unitize(object, targetSize) {
+
+
+		var box3 = new THREE.Box3();
+		box3.setFromObject(object);
+		var size = new THREE.Vector3();
+		size.subVectors(box3.max, box3.min);
+		var center = new THREE.Vector3();
+		center.addVectors(box3.max, box3.min).multiplyScalar(0);
+
+		var objSize = Math.max(size.x, size.y, size.z);
+		var scaleSet = targetSize / objSize;
+
+		theObject.add(object);
+		object.scale.set(scaleSet, scaleSet, scaleSet);
+		object.position.set(-center.x * scaleSet, -center.y * scaleSet, -center.z * scaleSet);
+		object.rotation.z += Math.PI / 2;
+		object.rotation.x -= Math.PI / 2;
+		scene.add(theObject);
+
+		}
+		function render() {
+		  renderer.clear();
+		  let WW = window.innerWidth;
+		  let HH = window.innerHeight;
+		  camera.aspect=WW/2/HH;
+      	  camera.updateProjectionMatrix();
+		  renderer.setViewport(0, 0, WW/2 , HH);
+		  renderer.render(scene, camera);
+
+		  renderer.setViewport(WW / 2, 0, WW / 2, HH);
+		  orthoCam.position.set(car.position.x, 80, car.position.z);
+		  orthoCam.lookAt(car.position);
+		  renderer.render(scene, orthoCam);
+		}
+
+
+	</script>
+</body>
+</html>
