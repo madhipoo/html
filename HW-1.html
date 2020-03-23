@@ -58,18 +58,24 @@
 		  camera = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
 
 		  orthoCam = new THREE.PerspectiveCamera(50, width / height, 1, 1000);
+		  orthoCam.position.set(0, 250, 0);
 
-		  var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
-		  scene.add(gridXZ);
-		  
 		  renderer = new THREE.WebGLRenderer();
 		  renderer.setSize(window.innerWidth, window.innerHeight);
 		  renderer.setClearColor(0x888888);
 
 		  document.body.appendChild(renderer.domElement);
 		  ////////////////////////////////////////////////////////////////////////
-		  let controls = new THREE.OrbitControls(camera, renderer.domElement);
-
+		  let controls = new THREE.OrbitControls(orthoCam, renderer.domElement);
+		  let loader = new THREE.TextureLoader();
+		  let back1;
+		  back1 = loader.load('https://i.imgur.com/0vFLlcy.jpg');
+		  let plane = new THREE.Mesh(new THREE.PlaneGeometry(200, 200), new THREE.MeshPhongMaterial({
+			map: back1,
+			side: THREE.DoubleSide
+		  }));
+		  plane.rotation.x = -Math.PI/2;
+		  scene.add(plane);
 		  window.addEventListener('resize', onWindowResize, false);
 		  pointLight = new THREE.PointLight(0xffffff);
 		  scene.add(pointLight);
@@ -148,7 +154,7 @@
 
 		theObject.add(object);
 		object.scale.set(scaleSet, scaleSet, scaleSet);
-		object.position.set(-center.x * scaleSet, -center.y * scaleSet, -center.z * scaleSet);
+		object.position.set(-center.x * scaleSet - 8.5, -center.y * scaleSet, -center.z * scaleSet);
 		object.rotation.z += Math.PI / 2;
 		object.rotation.x -= Math.PI / 2;
 		scene.add(theObject);
@@ -164,8 +170,6 @@
 		  renderer.render(scene, camera);
 
 		  renderer.setViewport(WW / 2, 0, WW / 2, HH);
-		  orthoCam.position.set(0, 250, 0);
-		  orthoCam.lookAt(0,0,0);
 		  renderer.render(scene, orthoCam);
 		}
 
