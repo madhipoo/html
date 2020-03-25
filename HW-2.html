@@ -208,7 +208,7 @@
             let vN = walls[j].normal.clone().multiplyScalar(pucks[i].vel.dot(walls[j].normal));
             let vT = pucks[i].vel.clone().sub(vN);
             pucks[i].vel.copy(vT.add(vN.multiplyScalar(-cR)));
-            //collisionSound.play();
+            collisionSound.play();
           }
         }
       for (i = 0; i < pucks.length; i++) {
@@ -246,7 +246,6 @@
         let Rect2 = makeRect2(rec2);
         let vn = 0;
         if (Check_Intersect(Rect1, pucks[i].mesh, 5 + eps)) {
-          //console.log('hit');
           if (pucks[i].pos.clone().sub(Rect1.top).dot(Rect1.tn) <= 5) {
             vn = walltopuck(pucks[i].vel, Rect1.tn);
             pucks[i].vel.copy(vn);
@@ -262,12 +261,10 @@
           if (pucks[i].pos.clone().sub(Rect1.right).dot(Rect1.rn) <= 5) {
             vn = walltopuck(pucks[i].vel, Rect1.rn);
             pucks[i].vel.copy(vn);
-            //console.log(vn);
           }
 
         }
         if (Check_Intersect(Rect2, pucks[i].mesh, 5 + eps)) {
-          //console.log('hit');
           if (pucks[i].pos.clone().sub(Rect2.top).dot(Rect2.tn) <= 5 + eps) {
             vn = walltopuck(pucks[i].vel, Rect2.tn);
             pucks[i].vel.copy(vn);
@@ -283,7 +280,6 @@
           if (pucks[i].pos.clone().sub(Rect2.right).dot(Rect2.rn) <= 5 + eps) {
             vn = walltopuck(pucks[i].vel, Rect2.rn);
             pucks[i].vel.copy(vn);
-            //console.log(vn);
           }
         }
       }
