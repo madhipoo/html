@@ -1,0 +1,600 @@
+<html>
+  <head>
+  <style>
+  #info {
+    position: absolute;
+    top: 0px;
+    width: 100%;
+    padding: 10px;
+    text-align: center;
+    color: #ffff00
+    }
+  #gui {
+    position: absolute;
+    top: 20px;
+    left: 20px;
+    height: 100px;
+    }
+  body {
+    overflow: hidden;
+    }
+
+  </style>
+</head>
+
+<body>
+
+    <div id="info">HW-3</div>
+    <audio id="soundtrack" autoplay="" loop="" style="display:none">
+      <source src="https://madhipoo.github.io/html/Pink Panther.mp3" type="audio/mp3">
+      </audio>
+    <script src="https://threejs.org/build/three.min.js"></script>
+    <script src="https://threejs.org/examples/js/controls/OrbitControls.js">
+    </script>
+    <script src="https://raw.githack.com/mrdoob/three.js/dev/examples/js/misc/Gyroscope.js"></script>
+    
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
+    <script>
+    
+        var camera, scene, renderer;
+        var k = 10;
+        var opc = 0.5;
+        var opacity = 1.0;
+        var head, larm,rarm, torso, lleg,rleg;
+        var angle = 0;
+        var gcontrol;
+        var gyro;
+        var footprint;
+        var soundVal = 0.15, sign = 0.1, soundTrack;
+        ////////////////////
+        var pose1 = {
+            larm1: -0.45178392424566294,
+          larm2: -0.22579471053252442,
+          rarm1: 0.6115592043978104,
+          rarm2: -0.477009524674545,
+          lleg1: 0.5,
+          lleg2: 0.352,
+          rleg1: -0.494,
+          rleg2: 0.5,
+          head: -0.257,
+          torso: -0.257
+        }
+        var pose2 = {
+            larm1: 0.5672532407043325,
+          larm2: -0.3334582023076761,
+          rarm1: -0.45178392424566294,
+          rarm2: -0.3244862446597468,
+          lleg1: -0.494,
+          lleg2: 0.5,
+          rleg1: 0.5,
+          rleg2: 0.352,
+          head: 0.257,
+          torso: 0.257
+        }
+        var pose3 = {
+          larm1: -0.31886603316522866,
+          larm2: -0.22579471053252442,
+          rarm1: 0.30141745854346436,
+          rarm2: -0.477009524674545,
+          lleg1: 0.05067450291477871,
+          lleg2: 0.5,
+          rleg1: -0.8,
+          rleg2: 0.39515337063157063,
+          head: -0.1,
+          torso: -0.1
+         }
+        var pose4 = {
+            larm1: -0.45178392424566294,
+          larm2: -0.22579471053252442,
+          rarm1: 0.6115592043978104,
+          rarm2: -0.477009524674545,
+          lleg1: 0.5,
+          lleg2: 0.352,
+          rleg1: -0.494,
+          rleg2: 0.5,
+          head: -0.257,
+          torso: -0.257
+        }
+        var pose5 = {
+            larm1: 0.39002938593042025,
+          larm2: -0.3334582023076761,
+          rarm1: -0.23025410577827232,
+          rarm2: -0.3244862446597468,
+          lleg1: -0.8,
+          lleg2: 0.4, 
+          rleg1: 0.13596348302472394,
+          rleg2: 0.5,
+          head: 0.125,
+          torso: 0.125
+        }
+        var pose6 = {
+            larm1: 0.5672532407043325,
+          larm2: -0.3334582023076761,
+          rarm1: -0.45178392424566294,
+          rarm2: -0.3244862446597468,
+          lleg1: -0.494,
+          lleg2: 0.5,
+          rleg1: 0.5,
+          rleg2: 0.352,
+          head: 0.257,
+          torso: 0.257
+        }
+        var keys = [
+          [0, pose1],
+          [1/8, pose3],
+          [2/8, pose4],
+          
+          [4/8, pose2],
+          [5/8, pose5],
+          [6/8, pose6],
+          [1, pose1]
+        ];
+        var T = 240/118;
+        var clock = new THREE.Clock();
+        var ts = clock.getElapsedTime();  // start time
+        var intKey = [];
+        var footprint = [];
+        class Foot{
+            constructor(opacity,check,mesh,angle){
+              let loader = new THREE.TextureLoader();
+            loader.setCrossOrigin ('');
+            this.opacity = opacity;
+            if(check == 0)this.tex = loader.load ('https://i.imgur.com/8V5KmBz.png');
+            if(check == 1)this.tex = loader.load ('https://i.imgur.com/ThPQEuk.png');
+            this.print = new THREE.Mesh (new THREE.PlaneGeometry (30,30), new THREE.MeshBasicMaterial({map: this.tex,opacity: this.opacity , alphaTest:0.5, transparent: true,side: THREE.DoubleSide}));
+            scene.add (this.print);
+            //200*Math.cos(angle), 0, -200*Math.sin(angle)
+            if(check == 0)this.print.position.set((200+1.26*k)*Math.cos(angle),1.75,-(200+1.26*k)*Math.sin(angle));
+            if(check == 1)this.print.position.set((200-1.26*k)*Math.cos(angle),1.75,-(200-1.26*k)*Math.sin(angle));
+            this.print.rotation.x = -Math.PI/2;
+            this.print.rotation.z = angle;
+          }
+          update(dt) {
+                      if (this.opacity < 0)
+                  scene.remove(this.print);
+                if (this.print){
+                  this.print.material.opacity = this.opacity;
+                  this.opacity = this.opacity-0.005;
+                }
+            }
+        }
+        ///////////////
+        init();
+        animate();
+        function loadCubemap() {
+        
+          var path = "back1/";
+          var format = '.jpg';
+          var urls = [
+            path + 'posx' + format, path + 'negx' + format,
+            path + 'posy' + format, path + 'negy' + format,
+            path + 'posz' + format, path + 'negz' + format
+          ];
+          var loader = new THREE.CubeTextureLoader();
+          loader.setCrossOrigin ('');
+          var cubeMap = loader.load(urls);
+          cubeMap.format = THREE.RGBFormat;
+          return cubeMap;
+          
+        }
+        function init() {
+          soundTrack = document.getElementById ('soundtrack');
+          scene = new THREE.Scene();
+        
+          renderer = new THREE.WebGLRenderer();
+          renderer.setSize(window.innerWidth, window.innerHeight);
+          renderer.setClearColor(0x888888);
+          document.body.appendChild(renderer.domElement);
+        
+          camera = new THREE.PerspectiveCamera(50, window.innerWidth / window.innerHeight, 1, 1500);
+          camera.position.z = 500;
+          let controls = new THREE.OrbitControls(camera, renderer.domElement);
+        
+          ////////////////////////////////////////////////////////////////
+          var gridXZ = new THREE.GridHelper(500, 20, 'red', 'white');
+          //scene.add(gridXZ);
+        ////////////////
+            var cubeMap = loadCubemap();
+          scene.background = cubeMap;
+            mine = new THREE.Group();
+            head = makeHead();
+          torso = makeTorso();
+            mine.add (head, torso);
+          head.position.y = 7.57*k;
+          torso.position.y = 4.09*k;
+          
+          larm = makeArm();
+          mine.add (larm[0]);
+          larm[0].position.set (1.26*k+0.62*k, 7.57*k, 0);
+          rarm = makeArm();
+          mine.add (rarm[0]);
+          rarm[0].position.set (-1.26*k-0.62*k, 7.57*k, 0);
+          lleg = makeLeg();
+          lleg[0].position.set (0.63*k, 4.09*k, 0);
+          mine.add (lleg[0]);
+          rleg = makeLeg();
+          rleg[0].position.set (-0.63*k, 4.09*k, 0);
+          mine.add (rleg[0]);
+        
+          larm[0].rotation.z = -Math.PI/2;
+          rarm[0].rotation.z = -Math.PI/2;
+          lleg[0].rotation.z = -Math.PI/2;
+          rleg[0].rotation.z = -Math.PI/2;
+          
+          larm[0].rotation.order = 'ZYX';
+          rarm[0].rotation.order = 'ZYX';
+          lleg[0].rotation.order = 'ZYX';
+          rleg[0].rotation.order = 'ZYX';
+          scene.add (mine);
+          let loader = new THREE.TextureLoader();
+          var floor = new THREE.Mesh( new THREE.PlaneGeometry( 500, 500, 32 ), new THREE.MeshBasicMaterial( {map:loader.load("https://i.imgur.com/I2IYgpc.jpg"), side: THREE.DoubleSide}));
+          scene.add(floor);
+          floor.rotation.x = -Math.PI/2;
+          /////////////////////
+          gcontrol = {
+            larm1: 0.01,
+            larm2: 0.01,
+            rarm1: 0.01,
+            rarm2: 0.01,
+            lleg1: 0.01,
+            lleg2: 0.01,
+            rleg1: 0.01,
+            rleg2: 0.01,
+            head: 0.01,
+            torso: 0.01
+          };
+          var gui = new dat.GUI({load:loadJSON(), preset:'key1'});
+          gui.domElement.id = 'gui';
+        
+            gui.remember (gcontrol);
+          
+          gui.add(gcontrol, 'larm1', -2.8, 1.2);
+          gui.add(gcontrol, 'larm2', -0.8, 0.01);
+          gui.add(gcontrol, 'rarm1', -2.8, 1.2);
+          gui.add(gcontrol, 'rarm2', -0.8, 0.01);
+          gui.add(gcontrol, 'lleg1', -0.8, 0.8);
+          gui.add(gcontrol, 'lleg2', -0.8, 0.5);
+          gui.add(gcontrol, 'rleg1', -0.8, 0.5);
+          gui.add(gcontrol, 'rleg2', -0.8, 0.5);
+          gui.add(gcontrol, 'head', -0.8, 0.5);
+          gui.add(gcontrol, 'torso', -0.8, 0.5);
+          ///////////
+          gyro = new THREE.Gyroscope();
+          scene.add (gyro);
+          gyro.add (camera);
+          torso.add (gyro);
+        }
+        
+        function makeArm() {
+            var group1 = new THREE.Group();
+          var group2 = new THREE.Group();
+          let loader = new THREE.TextureLoader();
+          group2.position.x = 3.82*k/5*2;
+          var mat = new THREE.MeshNormalMaterial({transparent:true, opacity:opc});
+          var uparm = new THREE.Mesh (new THREE.BoxGeometry(3.82*k/5*2, 1.24*k, 1.24*k), new THREE.MeshBasicMaterial({
+           map: loader.load("https://i.imgur.com/Ib7QCWN.png")
+          }));
+          var downarm = new THREE.Mesh (new THREE.BoxGeometry(3.82*k/5*3, 1.24*k, 1.24*k), new THREE.MeshBasicMaterial({
+           map: loader.load("https://i.imgur.com/VLnbd9F.png")
+          }));
+            group2.add (downarm);
+          group1.add(uparm,group2);
+          uparm.position.x = 3.82*k/5;
+          downarm.position.x = 3.82*k/5*1.5;
+          group1.add (new THREE.AxesHelper (k));
+          group2.add (new THREE.AxesHelper (k));
+            return [group1,group2];
+        }
+        function makeLeg() {
+            var group1 = new THREE.Group();
+          var group2 = new THREE.Group();
+          let loader = new THREE.TextureLoader();
+          var mat = new THREE.MeshNormalMaterial({transparent:true, opacity:opc});
+          var upleg = new THREE.Mesh (new THREE.BoxGeometry(4.09*k/2, 1.26*k, 1.26*k), new THREE.MeshBasicMaterial({
+           map: loader.load("https://i.imgur.com/aoLPUov.png")
+          }));
+          var downleg = new THREE.Mesh (new THREE.BoxGeometry(4.09*k/2,1.26*k,1.26*k),new THREE.MeshBasicMaterial({
+           map: loader.load("https://i.imgur.com/VLnbd9F.png")
+          }));
+          group2.add(downleg);
+            group1.add (upleg,group2);
+          group2.position.x = 4.09*k/2;
+          upleg.position.x = 4.09*k/4;
+          downleg.position.x = 4.09*k/4;
+          group1.add (new THREE.AxesHelper (k));
+          group2.add (new THREE.AxesHelper (k));
+            return [group1,group2];
+        }
+        function makeHead() {
+            var headGroup = new THREE.Group();
+            let geometry = new THREE.Geometry();
+          geometry.vertices.push(new THREE.Vector3(-1.26*k, 0 , 1.26*k)); //0
+          geometry.vertices.push(new THREE.Vector3(1.26*k, 0 , 1.26*k)); //1
+          geometry.vertices.push(new THREE.Vector3(-1.26*k, 0 , -1.26*k)); //2
+          geometry.vertices.push(new THREE.Vector3(1.26*k, 0 , -1.26*k)); //3
+          geometry.vertices.push(new THREE.Vector3(-1.26*k, 2.52*k, 1.26*k)); //4
+          geometry.vertices.push(new THREE.Vector3(1.26*k, 2.52*k, 1.26*k)); //5
+          geometry.vertices.push(new THREE.Vector3(-1.26*k, 2.52*k, -1.26*k)); //6
+          geometry.vertices.push(new THREE.Vector3(1.26*k, 2.52*k, -1.26*k)); //7
+          
+          let face;
+          //正面
+          face = new THREE.Face3(0, 1, 5);
+          face.materialIndex = 0;
+          geometry.faces.push(face);
+          face = new THREE.Face3(0, 5, 4);
+          face.materialIndex = 0;
+          geometry.faces.push(face);
+          //左臉
+          face = new THREE.Face3(1, 3, 7);
+          face.materialIndex = 1;
+          geometry.faces.push(face);
+          face = new THREE.Face3(1, 7, 5);
+          face.materialIndex = 1;
+          geometry.faces.push(face);
+          //右臉
+          face = new THREE.Face3(2, 0, 4);
+          face.materialIndex = 2;
+          geometry.faces.push(face);
+          face = new THREE.Face3(2, 4, 6);
+          face.materialIndex = 2;
+          geometry.faces.push(face);
+          //後
+          face = new THREE.Face3(3, 2, 6);
+          face.materialIndex = 3;
+          geometry.faces.push(face);
+          face = new THREE.Face3(3, 6, 7);
+          face.materialIndex = 3;
+          geometry.faces.push(face);
+          //下巴
+          face = new THREE.Face3(2, 3, 1);
+          face.materialIndex = 4;
+          geometry.faces.push(face);
+          face = new THREE.Face3(2, 1, 0);
+          face.materialIndex = 4;
+          geometry.faces.push(face);
+          //頭頂
+          face = new THREE.Face3(4, 5, 7);
+          face.materialIndex = 5;
+          geometry.faces.push(face);
+          face = new THREE.Face3(4, 7, 6);
+          face.materialIndex = 5;
+          geometry.faces.push(face);
+          //////////
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1)]);
+        
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1)]);
+        
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1)]);
+        
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1)]);
+        
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1)]);
+        
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+          geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 1), new THREE.Vector2(0, 1)]);
+          geometry.computeFaceNormals();
+          geometry.computeVertexNormals();
+          let loader = new THREE.TextureLoader();
+          let textures = [];
+          loader.crossOrigin = '';
+          textures[0] = loader.load('https://i.imgur.com/rR048Wy.png');
+          textures[1] = loader.load('https://i.imgur.com/Razjnjy.png');
+          textures[2] = loader.load('https://i.imgur.com/GxazArG.png');
+          textures[3] = loader.load('https://i.imgur.com/DmIVva7.png');
+          textures[4] = loader.load('https://i.imgur.com/VLnbd9F.png');
+          textures[5] = loader.load('https://i.imgur.com/DmIVva7.png');
+          materialArray = [];
+          materialArray.push(new THREE.MeshBasicMaterial({
+              map: textures[0] /*,wireframe : true*/
+            }),
+            new THREE.MeshBasicMaterial({
+              map: textures[1]
+            }),
+            new THREE.MeshBasicMaterial({
+              map: textures[2]
+            }),
+            new THREE.MeshBasicMaterial({
+              map: textures[3]
+            }),
+            new THREE.MeshBasicMaterial({
+              map: textures[4]
+            }),
+            new THREE.MeshBasicMaterial({
+              map: textures[5]
+            }),
+        
+          );
+          var headBody = new THREE.Mesh(geometry, materialArray);
+            headGroup.add (headBody);
+          headGroup.add (new THREE.AxesHelper (k));
+            return headGroup;
+        }
+        function makeTorso () {
+            var group = new THREE.Group();
+          let loader = new THREE.TextureLoader();
+          var body = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), new THREE.MeshBasicMaterial({map: loader.load("https://i.imgur.com/7Fv1lNs.png")}));
+          
+            group.add (body);
+          body.position.y = 3.48*k/2;
+              group.add (new THREE.AxesHelper (2*k));
+        return group;
+        
+        }
+        function keyframe(t) {
+          var s = ((t - ts) % T) / T;
+        
+          for (var i = 1; i < keys.length; i++) {
+            if (keys[i][0] > s) break;
+          }
+          // take i-1
+          var ii = i - 1;
+          var a = (s - keys[ii][0]) / (keys[ii + 1][0] - keys[ii][0]);
+          intKey = [keys[ii][1].larm1 * (1 - a) + keys[ii + 1][1].larm1 * a,
+                    keys[ii][1].larm2 * (1 - a) + keys[ii + 1][1].larm2 * a,
+                    keys[ii][1].rarm1 * (1 - a) + keys[ii + 1][1].rarm1 * a,
+                    keys[ii][1].rarm2 * (1 - a) + keys[ii + 1][1].rarm2 * a,
+                    keys[ii][1].lleg1 * (1 - a) + keys[ii + 1][1].lleg1 * a,
+                    keys[ii][1].lleg2 * (1 - a) + keys[ii + 1][1].lleg2 * a,
+                    keys[ii][1].rleg1 * (1 - a) + keys[ii + 1][1].rleg1 * a,
+                    keys[ii][1].rleg2 * (1 - a) + keys[ii + 1][1].rleg2 * a,
+                    keys[ii][1].head * (1 - a) + keys[ii + 1][1].head * a,
+                    keys[ii][1].torso * (1 - a) + keys[ii + 1][1].torso * a,
+          ];
+        }
+        function animate() {
+          soundVal += sign*0.01;
+          soundVal = THREE.Math.clamp (soundVal, 0, 1);
+          soundtrack.volume = soundVal;
+          let dt;
+          angle+=0.005;
+          mine.position.set (200*Math.cos(angle), 0, -200*Math.sin(angle));
+          mine.rotation.y = Math.PI + angle;
+          
+          keyframe(clock.getElapsedTime()); 
+          larm[0].rotation.y = intKey[0];//gcontrol.larm1; //Math.PI/4;
+          larm[1].rotation.y = intKey[1];
+          rarm[0].rotation.y = intKey[2];
+          rarm[1].rotation.y = intKey[3];
+          lleg[0].rotation.y = intKey[4];
+          lleg[1].rotation.y = intKey[5];
+          rleg[0].rotation.y = intKey[6];
+          rleg[1].rotation.y = intKey[7];
+          head.rotation.y = intKey[8];
+          torso.rotation.y = intKey[9];
+          camera.lookAt(mine.position);
+          if(lleg[1].rotation.y >0.495){
+              footprint.push(new Foot(1,0,mine,angle));
+          }
+          if(rleg[1].rotation.y > 0.495){
+              footprint.push(new Foot(1,1,mine,angle));
+          }
+          
+          footprint.forEach(function(b) {
+                b.update(dt)
+            });
+          
+          requestAnimationFrame(animate);
+          render();
+        
+        }
+        function loadJSON() {
+            return {
+            "preset": "key6",
+            "remembered": {
+              "Default": {
+                "0": {
+                  "larm1": 0.01,
+                  "larm2": 0.01,
+                  "rarm1": 0.01,
+                  "rarm2": 0.01,
+                  "lleg1": 0.01,
+                  "lleg2": 0.01,
+                  "rleg1": 0.01,
+                  "rleg2": 0.01,
+                  "head": 0.01,
+                  "torso": 0.01
+                }
+              },
+              "key1": {
+                "0": {
+                  "larm1": -0.05,
+                  "larm2": -0.37831799054732257,
+                  "rarm1": 0.05,
+                  "rarm2": -0.36934603289939333,
+                  "lleg1": 0.5,
+                  "lleg2": 0.352,
+                  "rleg1": -0.494,
+                  "rleg2": 0.5,
+                  "head": 0,
+                  "torso": 0
+                }
+              },
+              "key2": {
+                "0": {
+                  "larm1": -0.05,
+                  "larm2": -0.3334582023076761,
+                  "rarm1": 0.21280553115650802,
+                  "rarm2": -0.3244862446597468,
+                  "lleg1": -0.494,
+                  "lleg2": 0.5,
+                  "rleg1": 0.5,
+                  "rleg2": 0.352,
+                  "head": 0,
+                  "torso": 0
+                }
+              },
+              "key3": {
+                "0": {
+                  "larm1": -0.31886603316522866,
+                  "larm2": -0.22579471053252442,
+                  "rarm1": 0.30141745854346436,
+                  "rarm2": -0.477009524674545,
+                  "lleg1": 0.05067450291477871,
+                  "lleg2": 0.5,
+                  "rleg1": -0.8,
+                  "rleg2": 0.39515337063157063,
+                  "head": -0.125,
+                  "torso": -0.125
+                }
+              },
+              "key4": {
+                "0": {
+                  "larm1": -0.45178392424566294,
+                  "larm2": -0.22579471053252442,
+                  "rarm1": 0.6115592043978104,
+                  "rarm2": -0.477009524674545,
+                  "lleg1": 0.5,
+                  "lleg2": 0.352,
+                  "rleg1": -0.494,
+                  "rleg2": 0.5,
+                  "head": -0.257,
+                  "torso": -0.257
+                }
+              },
+              "key5": {
+                "0": {
+                  "larm1": 0.39002938593042025,
+                  "larm2": -0.3334582023076761,
+                  "rarm1": -0.23025410577827232,
+                  "rarm2": -0.3244862446597468,
+                  "lleg1": -0.8,
+                  "lleg2": 0.4,
+                  "rleg1": 0.13596348302472394,
+                  "rleg2": 0.5,
+                  "head": 0.125,
+                  "torso": 0.125
+                }
+              },
+              "key6": {
+                "0": {
+                  "larm1": 0.5672532407043325,
+                  "larm2": -0.3334582023076761,
+                  "rarm1": -0.45178392424566294,
+                  "rarm2": -0.3244862446597468,
+                  "lleg1": -0.494,
+                  "lleg2": 0.5,
+                  "rleg1": 0.5,
+                  "rleg2": 0.352,
+                  "head": 0.257,
+                  "torso": 0.257
+                }
+              }
+            },
+            "closed": false,
+            "folders": {}
+          }
+        }
+        function render() {
+        
+          renderer.render(scene, camera);
+        
+        }
+    </script> 
+  </body> 
+</html>
