@@ -281,8 +281,8 @@
           group1.add(uparm,group2);
           uparm.position.x = 3.82*k/5;
           downarm.position.x = 3.82*k/5*1.5;
-          group1.add (new THREE.AxesHelper (k));
-          group2.add (new THREE.AxesHelper (k));
+          //group1.add (new THREE.AxesHelper (k));
+          //group2.add (new THREE.AxesHelper (k));
             return [group1,group2];
         }
         function makeLeg() {
@@ -301,8 +301,8 @@
           group2.position.x = 4.09*k/2;
           upleg.position.x = 4.09*k/4;
           downleg.position.x = 4.09*k/4;
-          group1.add (new THREE.AxesHelper (k));
-          group2.add (new THREE.AxesHelper (k));
+          //group1.add (new THREE.AxesHelper (k));
+          //group2.add (new THREE.AxesHelper (k));
             return [group1,group2];
         }
         function makeHead() {
@@ -412,7 +412,7 @@
           );
           var headBody = new THREE.Mesh(geometry, materialArray);
             headGroup.add (headBody);
-          headGroup.add (new THREE.AxesHelper (k));
+          //headGroup.add (new THREE.AxesHelper (k));
             return headGroup;
         }
         function makeTorso () {
@@ -422,7 +422,7 @@
           
             group.add (body);
           body.position.y = 3.48*k/2;
-              group.add (new THREE.AxesHelper (2*k));
+              //group.add (new THREE.AxesHelper (2*k));
         return group;
         
         }
