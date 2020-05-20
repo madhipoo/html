@@ -86,14 +86,14 @@ onRenderFcts.push(function(delta){
 })
 
 var arWorldRoot = smoothedRoot
-
+arWorldRoot.ratation.x = -Math.PI/2;
 // add a torus knot	
 
-let MAXSPEED1 = 200; // halfsize of agent
-var agent1 = new Agent(new THREE.Vector3(-400 + 400 * Math.random(), 0, -400 + 400 * Math.random()), MAXSPEED1);
+let MAXSPEED1 = 40; // halfsize of agent
+var agent1 = new Agent(new THREE.Vector3(-200 + 200 * Math.random(), 0, -200 + 200 * Math.random()), MAXSPEED1);
 arWorldRoot.add(agent1.mesh);
-let MAXSPEED2 = 300; // halfsize of agent
-var agent2 = new Agent(new THREE.Vector3(-400 + 400 * Math.random(), 0, -400 + 400 * Math.random()), MAXSPEED2);
+let MAXSPEED2 = 60; // halfsize of agent
+var agent2 = new Agent(new THREE.Vector3(-200 + 200 * Math.random(), 0, -200 + 200 * Math.random()), MAXSPEED2);
 arWorldRoot.add(agent2.mesh);
 //agent = new Agent(new THREE.Vector3(50,0,-50), size);	
 // in scene.js

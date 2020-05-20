@@ -24,10 +24,10 @@ class Agent {
     this.force = new THREE.Vector3();
     this.size = 3;
     this.target = null;
-    this.halfSize = 10;  // half width
+    this.halfSize = 6;  // half width
     this.mesh = agentMesh (this.halfSize, 'cyan');
     this.MAXSPEED = MAXSPEED;
-    this.ARRIVAL_R = 10;
+    this.ARRIVAL_R = 8;
     
     this.score = 0;
     // for orientable agent
