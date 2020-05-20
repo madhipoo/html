@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<html>
+<head>
+<link rel="stylesheet" type="text/css" href="mystyle.css">
+</head>
+
+<!-- three.js library -->
+<script src='http://madhipoo.github.io/html/AR.js/three.js/examples/vendor/three.js/build/three.min.js'></script>
+<script src="http://madhipoo.github.io/html/AR.js/three.js/examples/vendor/three.js/examples/js/libs/stats.min.js"></script>
+<!-- ar.js -->
+<script src="http://madhipoo.github.io/html/AR.js/three.js/build/ar.js"></script>
+
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'><div style='position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
+	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a>
+	Agent (Seek, Arrival, Collision)<br>
+</div>
+
+<script src="./agent0.js"></script>
+<script src="./obstacle.js"></script>
+<script src="./target.js"></script>
+
+<!-- must be before main.js -->
+<script src="./scene.js"></script>
+<script src="./threemain.js"></script>
+
+<script src="./main.js"></script>
+</body>
+
+</html>
