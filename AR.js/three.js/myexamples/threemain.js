@@ -6,7 +6,7 @@ function initThree() {
 }
 
 
-function postMessage (whichAgent, msg) {
+/*function postMessage (whichAgent, msg) {
 	$('#message').text (whichAgent.name + ': ' + msg);
 	setTimeout (function () {$('#message').text ('')}, 2000);
-}
+}*/

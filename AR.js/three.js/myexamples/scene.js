@@ -1,14 +1,14 @@
 function sceneDesign() {
   // add obstacles to the scene
   scene.obstacles = [];
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(150,0,150), 40) )
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(-100,0,200), 20) )
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(0,0,-100), 30) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(1.5,0,1.5), 0.4) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(-1,0,2), 0.2) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(0,0,-1), 0.3) )
   
 }
 function sceneTarget(){
 
-	let n = new THREE.Vector3 (-300 + 600 * Math.random(),0,-300 + 600 * Math.random()); 
+	let n = new THREE.Vector3 (-3 + 6 * Math.random(),0,-3 + 6 * Math.random()); 
 	  for(let j = 0;j<scene.obstacles.length;j++){
 		  if(n.distanceTo(scene.obstacles[j].center) > scene.obstacles[j].size+20){
 			  if(j>=2){
@@ -16,7 +16,7 @@ function sceneTarget(){
         }
 		  }
 		  else {
-        n = new THREE.Vector3 (-300 + 600 * Math.random(),0,-300 + 600 * Math.random()); 
+        n = new THREE.Vector3 (-3 + 6 * Math.random(),0,-3 + 6 * Math.random()); 
         j=0;
       }
 	  }
