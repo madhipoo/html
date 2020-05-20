@@ -114,11 +114,8 @@ function animate() {
   if( arToolkitSource.ready === false )	return
 	arToolkitContext.update( arToolkitSource.domElement )
 
-  requestAnimationFrame(animate);
-  render();
+  smoothedControls.update (markerRoot)
+  smoothedRoot.children[1].rotation.x += 0.1;
 }
 
-function render() {
-  renderer.render(scene, camera);
-}
 
