@@ -84,9 +84,9 @@ var smoothedControls = new THREEx.ArSmoothedControls(smoothedRoot, {
 onRenderFcts.push(function(delta){
 	smoothedControls.update(markerRoot)
 })
-
+smoothedRoot.rotation.x = -Math.PI/2;
 var arWorldRoot = smoothedRoot
-arWorldRoot.rotation.x = Math.PI/2;
+
 // add a torus knot	
 
 let MAXSPEED1 = 40; // halfsize of agent
