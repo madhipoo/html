@@ -1,6 +1,6 @@
 /////////////////////////////////////////////////////////
 // global variables
-var camera, renderer;
+var camera, renderer,stats;
 var agent1,agent2;
 var arToolkitSource,arToolKitContext;
 var smoothedControls,markerRoot,smoothedRoot;
@@ -106,16 +106,20 @@ function init() {
 }
 
 function animate() {
-  
-  agent1.update(0.01);
-  agent2.update(0.01);
+	
+	requestAnimationFrame (animate);
+	renderer.render (scene, camera);
+	stats.update();
 
-  // check agent crossing obstacles ...
-  if( arToolkitSource.ready === false )	return
-	arToolkitContext.update( arToolkitSource.domElement )
+	agent1.update(0.01);
+	agent2.update(0.01);
 
-  smoothedControls.update (markerRoot)
-  smoothedRoot.children[1].rotation.x += 0.1;
+	// check agent crossing obstacles ...
+	if( arToolkitSource.ready === false )	return
+		arToolkitContext.update( arToolkitSource.domElement )
+
+	smoothedControls.update (markerRoot)
+	smoothedRoot.children[1].rotation.x += 0.1;
 }
 
 
