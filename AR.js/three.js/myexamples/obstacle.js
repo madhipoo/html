@@ -5,7 +5,7 @@ class Obstacle {
 			new THREE.MeshBasicMaterial());
 		this.mesh.position.set(center.x,5,center.z);
 		this.size = size;
-		smoothedRoot.add (this.mesh);
+		arWorldRoot.add (this.mesh);
 	}
 	
 	/*checkCollision (agent) {

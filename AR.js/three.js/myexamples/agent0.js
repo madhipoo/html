@@ -30,10 +30,9 @@ class Agent {
     this.ARRIVAL_R = 10;
     
     this.score = 0;
-    
     // for orientable agent
     this.angle = 0;
-    smoothedRoot.add (this.mesh);
+
   }
   
   update(dt) {
