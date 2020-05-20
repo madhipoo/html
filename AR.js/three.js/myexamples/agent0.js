@@ -22,12 +22,12 @@ class Agent {
     this.pos = pos.clone();
     this.vel = new THREE.Vector3();
     this.force = new THREE.Vector3();
-    this.size = 3;
+    this.size = 0.03;
     this.target = null;
-    this.halfSize = 6;  // half width
+    this.halfSize = 0.06;  // half width
     this.mesh = agentMesh (this.halfSize, 'cyan');
     this.MAXSPEED = MAXSPEED;
-    this.ARRIVAL_R = 8;
+    this.ARRIVAL_R = 0.07;
     
     this.score = 0;
     // for orientable agent
@@ -56,8 +56,8 @@ class Agent {
       let vhat = this.vel.clone().normalize();
       let point = obs[i].center.clone().sub (this.pos) // c-p
       let proj = point.dot(vhat);
-      const REACH = 120
-      const K = 8
+      const REACH = 0.12
+      const K = 0.08
       if (proj > 0 && proj < REACH) {
         let perp = new THREE.Vector3();
         perp.subVectors (point, vhat.clone().setLength(proj));
@@ -81,7 +81,7 @@ class Agent {
     let dst = diff.length();
     if (dst < this.ARRIVAL_R) {
       this.vel.setLength(dst)
-      const REACH_TARGET = 5;
+      const REACH_TARGET = 0.05;
       if (dst < REACH_TARGET) {// target reached
       	console.log ('target reached');
          this.target = null;
@@ -96,7 +96,7 @@ class Agent {
     
     // for orientable agent
     // non PD version
-    if (this.vel.length() > 0.1) {
+    if (this.vel.length() > 0.001) {
 	    	this.angle = Math.atan2 (-this.vel.z, this.vel.x)
     		this.mesh.rotation.y = this.angle
    	}

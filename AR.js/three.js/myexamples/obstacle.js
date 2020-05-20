@@ -1,9 +1,9 @@
 class Obstacle {
 	constructor (center,size) {
 		this.center = center.clone();  
-		this.mesh = new THREE.Mesh (new THREE.CylinderGeometry(size,size,10,20),
+		this.mesh = new THREE.Mesh (new THREE.CylinderGeometry(size,size,0.1,20),
 			new THREE.MeshBasicMaterial());
-		this.mesh.position.set(center.x,5,center.z);
+		this.mesh.position.set(center.x,0.05,center.z);
 		this.size = size;
 		arWorldRoot.add (this.mesh);
 	}
