@@ -86,7 +86,7 @@ onRenderFcts.push(function(delta){
 })
 
 var arWorldRoot = smoothedRoot
-arWorldRoot.rotation.x = -Math.PI/2;
+arWorldRoot.rotation.x = Math.PI/2;
 // add a torus knot	
 
 let MAXSPEED1 = 40; // halfsize of agent
