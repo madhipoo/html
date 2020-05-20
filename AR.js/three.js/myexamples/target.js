@@ -6,7 +6,7 @@ class Target {
 		this.mesh = new THREE.Mesh (new THREE.CylinderGeometry (8,8,3,20), 
 		    new THREE.MeshBasicMaterial ({color:'yellow'}));
 		this.mesh.position.copy (pos)
-		smoothedRoot.add (this.mesh);
+		arWorldRoot.add (this.mesh);
 	}
 	/*setFound (agent) {
 		// remove from scene.targets
