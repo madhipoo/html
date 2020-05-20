@@ -44,9 +44,7 @@ class Agent {
   		this.findTarget();
   		return;  // wait for next turn ...
   	}*/
-  	
     this.accumulateForce();
-    
     // collision
     // for all obstacles in the scene
     let obs = scene.obstacles;
