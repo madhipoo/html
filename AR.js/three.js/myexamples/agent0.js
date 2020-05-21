@@ -57,8 +57,9 @@ class Agent {
       let point = obs[i].center.clone().sub (this.pos) // c-p
       let proj = point.dot(vhat);
       const REACH = 0.5
-      const K = 0.3
+      const K = 3
       if (proj > 0 && proj < REACH) {
+        console.log(proj);
         let perp = new THREE.Vector3();
         perp.subVectors (point, vhat.clone().setLength(proj));
         let overlap = obs[i].size + this.size - perp.length();
