@@ -27,7 +27,7 @@ class Agent {
     this.halfSize = 0.03;  // half width
     this.mesh = agentMesh (this.halfSize, 'cyan');
     this.MAXSPEED = MAXSPEED;
-    this.ARRIVAL_R = 0.09;
+    this.ARRIVAL_R = 0.05;
     
     this.score = 0;
     // for orientable agent
@@ -57,7 +57,7 @@ class Agent {
       let point = obs[i].center.clone().sub (this.pos) // c-p
       let proj = point.dot(vhat);
       const REACH = 0.5
-      const K = 0.08
+      const K = 0.3
       if (proj > 0 && proj < REACH) {
         let perp = new THREE.Vector3();
         perp.subVectors (point, vhat.clone().setLength(proj));
