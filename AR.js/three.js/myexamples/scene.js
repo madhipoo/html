@@ -10,7 +10,7 @@ function sceneTarget(){
 
 	let n = new THREE.Vector3 (-2 + 4 * Math.random(),0,-2 + 4 * Math.random()); 
 	  for(let j = 0;j<scene.obstacles.length;j++){
-		  if(n.distanceTo(scene.obstacles[j].center) > scene.obstacles[j].size+0.2){
+		  if(n.distanceTo(scene.obstacles[j].center) > scene.obstacles[j].size+0.05){
 			  if(j>=2){
           scene.targets = new Target (1,new THREE.Vector3(n.x,0,n.z))
         }
