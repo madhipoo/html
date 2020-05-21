@@ -1,7 +1,7 @@
 class Obstacle {
 	constructor (center,size) {
 		this.center = center.clone();  
-		this.mesh = new THREE.Mesh (new THREE.CylinderGeometry(size,size,0.03,20),
+		this.mesh = new THREE.Mesh (new THREE.CylinderGeometry(size,size,0.05,20),
 			new THREE.MeshBasicMaterial());
 		this.mesh.position.set(center.x,0.005,center.z);
 		this.size = size;
