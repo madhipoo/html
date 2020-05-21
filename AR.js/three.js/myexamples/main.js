@@ -89,10 +89,32 @@ var arWorldRoot = smoothedRoot
 // add a torus knot	
 
 let MAXSPEED1 = 1; // halfsize of agent
-var agent1 = new Agent(new THREE.Vector3(-0.1 + 0.1 * Math.random(), 0, -0.1 + 0.1 * Math.random()), MAXSPEED1);
+let a1 = new THREE.Vector3 (-1 + 2 * Math.random(),0,-1 + 2 * Math.random()); 
+let a2 = new THREE.Vector3 (-1 + 2 * Math.random(),0,-1 + 2 * Math.random()); 
+for(let j = 0;j<scene.obstacles.length;j++){
+	if(a1.distanceTo(scene.obstacles[j].center) > scene.obstacles[j].size+0.05){
+		if(j>=2){
+			vec1 = new Target (1,new THREE.Vector3(a1.x,0,a1.z))
+		}
+	}
+	else {
+		a1 = new THREE.Vector3 (-1 + 2 * Math.random(),0,-1 + 2 * Math.random()); 
+		j=0;
+	}
+	if(a2.distanceTo(scene.obstacles[j].center) > scene.obstacles[j].size+0.05){
+		if(j>=2){
+			vec2 = new Target (1,new THREE.Vector3(a2.x,0,a2.z))
+		}
+	}
+	else {
+		a2 = new THREE.Vector3 (-1 + 2 * Math.random(),0,-1 + 2 * Math.random()); 
+		j=0;
+	}
+}
+var agent1 = new Agent(new THREE.Vector3(vec1.x, 0, vec1.z), MAXSPEED1);
 arWorldRoot.add(agent1.mesh);
 let MAXSPEED2 = 2; // halfsize of agent
-var agent2 = new Agent(new THREE.Vector3(-0.1 + 0.1 * Math.random(), 0, -0.1 + 0.1 * Math.random()), MAXSPEED2);
+var agent2 = new Agent(new THREE.Vector3(vec2.x, 0, vec2.z), MAXSPEED2);
 arWorldRoot.add(agent2.mesh);
 //agent = new Agent(new THREE.Vector3(50,0,-50), size);	
 // in scene.js
