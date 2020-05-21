@@ -1,16 +1,16 @@
 function sceneDesign() {
   // add obstacles to the scene
   scene.obstacles = [];
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(1.5,0,1.5), 0.4) )
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(-1,0,2), 0.2) )
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(0,0,-1), 0.3) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(2,0,2), 0.2) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(-1,0,2), 0.1) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(0,0,-1), 0.15) )
   
 }
 function sceneTarget(){
 
 	let n = new THREE.Vector3 (-3 + 6 * Math.random(),0,-3 + 6 * Math.random()); 
 	  for(let j = 0;j<scene.obstacles.length;j++){
-		  if(n.distanceTo(scene.obstacles[j].center) > scene.obstacles[j].size+20){
+		  if(n.distanceTo(scene.obstacles[j].center) > scene.obstacles[j].size+0.2){
 			  if(j>=2){
           scene.targets = new Target (1,new THREE.Vector3(n.x,0,n.z))
         }
