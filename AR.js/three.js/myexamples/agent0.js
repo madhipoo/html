@@ -24,10 +24,10 @@ class Agent {
     this.force = new THREE.Vector3();
     this.size = 0.03;
     this.target = null;
-    this.halfSize = 0.06;  // half width
+    this.halfSize = 0.03;  // half width
     this.mesh = agentMesh (this.halfSize, 'cyan');
     this.MAXSPEED = MAXSPEED;
-    this.ARRIVAL_R = 0.3;
+    this.ARRIVAL_R = 0.09;
     
     this.score = 0;
     // for orientable agent
@@ -81,11 +81,11 @@ class Agent {
     let dst = diff.length();
     if (dst < this.ARRIVAL_R) {
       this.vel.setLength(dst)
-      const REACH_TARGET = 0.0005;
+      const REACH_TARGET = 0.005;
       if (dst < REACH_TARGET) {// target reached
       	console.log ('target reached');
          this.target = null;
-         scene.remove(scene.targets.mesh);
+         arWorldRoot.remove(scene.targets.mesh);
          sceneTarget();
       }
     }
