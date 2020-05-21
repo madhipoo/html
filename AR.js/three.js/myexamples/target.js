@@ -3,7 +3,7 @@ class Target {
 		this.test = test;
 		this.pos = pos;
 		this.id = 1;
-		this.mesh = new THREE.Mesh (new THREE.CylinderGeometry (0.03,0.03,0.03,20), 
+		this.mesh = new THREE.Mesh (new THREE.CylinderGeometry (0.01,0.01,0.01,20), 
 		    new THREE.MeshBasicMaterial ({color:'yellow'}));
 		this.mesh.position.copy (pos)
 		arWorldRoot.add (this.mesh);
