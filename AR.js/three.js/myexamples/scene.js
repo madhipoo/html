@@ -1,8 +1,8 @@
 function sceneDesign() {
   // add obstacles to the scene
   scene.obstacles = [];
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(1.5,0,1), 0.1) )
-  scene.obstacles.push ( new Obstacle (new THREE.Vector3(-0.5,0,1.5), 0.05) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(1,0,0.5), 0.1) )
+  scene.obstacles.push ( new Obstacle (new THREE.Vector3(-0.5,0,1), 0.05) )
   scene.obstacles.push ( new Obstacle (new THREE.Vector3(0,0,-0.5), 0.075) )
   
 }
