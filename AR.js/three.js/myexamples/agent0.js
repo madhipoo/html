@@ -56,8 +56,8 @@ class Agent {
       let vhat = this.vel.clone().normalize();
       let point = obs[i].center.clone().sub (this.pos) // c-p
       let proj = point.dot(vhat);
-      const REACH = 0.12
-      const K = 0.08
+      const REACH = 0.012
+      const K = 0.008
       if (proj > 0 && proj < REACH) {
         let perp = new THREE.Vector3();
         perp.subVectors (point, vhat.clone().setLength(proj));
@@ -81,12 +81,12 @@ class Agent {
     let dst = diff.length();
     if (dst < this.ARRIVAL_R) {
       this.vel.setLength(dst)
-      const REACH_TARGET = 0.05;
+      const REACH_TARGET = 0.005;
       if (dst < REACH_TARGET) {// target reached
       	console.log ('target reached');
          this.target = null;
          scene.remove(scene.targets.mesh);
-         sceneTarget()
+         sceneTarget();
       }
     }
     
