@@ -27,7 +27,7 @@ class Agent {
     this.halfSize = 0.03;  // half width
     this.mesh = agentMesh (this.halfSize, 'cyan');
     this.MAXSPEED = MAXSPEED;
-    this.ARRIVAL_R = 0.09;
+    this.ARRIVAL_R = 0.05;
     
     this.score = 0;
     // for orientable agent
