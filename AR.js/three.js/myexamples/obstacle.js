@@ -6,7 +6,6 @@ class Obstacle {
 		this.mesh.position.set(center.x,0.005,center.z);
 		this.size = size;
 		arWorldRoot.add (this.mesh);
-		scene.add (this.mesh);
 	}
 	
 	/*checkCollision (agent) {
