@@ -22,7 +22,7 @@ var renderer, scene, camera;
 var stats;
 var markerKanji, markerHiro;
 var arToolKitSource, arToolKitContext;
-var mesh,count = 0;
+var mesh1,mesh2,count = 0;
 //var raycaster, pickables;
 var showHiro = true;
 
@@ -112,8 +112,8 @@ function addMarkerKanji () {
 		var texMat = new THREE.MeshBasicMaterial({
 			map: texture
 		});
-		mesh = new THREE.Mesh(buildGeometry(), texMat);
-		markerRootKanji.add(mesh);
+		mesh1 = new THREE.Mesh(buildGeometry(), texMat);
+		markerRootKanji.add(mesh1);
 		texture.wrapS = THREE.RepeatWrapping;
 		texture.wrapT = THREE.RepeatWrapping;
 		},
@@ -142,10 +142,10 @@ function addMarkerHiro(){
 	// add a torus knot	
 	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
 	var material	= new THREE.MeshNormalMaterial();
-	var mesh	= new THREE.Mesh( geometry, material );
-	mesh.position.y	= 0.5
+	mesh2 = new THREE.Mesh( geometry, material );
+	mesh2.position.y = 0.5
 	
-	markerRoot.add (mesh);
+	markerRoot.add (mesh2);
 		
 	return markerRoot;
 }	
@@ -179,7 +179,7 @@ function buildGeometry() {
 }
 
 function textureAnimate() {
-  if (mesh) {
+  if (mesh1) {
     var texture = mesh.material.map;
     texture.offset.x += 0.125;
     if (texture.offset.x === Math.floor(texture.offset.x))
