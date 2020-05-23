@@ -1,0 +1,232 @@
+<!DOCTYPE html>
+<meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
+<!-- three.js library -->
+<script src='../examples/vendor/three.js/build/three.min.js'></script>
+<script src="../examples/vendor/three.js/examples/js/libs/stats.min.js"></script>
+<script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
+
+<!-- ar.js -->
+<script src="../build/ar.js"></script>
+<script>THREEx.ArToolkitContext.baseURL = '../'</script>
+
+<body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
+<div style='font-size:2em;position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
+	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> - three.js mobile performance
+	<br/>
+	Initialize both markers, but show them in controlled fashion
+	<p id='printDis'></p>
+</div>
+
+<script>
+
+// global variables
+var renderer, scene, camera;
+var stats;
+var markerKanji, markerHiro;
+var arToolKitSource, arToolKitContext;
+var mesh,count = 0;
+//var raycaster, pickables;
+var showHiro = false;
+
+init();
+animate();
+
+function init() {
+
+	renderer	= new THREE.WebGLRenderer({
+		// antialias	: true,
+		alpha: true
+	});
+	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
+	// renderer.setPixelRatio( 1/2 );
+	renderer.setSize( window.innerWidth, window.innerHeight );
+	renderer.domElement.style.position = 'absolute'
+	renderer.domElement.style.top = '0px'
+	renderer.domElement.style.left = '0px'
+	document.body.appendChild( renderer.domElement );
+
+	// init scene and camera
+	scene	= new THREE.Scene();
+	// Create a camera
+	camera = new THREE.Camera();
+	scene.add(camera);
+
+	arToolkitSource = new THREEx.ArToolkitSource({
+		// to read from the webcam 
+		sourceType : 'webcam',
+
+	})
+
+	arToolkitSource.init(function onReady(){
+		onResize()
+	})
+	
+	// handle resize
+	window.addEventListener('resize', function(){
+		onResize()
+	})
+	function onResize(){
+		arToolkitSource.onResize()	
+		arToolkitSource.copySizeTo(renderer.domElement)	
+		if( arToolkitContext.arController !== null ){
+			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
+		}	
+	}
+
+	arToolkitContext = new THREEx.ArToolkitContext({
+		cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
+		detectionMode: 'mono',
+		maxDetectionRate: 30,
+		canvasWidth: 80*3,
+		canvasHeight: 60*3,
+	})
+	// initialize it
+	arToolkitContext.init(function onCompleted(){
+		// copy projection matrix to camera
+		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
+	})
+
+	markerKanji = addMarkerKanji();
+	scene.add (markerKanji);
+	markerHiro = addMarkerHiro();
+	scene.add (markerHiro); // hide at first
+	
+	
+	stats = new Stats();
+	document.body.appendChild( stats.dom );
+
+
+}
+	
+function addMarkerKanji () {
+	let markerRootKanji = new THREE.Group();
+	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRootKanji, {
+		type : 'pattern',
+		 patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
+	})
+
+	var loader = new THREE.TextureLoader();
+
+	// load a resource
+	loader.load('https://i.imgur.com/LEZ9zDs.png',
+		function(texture) {
+		// Plane with default texture coordinates [0,1]x[0,1]
+		var texMat = new THREE.MeshBasicMaterial({
+			map: texture
+		});
+		mesh = new THREE.Mesh(buildGeometry(), texMat);
+		markerRootKanji.add(mesh);
+		texture.wrapS = THREE.RepeatWrapping;
+		texture.wrapT = THREE.RepeatWrapping;
+		},
+			undefined,
+		// Function called when download errors
+		function(xhr) {
+		console.log('An error happened');
+		}
+	);
+
+	/// add gridhelper
+	var gridXZ = new THREE.GridHelper(1,10);
+	//markerRootKanji.add (gridXZ);
+	
+	return markerRootKanji;
+}
+
+function addMarkerHiro(){
+	let markerRoot = new THREE.Group()
+
+	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+		type : 'pattern',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro'
+	})
+
+	// add a torus knot	
+	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
+	var material	= new THREE.MeshNormalMaterial();
+	var mesh	= new THREE.Mesh( geometry, material );
+	mesh.position.y	= 0.5
+	
+	markerRoot.add (mesh);
+		
+	return markerRoot;
+}	
+
+function buildGeometry() {
+  var geometry = new THREE.Geometry();
+  geometry.vertices.push(
+    new THREE.Vector3(-20, -20, 0),
+    new THREE.Vector3(20, -20, 0),
+    new THREE.Vector3(20, 20, 0),
+    new THREE.Vector3(-20, 20, 0)
+  );
+
+  var face;
+  face = new THREE.Face3(0, 1, 2);
+  geometry.faces.push(face);
+  face = new THREE.Face3(0, 2, 3);
+  geometry.faces.push(face);
+
+  st0 = new THREE.Vector2(0, 0.33);
+  st1 = new THREE.Vector2(0.125, 0.33);
+  st2 = new THREE.Vector2(0.125, 0.66);
+  st3 = new THREE.Vector2(0, 0.66);
+  geometry.faceVertexUvs[0].push([st0, st1, st2]);
+  geometry.faceVertexUvs[0].push([st0, st2, st3]);
+
+  geometry.computeBoundingSphere();
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
+function textureAnimate() {
+  if (mesh) {
+    var texture = mesh.material.map;
+    texture.offset.x += 0.125;
+    if (texture.offset.x === Math.floor(texture.offset.x))
+      texture.offset.y += 1.0;
+  }
+}
+
+function animate() {
+	count++;
+	requestAnimationFrame (animate);
+	
+	if( arToolkitSource.ready === false )	return
+	arToolkitContext.update( arToolkitSource.domElement )
+
+	if (showHiro) {
+		markerHiro.children[0].rotation.x += 0.1;
+	}
+	if(count%10==0){
+		textureAnimate();
+	}	
+	renderer.render (scene, camera);
+	stats.update();
+
+	let did =  markerHiro.position.distanceTo (markerKanji.position)
+	console.log (did)
+	$('#printDis').text ('DIS: ' + did.toFixed(2))
+/*	
+	
+	// billboard of Hulk
+	// camera at eye coord: (0,0,0)
+	// corresponding marker coordinate:
+	let p0 = new THREE.Vector3 (0,0,0)
+	let mw = new THREE.Matrix4();		
+	p0.applyMatrix4 (mw.getInverse(markerKanji.matrixWorld));
+
+	p0.y = 0;
+	let front = new THREE.Vector3(0,0,1);
+	let angle = p0.angleTo (front);
+	let axis = new THREE.Vector3();
+	axis.crossVectors ( front, p0 ).normalize();
+	if (axis.y > 0)  // 0, 1, 0
+		markerKanji.children[0].rotation.y = angle;
+	else 
+		markerKanji.children[0].rotation.y = -angle;
+*/			
+}
+
+</script></body>
