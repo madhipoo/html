@@ -11,9 +11,7 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 <div style='font-size:2em;position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
-	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> - three.js mobile performance
-	<br/>
-	Initialize both markers, but show them in controlled fashion
+	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> Project0
 	<p id='printDis'></p>
 </div>
 
@@ -155,10 +153,10 @@ function addMarkerHiro(){
 function buildGeometry() {
   var geometry = new THREE.Geometry();
   geometry.vertices.push(
-    new THREE.Vector3(-20, -20, 0),
-    new THREE.Vector3(20, -20, 0),
-    new THREE.Vector3(20, 20, 0),
-    new THREE.Vector3(-20, 20, 0)
+    new THREE.Vector3(-.2, -.2, 0),
+    new THREE.Vector3(.2, -.2, 0),
+    new THREE.Vector3(.2, .2, 0),
+    new THREE.Vector3(-.2, .2, 0)
   );
 
   var face;
