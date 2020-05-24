@@ -11,8 +11,7 @@
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
 <div style='font-size:2em;position: absolute; top: 10px; width:100%; text-align: center; z-index: 1;'>
-	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a> Project0
-	<p id='printDis'></p>
+	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a>
 </div>
 
 <script>
@@ -144,9 +143,7 @@ function addMarkerHiro(){
 	var material	= new THREE.MeshNormalMaterial();
 	mesh2 = new THREE.Mesh( geometry, material );
 	mesh2.position.y = 0.5
-	
 	markerRoot.add (mesh2);
-		
 	return markerRoot;
 }	
 
@@ -203,9 +200,9 @@ function animate() {
 	renderer.render (scene, camera);
 	stats.update();
 
-	let did =  markerHiro.position.distanceTo (markerKanji.position)
-	console.log (did)
-	$('#printDis').text ('DIS: ' + did.toFixed(2))
+	//let did =  markerHiro.position.distanceTo (markerKanji.position)
+	//console.log (did)
+	//$('#printDis').text ('DIS: ' + did.toFixed(2))
 /*	
 	
 	// billboard of Hulk
