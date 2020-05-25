@@ -110,7 +110,8 @@ function addMarkerKanji () {
 		// Plane with default texture coordinates [0,1]x[0,1]
 		var texMat = new THREE.MeshBasicMaterial({
 			map: texture,
-			alphaTest: 0.5
+			alphaTest: 0.5,
+			side: THREE.DoubleSide
 		});
 		mesh1 = new THREE.Mesh(buildGeometry(), texMat);
 		mesh1.position.y = 0.5;
