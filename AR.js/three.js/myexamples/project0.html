@@ -102,7 +102,7 @@ function addMarkerKanji () {
 		 patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
 	})
 
-	var loader = new THREE.TextureLoader();
+	/*var loader = new THREE.TextureLoader();
 
 	// load a resource
 	loader.load('https://i.imgur.com/LEZ9zDs.png',
@@ -124,9 +124,14 @@ function addMarkerKanji () {
 	);
 
 	/// add gridhelper
-	var gridXZ = new THREE.GridHelper(1,10);
+	var gridXZ = new THREE.GridHelper(1,10);*/
 	//markerRootKanji.add (gridXZ);
 	
+	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
+	var material	= new THREE.MeshNormalMaterial();
+	mesh1 = new THREE.Mesh( geometry, material );
+	mesh1.position.y = 0.5
+	markerRootKanji.add (mesh1);
 	return markerRootKanji;
 }
 
