@@ -129,7 +129,7 @@ function addMarkerHiro () {
 
 	let mesh	= new THREE.Mesh( geometry, material );
 	//mesh.position.y	= geometry.parameters.height/2
-    mesh.rotation.x = -Math.PI/2;
+	mesh.position.set(0,0.25,-0.25);
 	//mesh.position.z = 0.5;
 	markerRoot.add (mesh);
 
@@ -142,8 +142,7 @@ function addMarkerHiro () {
 		side: THREE.DoubleSide
 	} );
     let babymesh	= new THREE.Mesh( babygeometry, babymaterial );
-    babymesh.position.set(-0.5,0.25,0.25);
-    babymesh.rotation.x = -Math.PI/2;
+    babymesh.position.set(-0.5,0.1,0.1);
     markerRoot.add (babymesh);
 
     var mygeometry = new THREE.PlaneGeometry(0.5,1);
@@ -155,8 +154,7 @@ function addMarkerHiro () {
 		side: THREE.DoubleSide
 	} );
     let mymesh	= new THREE.Mesh( mygeometry, mymaterial );
-    mymesh.position.set(0.5,0.25,0.225);
-    mymesh.rotation.x = -Math.PI/2;
+    mymesh.position.set(0.5,0.1,0.1);
     markerRoot.add (mymesh);
 
 	var wordgeometry = new THREE.PlaneGeometry(0.5,0.25);
@@ -168,8 +166,7 @@ function addMarkerHiro () {
 		side: THREE.DoubleSide
 	} );
     let wordmesh	= new THREE.Mesh( wordgeometry, wordmaterial );
-    wordmesh.position.set(0.5,0.1,-0.5);
-    wordmesh.rotation.x = -Math.PI/2;
+    wordmesh.position.set(0.5,0.9,0.5);
     markerRoot.add (wordmesh);
 	
 	//markerRoot.add(textmesh);
@@ -206,12 +203,12 @@ function animate() {
 	let mw = new THREE.Matrix4();		
 	p0.applyMatrix4 (mw.getInverse(markerHiro.matrixWorld));
 
-	p0.z = 0;
-	let front = new THREE.Vector3(-1,0,0);
-	let angle = p0.angleTo (front)-Math.PI/2;
+	p0.y = 0;
+	let front = new THREE.Vector3(0,0,1);
+	let angle = p0.angleTo (front);
 	let axis = new THREE.Vector3();
 	axis.crossVectors ( front, p0 ).normalize();
-	if (axis.z < 0){
+	if (axis.y < 0){
 		markerHiro.children[1].rotation.y = angle;
         markerHiro.children[2].rotation.y = angle;
     }
