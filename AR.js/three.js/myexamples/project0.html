@@ -195,12 +195,13 @@ function onResize(){
 	}	
 function addMarkerKanji () {
 	markerRootKanji = new THREE.Group();
-	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRootKanji, {
+	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, camera, {
 		type : 'pattern',
-		 patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
+		 patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
+        changeMatrixMode: 'cameraTransformMatrix'
 	})
 	
-	let loader = new THREE.TextureLoader();
+	/*let loader = new THREE.TextureLoader();
 	loader.setCrossOrigin('')
 	let texture = loader.load( 'https://i.imgur.com/dB5hGwk.png' );
 
@@ -208,10 +209,23 @@ function addMarkerKanji () {
 		map: texture,
 		alphaTest: 0.5,
 		side: THREE.DoubleSide
-	} );
+	} );*/
+///////////////////////
+let geometry	= new THREE.PlaneGeometry(1,1);
+            
+        let loader = new THREE.TextureLoader();
+        loader.setCrossOrigin('')
+        let texture = loader.load( 'https://i.imgur.com/J0RenHB.png' );
+        
+        let material = new THREE.MeshBasicMaterial( { 
+            map: texture,
+            transparent: true,
+            side: THREE.DoubleSide
+            } );
 
-	mesh1 = new THREE.Mesh(buildGeometry(), material);
-	mesh1.position.set(0,0.5,0);
+
+	mesh1 = new THREE.Mesh(geometry, material);
+	mesh1.position.set(0,0.3,0);
 	markerRootKanji.add(mesh1);
 
 	var uniforms = {
@@ -255,9 +269,10 @@ function addMarkerKanji () {
 function addMarkerHiro(){
 	markerRootHiro = new THREE.Group()
 
-	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRootHiro, {
+	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, camera, {
 		type : 'pattern',
-		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro'
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
+        changeMatrixMode: 'cameraTransformMatrix'
 	})
 
 	// add a torus knot	
@@ -413,7 +428,8 @@ function animate() {
 
 	renderer.clear();
 	renderer.render( scene, camera );
-	button.material.visible = markerHiro.visible;
+	//button.material.visible = markerHiro.visible;
+	scene.visible = camera.visible
 	renderer.render (sceneHUD, cameraHUD);
 
 	//let did =  markerHiro.position.distanceTo (markerKanji.position)
@@ -423,7 +439,7 @@ function animate() {
 	// billboard of sitckman
 	// camera at eye coord: (0,0,0)
 	// corresponding marker coordinate:
-	let p0 = new THREE.Vector3 (0,0,0)
+	/*let p0 = new THREE.Vector3 (0,0,0)
 	let mw = new THREE.Matrix4();		
 	p0.applyMatrix4 (mw.getInverse(markerKanji.matrixWorld));
 
@@ -435,20 +451,20 @@ function animate() {
 	if (axis.y > 0)  // 0, 1, 0
 		markerKanji.children[0].rotation.y = angle;
 	else 
-		markerKanji.children[0].rotation.y = -angle;
+		markerKanji.children[0].rotation.y = -angle;*/
 	
-		let msg ='';
+	//	let msg ='';
 	
-	if (markerHiro.visible === true&&markerKanji.visible === false) {
-		msg += ' Hiro '
+	//if (markerHiro.visible === true&&markerKanji.visible === false) {
+		//msg += ' Hiro '
 		//mesh2.material.visible = true;
 		//	console.log ('hiro: ' + markerHiro.position.x.toFixed(2))
-	}
-	if (markerKanji.visible === true&&markerHiro.visible === false) {
-		msg += ' Kanji';
+	//}
+	//if (markerKanji.visible === true&&markerHiro.visible === false) {
+		//msg += ' Kanji';
 		//markerKanji.children[1].position.copy (boxPos);
 		//console.log ('kanji: ' + markerKanji.position.x.toFixed(2))
-	}
+	//}
 	/*if(markerKanji.visible === true&&markerHiro.visible === true){
 		msg += ' Hiro Kanji'
 		update();
@@ -458,8 +474,8 @@ function animate() {
 	box1.material.visible = false;
 	box2.material.visible = false;
 	//mesh2.material.visible = false;
-	//mesh1.material.visible = false;
-	$('#printDis').text (msg)
+	mesh1.material.visible = true;
+	//$('#printDis').text (msg)
 	if (cubeSpin)
 		markerHiro.children[0].rotation.x += 0.1
 }
