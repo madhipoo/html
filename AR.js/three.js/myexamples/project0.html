@@ -4,9 +4,15 @@
 <script src='../examples/vendor/three.js/build/three.min.js'></script>
 <script src="../examples/vendor/three.js/examples/js/libs/stats.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
-<script src="https://jyunming-chen.github.io/tutsplus/js/KeyboardState.js"></script>
-<!-- ar.js -->
-<script src="../build/ar.js"></script>
+<!-- jsartookit -->
+<script src="../vendor/jsartoolkit5/build/artoolkit.min.js"></script>
+<script src="../vendor/jsartoolkit5/js/artoolkit.api.js"></script>
+<!-- include threex.artoolkit -->
+<script src="../src/threex/threex-artoolkitsource.js"></script>
+<script src="../src/threex/threex-artoolkitcontext.js"></script>
+<script src="../src/threex/threex-arbasecontrols.js"></script>
+<script src="../src/threex/threex-armarkercontrols.js"></script>
+
 <script>THREEx.ArToolkitContext.baseURL = '../'</script>
 
 <body style='margin : 0px; overflow: hidden; font-family: Monospace;'>
@@ -14,33 +20,83 @@
 	<a href="https://github.com/jeromeetienne/AR.js/" target="_blank">AR.js</a>
 	<br/>
 	<p id='printDis'></p>
+	<p id='touch'></p>
+	<p id='ratio'></p>
 </div>
+<script type="x-shader/x-fragment" id="fragmentShaderDepth">
+	uniform sampler2D texture;
+	varying vec2 vUv;
 
+	vec4 pack_depth(const in float depth) {
+		const vec4 bit_shift = vec4(256.0 * 256.0 * 256.0, 256.0 * 256.0, 256.0, 1.0);
+		const vec4 bit_mask = vec4(0.0, 1.0 / 256.0, 1.0 / 256.0, 1.0 / 256.0);
+		vec4 res = fract(depth * bit_shift);
+		res -= res.xxyz * bit_mask;
+		return res;
+	}
+
+	void main() {
+		vec4 pixel = texture2D(texture, vUv);
+		if (pixel.a < 0.5) discard;
+		gl_FragData[0] = pack_depth (gl_FragCoord.z);
+	}
+</script>
+<script type="x-shader/x-vertex" id="vertexShaderDepth">
+	varying vec2 vUv;
+
+	void main() {
+		vUv = uv;
+		gl_Position = projectionMatrix * modelViewMatrix * vec4(position, 1.0);
+	}
+</script>
 <script>
-
+class Button {
+	constructor (size, x, y){
+		this.size = size;
+		this.centerX = x;
+		this.centerY = y;
+	}
+	d1To (v) { // 1-norm
+		return Math.abs (v[0]-this.centerX) + Math.abs(v[1]-this.centerY);
+	}
+	d2To (v) { // 2-norm
+		return Math.sqrt ( (v[0]-this.centerX)*(v[0]-this.centerX) 
+				+ (v[1]-this.centerY)*(v[1]-this.centerY) );
+	}
+	dInfTo (v) { // inf-norm
+		return Math.max( Math.abs (v[0]-this.centerX), Math.abs(v[1]-this.centerY) )
+	}
+}
 // global variables
-var renderer, scene, camera;
-var stats;
+var renderer,stats;
+var scene, camera,sceneHUD, cameraHUD;
 var markerKanji, markerHiro;
+var markerRootHiro,markerRootKanji;
 var arToolKitSource, arToolKitContext;
-var mesh1,mesh2,count = 0;
+var mesh1,mesh2,count = 0,button;
 //var raycaster, pickables;
-var showHiro = true;
-var keyboard = new KeyboardState();
-var theta = 0, f = 0;
+var move = 0, f = 0;
 var boxPos = new THREE.Vector3();
 var box1, box2;
+var whRatio, halfW, halfH;
+var button1,cubeSpin = false;;
+var _iOSDevice;
 //var onRenderFcts= [];
 //var debugEnabled = false
 init();
 animate();
 
 function init() {
+	let _iOSDevice = !!navigator.platform.match(/iPhone|iPod|iPad/);
+	console.log ('iOS: ' + _iOSDevice)
 
 	renderer	= new THREE.WebGLRenderer({
 		// antialias	: true,
 		alpha: true
 	});
+	renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.enabled = true;
+
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
 	// renderer.setPixelRatio( 1/2 );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -49,15 +105,39 @@ function init() {
 	renderer.domElement.style.left = '0px'
 	document.body.appendChild( renderer.domElement );
 
+	whRatio = window.innerWidth/window.innerHeight;
+	renderer.autoClear = false;
 	// init scene and camera
 	scene	= new THREE.Scene();
+	var ambient = new THREE.AmbientLight( 0x666666 );
+	scene.add( ambient );
+
+	var directionalLight = new THREE.DirectionalLight( 'white' );
+	directionalLight.position.set( 0, 2, 1 ).setLength(2)
+
+	directionalLight.shadow.mapSize.set(512,512)
+	directionalLight.shadow.camera.bottom = -1.6
+	directionalLight.shadow.camera.top = 1.6
+	directionalLight.shadow.camera.right = 1.6
+	directionalLight.shadow.camera.left = -1.6
+	directionalLight.castShadow = true;
+
+	scene.add( directionalLight );
 	// Create a camera
 	camera = new THREE.Camera();
 	scene.add(camera);
-	/*if( debugEnabled === true ){
-	        var orthoCamera = new THREE.OrthographicCamera(-1, 1, 1, -1, -100, +100);
-	        var orthoScene = new THREE.Scene();		
-	}*/
+	sceneHUD = new THREE.Scene();
+	// eye-coordinate bounds
+	halfH = 10;
+	halfW = halfH * whRatio;
+	cameraHUD = new THREE.OrthographicCamera (-halfW,halfW, halfH,-halfH, -10,10);
+
+	var buttonSize = halfH/3;
+	button = new THREE.Mesh (new THREE.PlaneGeometry(buttonSize, buttonSize), 
+			new THREE.MeshBasicMaterial({color:"yellow", transparent:true, opacity:0.8}));	
+	button1 = new Button (buttonSize, 0, -halfH/2);
+	button.position.set (button1.centerX, button1.centerY, 0);
+	sceneHUD.add (button);
 	arToolkitSource = new THREEx.ArToolkitSource({
 		// to read from the webcam 
 		sourceType : 'webcam',
@@ -69,16 +149,6 @@ function init() {
 	})
 	
 	// handle resize
-	window.addEventListener('resize', function(){
-		onResize()
-	})
-	function onResize(){
-		arToolkitSource.onResize()	
-		arToolkitSource.copySizeTo(renderer.domElement)	
-		if( arToolkitContext.arController !== null ){
-			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
-		}	
-	}
 
 	arToolkitContext = new THREEx.ArToolkitContext({
 		cameraParametersUrl: THREEx.ArToolkitContext.baseURL + '../data/data/camera_para.dat',
@@ -92,84 +162,44 @@ function init() {
 		// copy projection matrix to camera
 		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
 	})
-	// update artoolkit on every frame
-	/*onRenderFcts.push(function(){
-		if( arToolkitSource.ready === false )	return
 
-		arToolkitContext.update( arToolkitSource.domElement )
-	})*/
 	markerKanji = addMarkerKanji();
 	scene.add (markerKanji);
 	markerHiro = addMarkerHiro();
-	scene.add (markerHiro); // hide at first
-	
-	
+	scene.add (markerHiro); // hide at first	
+
 	stats = new Stats();
 	document.body.appendChild( stats.dom );
 
-
+	window.addEventListener('resize', function(){
+		onResize()
+	})
+	if (_iOSDevice)
+    	window.addEventListener('touchstart', onTouchStart, false);
+	else
+		window.addEventListener ('mousedown', onMouseDown, false);
 }
-	
+function onResize(){
+		arToolkitSource.onResize()	
+		arToolkitSource.copySizeTo(renderer.domElement)	
+		if( arToolkitContext.arController !== null ){
+			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
+		}
+		$('#ratio').text ('resize: width: ' + window.innerWidth + ' height: ' + window.innerHeight)
+		whRatio = window.innerWidth/window.innerHeight;
+		halfW = halfH * whRatio;
+		cameraHUD.left = -halfW;
+		cameraHUD.right = halfW;
+		cameraHUD.top = halfH;
+		cameraHUD.bottom = -halfH;
+	}	
 function addMarkerKanji () {
-	let markerRootKanji = new THREE.Group();
+	markerRootKanji = new THREE.Group();
 	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRootKanji, {
 		type : 'pattern',
 		 patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji'
 	})
-	/*if( arToolkitSource.domElement.nodeName === 'VIDEO' ){
-		var videoTexture = new THREE.VideoTexture(arToolkitSource.domElement)
-		// arToolkitSource.domElement.pause()
-	}else if( arToolkitSource.domElement.nodeName === 'IMG' ){
-		var videoTexture = new THREE.Texture(arToolkitSource.domElement)
-		videoTexture.needsUpdate = true		
-	}else console.assert(false)
-	// TODO to remove if webgl2 - better visual ?
-	videoTexture.minFilter =  THREE.NearestFilter
-
-	//		add markerCloak
-	var markerCloak =  new THREEx.ArMarkerCloak(videoTexture);
-	markerRootKanji.add(markerCloak.object3d)
-
-	onRenderFcts.push(function(){
-		markerCloak.update(markerRoot.matrix, camera.projectionMatrix)
-	})
-
-	if( debugEnabled === true ){
-		orthoScene.add(markerCloak.orthoMesh)
-		onRenderFcts.push(function(){
-			markerCloak.orthoMesh.visible = markerRoot.visible
-		})
-	}
-	var targetOpacity = 1.0
-	onRenderFcts.push(function(delta){
-		var opacity = markerCloak.object3d.material.uniforms.opacity
-		var speed = delta * 3
-		if( opacity.value > targetOpacity ){
-			opacity.value -= speed
-			if( opacity.value < targetOpacity ){
-				opacity.value = targetOpacity
-			}
-		}
-
-		if( opacity.value < targetOpacity ){
-			opacity.value += speed
-			if( opacity.value > targetOpacity ){
-				opacity.value = targetOpacity
-			}
-		}
-	})
-
-	// toggleCloak on click/keypress
-	function toggleCloak(){
-		if( targetOpacity === 1.0 ){
-			targetOpacity = 0.0
-		}else{
-			targetOpacity = 1.0
-		}
-	}
-	document.body.addEventListener('click', toggleCloak)
-	document.body.addEventListener('keypress', toggleCloak)*/
-
+	
 	let loader = new THREE.TextureLoader();
 	loader.setCrossOrigin('')
 	let texture = loader.load( 'https://i.imgur.com/dB5hGwk.png' );
@@ -181,10 +211,41 @@ function addMarkerKanji () {
 	} );
 
 	mesh1 = new THREE.Mesh(buildGeometry(), material);
-	mesh1.position.set.y = 0.5;
+	mesh1.position.set(0,0.5,0);
 	markerRootKanji.add(mesh1);
-	texture.wrapS = THREE.RepeatWrapping;
-	texture.wrapT = THREE.RepeatWrapping;
+
+	var uniforms = {
+            texture: {
+                type: "t",
+                value: texture
+            }
+          };
+      var vertexShader = document.getElementById('vertexShaderDepth').textContent;
+      var fragmentShader = document.getElementById('fragmentShaderDepth').textContent;
+      mesh1.customDepthMaterial = new THREE.ShaderMaterial({
+            uniforms: uniforms,
+            vertexShader: vertexShader,
+            fragmentShader: fragmentShader
+        });
+        
+    mesh1.castShadow = true;
+
+	//texture.wrapS = THREE.RepeatWrapping;
+	//texture.wrapT = THREE.RepeatWrapping;
+	let cubegeometry	= new THREE.BoxGeometry(0.2,0.2,0.2);
+	let cubematerial	= new THREE.MeshBasicMaterial({color:'purple'});
+	box2= new THREE.Mesh( cubegeometry, cubematerial );
+	box2.position.y	= 0.1;
+	markerRootKanji.add(box2);
+
+	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
+	planematerial.opacity = 0.6; 
+	let planegeometry = new THREE.PlaneGeometry(3, 3)
+	let planeMesh = new THREE.Mesh( planegeometry, planematerial);
+	planeMesh.receiveShadow = true;
+	planeMesh.depthWrite = false;
+	planeMesh.rotation.x = -Math.PI/2
+	markerRootKanji.add(planeMesh);
 	/// add gridhelper
 	var gridXZ = new THREE.GridHelper(1,10);
 	//markerRootKanji.add (gridXZ);
@@ -192,38 +253,75 @@ function addMarkerKanji () {
 }
 
 function addMarkerHiro(){
-	let markerRoot = new THREE.Group()
+	markerRootHiro = new THREE.Group()
 
-	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRoot, {
+	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerRootHiro, {
 		type : 'pattern',
 		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro'
 	})
 
 	// add a torus knot	
-	var geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
-	var material	= new THREE.MeshBasicMaterial({color:'yellow'});
+	let geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
+	let material	= new THREE.MeshLambertMaterial({color:0xffff00});
 	mesh2 = new THREE.Mesh( geometry, material );
 	mesh2.position.y = 0.5
-	markerRoot.add (mesh2);
-	return markerRoot;
+	markerRootHiro.add (mesh2);
+	mesh2.castShadow = true;
+    mesh2.receiveShadow = true;
+
+	let cubegeometry	= new THREE.BoxGeometry(0.2,0.2,0.2);
+	let cubematerial	= new THREE.MeshBasicMaterial({color:'yellow'});
+	box1	= new THREE.Mesh( cubegeometry, cubematerial );
+	box1.position.y	= 0.1;
+	markerRootHiro.add (box1);
+
+	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
+	planematerial.opacity = 0.6; 
+	let planegeometry = new THREE.PlaneGeometry(3, 3)
+	let planeMesh = new THREE.Mesh( planegeometry, planematerial);
+	planeMesh.receiveShadow = true;
+	planeMesh.depthWrite = false;
+	planeMesh.rotation.x = -Math.PI/2
+	markerRootHiro.add(planeMesh);
+
+	return markerRootHiro;
 }	
 function update() {
-   // o1, x1, z1
-   let o1 = markerHiro.position.clone();
-   let x1 = markerHiro.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
-   let z1 = markerHiro.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
-   
-   // o2, x2, z2
-   let o2 = markerKanji.position.clone();
-   let x2 = markerKanji.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
-   let z2 = markerKanji.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
-   
-   // box position (eye coord)
-   boxPosEye = markerKanji.localToWorld (boxPos.clone());
-   let boxPos2 = boxPosEye.sub (o2);;
-	mesh2.position.x = boxPos2.dot (x2);   
-	mesh2.position.z = boxPos2.dot (z2);   
-}
+	// o1, x1, z1
+	let o1 = markerHiro.position.clone();
+	let x1 = markerHiro.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
+	let z1 = markerHiro.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
+
+	// o2, x2, z2
+	let o2 = markerKanji.position.clone();
+	let x2 = markerKanji.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
+	let z2 = markerKanji.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
+
+	let ot = o1.clone().multiplyScalar(1-move).add(o2.clone().multiplyScalar(move));
+	console.log(ot);
+	// box position (eye coord)
+	boxPosEye = markerHiro.localToWorld (boxPos.clone());
+	let boxPos2 = boxPosEye.sub (o2);
+	box2.position.x = boxPos2.dot (x2);   
+	box2.position.z = boxPos2.dot (z2) ;  
+	box2.position.copy(ot);
+	if(move>1&&f==1){
+		move -= 0.05;
+			if(move<=0)f = 0;
+		}
+	if(move<0&&f==0){
+		move += 0.05;
+		if(move>=1)f = 1;
+	}
+	if(o1.distanceTo(box2.position.clone())<o2.distanceTo(box2.position.clone())){
+		box2.material.visible = true;
+		box1.material.visible = false;
+	}
+	else {
+		box1.material.visible = true;
+		box2.material.visible = false;
+	} 
+	}
 function buildGeometry() {
   var geometry = new THREE.Geometry();
   geometry.vertices.push(
@@ -253,68 +351,70 @@ function buildGeometry() {
 }
 
 function textureLeft() {
-  if (mesh) {
+  if (mesh1) {
     var texture = mesh1.material.map;
-    let turn = mesh1;
+    /*let turn = mesh1;
 		angle += 3;
     turn.position.x=angle;
     if (check) {
       check = 0;
       turn.rotation.y = 0;
-    }
+    }*/
     texture.offset.x += 0.125;
     if (texture.offset.x === Math.floor(texture.offset.x))
       texture.offset.y += 1.0;
   }
+}
+function pickCompute (ndcX, ndcY) {
+	// use 2D algorithm 	
+	let dist = button1.dInfTo ([halfW * ndcX, halfH * ndcY]);	
+	$('#touch').text ('Mouse-dist-Button: ' + dist.toFixed(2))
+
+	if (dist < button1.size/2) {
+		console.log ('picked')
+		cubeSpin = !cubeSpin;
+	} else {
+		console.log ('no hit')
+	}
 }
 
-function textureRight() {
-  if (mesh) {
-    var texture = mesh1.material.map;
-    let turn = mesh1
-    angle -= 3;
-    turn.position.x=angle;
-    if (check == 0) {
-      check = 1;
-      turn.rotation.y = Math.PI;
-    }
-    texture.offset.x += 0.125;
-    if (texture.offset.x === Math.floor(texture.offset.x))
-      texture.offset.y += 1.0;
-  }
-}
+function onMouseDown (event) {
+	console.log ('in mouse down')
+	event.preventDefault();
+	let ndcX = (event.clientX / window.innerWidth) * 2 - 1;
+	let ndcY = -(event.clientY / window.innerHeight) * 2 + 1;
+
+	pickCompute (ndcX, ndcY);		
+}	
+
+function onTouchStart (event) {
+	console.log ('in touch start')
+
+	if (event.touches.length == 1) {
+		
+		event.preventDefault();
+		let ndcX = ( event.touches[0].pageX / window.innerWidth ) * 2 - 1;
+		let ndcY = - ( event.touches[0].pageY / window.innerHeight ) * 2 + 1;
+
+		pickCompute (ndcX, ndcY);		
+		
+	}	
+}	
+
 
 function animate() {
 	requestAnimationFrame (animate);
-	
+	//count++
 	if( arToolkitSource.ready === false )	return
 	arToolkitContext.update( arToolkitSource.domElement )
 
-	if (showHiro) {
-		markerHiro.children[0].rotation.x += 0.1;
-	}
-	keyboard.update();
-	if (keyboard.pressed("D")) { 
-		count++;
-		if (count % 8 == 0)
-			textureLeft();
-	} else if (keyboard.pressed("A")) {
-		count++;
-		if (count % 8 == 0)
-			textureRight();
-	}
+	/*if (count % 10 == 0)
+		textureLeft();*/
+
+	renderer.clear();
 	renderer.render( scene, camera );
-	/*onRenderFcts.push(function(){
-		
-		renderer.clear();
-		
-		renderer.render( scene, camera );
-
-		if( debugEnabled === true ){
-        		renderer.render( orthoScene, orthoCamera );
-		}
-
-	})*/
+	button.material.visible = markerHiro.visible;
+	renderer.render (sceneHUD, cameraHUD);
 
 	//let did =  markerHiro.position.distanceTo (markerKanji.position)
 	//console.log (did)
@@ -346,29 +446,22 @@ function animate() {
 	}
 	if (markerKanji.visible === true&&markerHiro.visible === false) {
 		msg += ' Kanji';
+		//markerKanji.children[1].position.copy (boxPos);
 		//console.log ('kanji: ' + markerKanji.position.x.toFixed(2))
 	}
-	if(markerKanji.visible === true&&markerHiro.visible === true){
+	/*if(markerKanji.visible === true&&markerHiro.visible === true){
 		msg += ' Hiro Kanji'
-		if(theta>-2&&f==0){
-			theta -= 0.01;
-			if(theta<=-1.5)f = 1;
-		}
-		if(theta<0&&f==1){
-			theta += 0.01;
-			if(theta>=0)f = 0;
-		}
-		if(theta == -1){
-			if(f == 0)mesh2.material.color.setHex('0xffdb85');
-			if(f == 1)mesh2.material.color.setHex('0xff0000');
-		}
-		boxPos.set ( theta, 0, 0 )	
-		markerHiro.children[0].position.copy (boxPos);
-	}
-	update();
-	
+		update();
+		markerHiro.children[1].position.copy (boxPos);
+		//markerKanji.children[1].position.copy (boxPos);
+	}*/
+	box1.material.visible = false;
+	box2.material.visible = false;
+	//mesh2.material.visible = false;
+	//mesh1.material.visible = false;
 	$('#printDis').text (msg)
-		
+	if (cubeSpin)
+		markerHiro.children[0].rotation.x += 0.1
 }
 
 </script></body>
