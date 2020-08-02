@@ -1,7 +1,8 @@
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <!-- three.js library -->
-<script src='../examples/vendor/three.js/build/three.min.js'></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
+<!--script src='../examples/vendor/three.js/build/three.min.js'></script-->
 <script src="../examples/vendor/three.js/examples/js/libs/stats.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <!-- jsartookit -->
@@ -71,15 +72,14 @@ class Button {
 var renderer,stats;
 var scene, camera,sceneHUD, cameraHUD;
 var markerKanji, markerHiro;
-var markerRootHiro,markerRootKanji;
+var KanjiGroup,HiroGroup
 var arToolKitSource, arToolKitContext;
-var mesh1,mesh2,count = 0,button;
+var button;
 //var raycaster, pickables;
-var move = 0, f = 0;
-var boxPos = new THREE.Vector3();
-var box1, box2;
+var ballPos = new THREE.Vector3();
 var whRatio, halfW, halfH;
-var button1,cubeSpin = false;;
+var flag = 0,time = 0;
+var button1,cubeSpin = false;
 var _iOSDevice;
 //var onRenderFcts= [];
 //var debugEnabled = false
@@ -94,9 +94,6 @@ function init() {
 		// antialias	: true,
 		alpha: true
 	});
-	renderer.shadowMap.type = THREE.PCFSoftShadowMap
-    renderer.shadowMap.enabled = true;
-
 	renderer.setClearColor(new THREE.Color('lightgrey'), 0)
 	// renderer.setPixelRatio( 1/2 );
 	renderer.setSize( window.innerWidth, window.innerHeight );
@@ -109,20 +106,6 @@ function init() {
 	renderer.autoClear = false;
 	// init scene and camera
 	scene	= new THREE.Scene();
-	var ambient = new THREE.AmbientLight( 0x666666 );
-	scene.add( ambient );
-
-	var directionalLight = new THREE.DirectionalLight( 'white' );
-	directionalLight.position.set( 0, 2, 1 ).setLength(2)
-
-	directionalLight.shadow.mapSize.set(512,512)
-	directionalLight.shadow.camera.bottom = -1.6
-	directionalLight.shadow.camera.top = 1.6
-	directionalLight.shadow.camera.right = 1.6
-	directionalLight.shadow.camera.left = -1.6
-	directionalLight.castShadow = true;
-
-	scene.add( directionalLight );
 	// Create a camera
 	camera = new THREE.Camera();
 	scene.add(camera);
@@ -162,11 +145,41 @@ function init() {
 		// copy projection matrix to camera
 		camera.projectionMatrix.copy( arToolkitContext.getProjectionMatrix() );
 	})
+	renderer.shadowMap.type = THREE.PCFSoftShadowMap
+    renderer.shadowMap.enabled = true;
 
-	markerKanji = addMarkerKanji();
+	markerHiro = new THREE.Group();
+	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerHiro, {
+		type : 'pattern',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
+	})
+	scene.add (markerHiro);
+	HiroGroup = new THREE.Group();
+	markerHiro.add(HiroGroup);
+	let inHiro = addMarkerHiro();
+	HiroGroup.add(inHiro[0],inHiro[1],inHiro[2])
+
+
+	markerKanji = new THREE.Group();
+	var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerKanji, {
+		type : 'pattern',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
+	})
 	scene.add (markerKanji);
-	markerHiro = addMarkerHiro();
-	scene.add (markerHiro); // hide at first	
+	KanjiGroup = new THREE.Group();
+	markerKanji.add(KanjiGroup);
+	let man = buildMan();
+	KanjiGroup.add(man);
+	let inKanji = addMarkerKanji();
+	KanjiGroup.add(inKanji[0],inKanji[1])
+
+	var ambient = new THREE.AmbientLight( 0x666666 );
+	scene.add( ambient );
+
+	let light = new THREE.PointLight( 0xffffff, 1, 1000 );
+	light.position.set( 0,5,0 ); // default; light shining from top
+	light.castShadow = true;
+	scene.add( light );
 
 	stats = new Stats();
 	document.body.appendChild( stats.dom );
@@ -193,25 +206,20 @@ function onResize(){
 		cameraHUD.top = halfH;
 		cameraHUD.bottom = -halfH;
 	}	
-function addMarkerKanji () {
-	markerRootKanji = new THREE.Group();
-	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, camera, {
-		type : 'pattern',
-		 patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
-        changeMatrixMode: 'cameraTransformMatrix'
-	})
-	let loader = new THREE.TextureLoader();
-	loader.setCrossOrigin('')
-	let texture = loader.load( 'https://i.imgur.com/dB5hGwk.png' );
-	let material = new THREE.MeshBasicMaterial( { 
-		map: texture,
-		alphaTest: 0.5,
-		side: THREE.DoubleSide
-	} );
-	mesh1 = new THREE.Mesh(buildGeometry(), material);
-	mesh1.position.set(1,0.3,0);
-	markerRootKanji.add(mesh1);
-	var uniforms = {
+	function buildMan() {
+		let manGroup = new THREE.Object3D();
+		let loader = new THREE.TextureLoader();
+		loader.setCrossOrigin('')
+		let texture = loader.load( 'https://i.imgur.com/dB5hGwk.png' );
+		let material = new THREE.MeshBasicMaterial( { 
+			map: texture,
+			alphaTest: 0.5,
+			side: THREE.DoubleSide
+		} );
+		let mesh1 = new THREE.Mesh(buildGeometry(), material);
+		mesh1.position.set(1,0.3,0);
+		manGroup.add(mesh1);
+      var uniforms = {
             texture: {
                 type: "t",
                 value: texture
@@ -224,15 +232,25 @@ function addMarkerKanji () {
             vertexShader: vertexShader,
             fragmentShader: fragmentShader
         });
-    mesh1.castShadow = true;
-	//texture.wrapS = THREE.RepeatWrapping;
-	//texture.wrapT = THREE.RepeatWrapping;
-	let cubegeometry	= new THREE.BoxGeometry(0.2,0.2,0.2);
-	let cubematerial	= new THREE.MeshBasicMaterial({color:'purple'});
-	box2= new THREE.Mesh( cubegeometry, cubematerial );
-	box2.position.y	= 0.1;
-	markerRootKanji.add(box2);
-
+        
+        mesh1.castShadow = true;
+        
+        return manGroup;	
+    }
+	function addMarkerKanji () {
+	let loader = new THREE.TextureLoader();
+	loader.setCrossOrigin('');
+	let ballTexture = loader.load("https://i.imgur.com/BxRSVzx.png");
+	let ball1 = new THREE.Mesh(
+		new THREE.SphereGeometry(0.3, 32, 32),
+		new THREE.MeshLambertMaterial({ 
+			map: ballTexture, 
+			color: 0xff0000
+		})
+	);
+	ball1.position.set(0,1,0);
+	ball1.castShadow = true;
+	
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
 	planematerial.opacity = 0.6; 
 	let planegeometry = new THREE.PlaneGeometry(3, 3)
@@ -240,36 +258,34 @@ function addMarkerKanji () {
 	planeMesh.receiveShadow = true;
 	planeMesh.depthWrite = false;
 	planeMesh.rotation.x = -Math.PI/2
-	markerRootKanji.add(planeMesh);
 	/// add gridhelper
 	var gridXZ = new THREE.GridHelper(1,10);
 	//markerRootKanji.add (gridXZ);
-	return markerRootKanji;
+	return [ball1,planeMesh];
 }
-
 function addMarkerHiro(){
-	markerRootHiro = new THREE.Group()
-
-	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, camera, {
-		type : 'pattern',
-		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
-        changeMatrixMode: 'cameraTransformMatrix'
-	})
-
+	let markeroot1 = new THREE.Group();
+	let loader = new THREE.TextureLoader();
+	loader.setCrossOrigin('')
 	// add a torus knot	
 	let geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
 	let material	= new THREE.MeshLambertMaterial({color:0xffff00});
 	mesh2 = new THREE.Mesh( geometry, material );
 	mesh2.position.set(-1,0.5,0);
-	markerRootHiro.add (mesh2);
 	mesh2.castShadow = true;
     mesh2.receiveShadow = true;
-
-	let cubegeometry	= new THREE.BoxGeometry(0.2,0.2,0.2);
-	let cubematerial	= new THREE.MeshBasicMaterial({color:'yellow'});
-	box1	= new THREE.Mesh( cubegeometry, cubematerial );
-	box1.position.y	= 0.1;
-	markerRootHiro.add (box1);
+	markeroot1.add(mesh2);
+	let ballTexture = loader.load("https://i.imgur.com/BxRSVzx.png");
+	ball2 = new THREE.Mesh(
+		new THREE.SphereGeometry(0.3, 32, 32),
+		new THREE.MeshLambertMaterial({ 
+			map: ballTexture, 
+			color: 0x0000ff
+		})
+	);
+	ball2.position.set(0,1,0);
+	ball2.castShadow = true;
+	markeroot1.add( ball2 );
 
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
 	planematerial.opacity = 0.6; 
@@ -278,46 +294,49 @@ function addMarkerHiro(){
 	planeMesh.receiveShadow = true;
 	planeMesh.depthWrite = false;
 	planeMesh.rotation.x = -Math.PI/2
-	markerRootHiro.add(planeMesh);
+	markeroot1.add(planeMesh);
 
-	return markerRootHiro;
+	return [mesh2,ball2,planeMesh];
 }	
 function update() {
 	// o1, x1, z1
 	let o1 = markerHiro.position.clone();
 	let x1 = markerHiro.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
 	let z1 = markerHiro.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
-
 	// o2, x2, z2
 	let o2 = markerKanji.position.clone();
 	let x2 = markerKanji.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
 	let z2 = markerKanji.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
-
-	let ot = o1.clone().multiplyScalar(1-move).add(o2.clone().multiplyScalar(move));
-	console.log(ot);
-	// box position (eye coord)
-	boxPosEye = markerHiro.localToWorld (boxPos.clone());
-	let boxPos2 = boxPosEye.sub (o2);
-	box2.position.x = boxPos2.dot (x2);   
-	box2.position.z = boxPos2.dot (z2) ;  
-	box2.position.copy(ot);
-	if(move>1&&f==1){
-		move -= 0.05;
-			if(move<=0)f = 0;
+	// ball position (eye coord)
+	//ballPosEye = markerHiro.localToWorld (ballPos.clone());
+	//let ballPos2 = ballPosEye.sub (o2);
+	//ball2.position.x = ballPos2.dot (x2);   
+	//ball2.position.z = ballPos2.dot (z2) ;  
+	let msg
+	if(markerKanji.visible === true&&markerHiro.visible === true){
+		msg += ' Hiro Kanji'
+		if(flag){
+			time+= 0.01;
+			if(time>=1)flag = 0;
 		}
-	if(move<0&&f==0){
-		move += 0.05;
-		if(move>=1)f = 1;
+		else{
+			time-=0.01
+			if(time<=0)flag = 1;
+		}
+		let ot = Evaluate(o1, o2, time);
+		HiroGroup.children[1].position.copy(ot); //ball2
+		KanjiGroup.children[1].position.copy(ot); //ball1
+		//HiroGroup.children[1].position.copy (boxPos);
+		//markerKanji.children[1].position.copy (boxPos);
 	}
-	if(o1.distanceTo(box2.position.clone())<o2.distanceTo(box2.position.clone())){
-		box2.material.visible = true;
-		box1.material.visible = false;
-	}
-	else {
-		box1.material.visible = true;
-		box2.material.visible = false;
-	} 
-	}
+}
+function Evaluate(o1, o2, t)
+{
+	let ot1 = o1.clone().multiplyScalar(1-t);
+	let ot2 = o2.clone().multiplyScalar(t);
+	let ot = ot1.clone().add(ot2);
+	return new THREE.Vector3(ot.x, ot.y, ot.z);
+}
 function buildGeometry() {
   var geometry = new THREE.Geometry();
   geometry.vertices.push(
@@ -345,22 +364,6 @@ function buildGeometry() {
   geometry.computeVertexNormals();
   return geometry;
 }
-
-function textureLeft() {
-  if (mesh1) {
-    var texture = mesh1.material.map;
-    /*let turn = mesh1;
-		angle += 3;
-    turn.position.x=angle;
-    if (check) {
-      check = 0;
-      turn.rotation.y = 0;
-    }*/
-    texture.offset.x += 0.125;
-    if (texture.offset.x === Math.floor(texture.offset.x))
-      texture.offset.y += 1.0;
-  }
-}
 function pickCompute (ndcX, ndcY) {
 	// use 2D algorithm 	
 	let dist = button1.dInfTo ([halfW * ndcX, halfH * ndcY]);	
@@ -373,7 +376,6 @@ function pickCompute (ndcX, ndcY) {
 		console.log ('no hit')
 	}
 }
-
 function onMouseDown (event) {
 	console.log ('in mouse down')
 	event.preventDefault();
@@ -382,7 +384,6 @@ function onMouseDown (event) {
 
 	pickCompute (ndcX, ndcY);		
 }	
-
 function onTouchStart (event) {
 	console.log ('in touch start')
 
@@ -397,22 +398,17 @@ function onTouchStart (event) {
 	}	
 }	
 
-
 function animate() {
 	requestAnimationFrame (animate);
-	//count++
 	if( arToolkitSource.ready === false )	return
 	arToolkitContext.update( arToolkitSource.domElement )
-
-	/*if (count % 10 == 0)
-		textureLeft();*/
 
 	renderer.clear();
 	renderer.render( scene, camera );
 	//button.material.visible = markerHiro.visible;
 	scene.visible = camera.visible
 	renderer.render (sceneHUD, cameraHUD);
-
+	update();
 	//let did =  markerHiro.position.distanceTo (markerKanji.position)
 	//console.log (did)
 	//$('#printDis').text ('DIS: ' + did.toFixed(2))
@@ -433,29 +429,10 @@ function animate() {
 		markerKanji.children[0].rotation.y = angle;
 	else 
 		markerKanji.children[0].rotation.y = -angle;*/
-	
-	//	let msg ='';
-	
-	//if (markerHiro.visible === true&&markerKanji.visible === false) {
-		//msg += ' Hiro '
-		//mesh2.material.visible = true;
-		//	console.log ('hiro: ' + markerHiro.position.x.toFixed(2))
-	//}
-	//if (markerKanji.visible === true&&markerHiro.visible === false) {
-		//msg += ' Kanji';
-		//markerKanji.children[1].position.copy (boxPos);
-		//console.log ('kanji: ' + markerKanji.position.x.toFixed(2))
-	//}
-	/*if(markerKanji.visible === true&&markerHiro.visible === true){
-		msg += ' Hiro Kanji'
-		update();
-		markerHiro.children[1].position.copy (boxPos);
-		//markerKanji.children[1].position.copy (boxPos);
-	}*/
-	box1.material.visible = false;
-	box2.material.visible = false;
-	//mesh2.material.visible = false;
-	mesh1.material.visible = true;
+	HiroGroup.children[0].material.visible = false;
+	KanjiGroup.children[0].material.visible = false;
+	//KanjiGroup.children[0].rotation.x += 0.1;
+	//KanjiGroup.children[1].material.visible = false;
 	//$('#printDis').text (msg)
 	if (cubeSpin)
 		markerHiro.children[0].rotation.x += 0.1
