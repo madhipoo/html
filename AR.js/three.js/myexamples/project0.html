@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <meta name="viewport" content="width=device-width, user-scalable=no, minimum-scale=1.0, maximum-scale=1.0">
 <!-- three.js library -->
-<script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script>
-<!--script src='../examples/vendor/three.js/build/three.min.js'></script-->
+<!--script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/110/three.min.js"></script-->
+<script src='../examples/vendor/three.js/build/three.min.js'></script>
 <script src="../examples/vendor/three.js/examples/js/libs/stats.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/dat-gui/0.5/dat.gui.min.js"></script>
 <script src="https://code.jquery.com/jquery-2.1.4.min.js"></script>
 <!-- jsartookit -->
 <script src="../vendor/jsartoolkit5/build/artoolkit.min.js"></script>
@@ -74,15 +75,92 @@ var scene, camera,sceneHUD, cameraHUD;
 var markerKanji, markerHiro;
 var KanjiGroup,HiroGroup
 var arToolKitSource, arToolKitContext;
-var button;
+var button,time = 0,flag = 0;
+var k = 0.05,angle=0;
+var opc = 0.5;
+var head,leftarm, torso, leftleg, rightarm ,rightleg;
+var gcontrol;
 //var raycaster, pickables;
-var ballPos = new THREE.Vector3();
+var manPos = new THREE.Vector3(),pos;
 var whRatio, halfW, halfH;
-var flag = 0,time = 0;
 var button1,cubeSpin = false;
 var _iOSDevice;
 //var onRenderFcts= [];
 //var debugEnabled = false
+var theta1 = 0,
+  theta2 = 0,
+  theta3 = 0,
+  theta4 = 0,
+  theta5 = 0,
+  theta6 = 0,
+  theta7 = 0,
+  theta8 = 0,
+  theta9 = 0,
+  theta10 = 0;
+var pose1 = {
+        theta1: 1.2057796021989051,
+        theta2: 0,
+        theta3: 1.5,
+        theta4: 1,
+        theta5: -0.09110458090435114,
+        theta6: 0,
+        theta7: 0.24562074316608218,
+        theta8: -0.3575635264445681,
+        theta9: -0.33541054459782915,
+        theta10: -0.025268798743482757
+	}
+var pose2 = {
+        theta1: 1.5,
+        theta2: 1,
+        theta3: 1.5,
+        theta4: 1,
+        theta5: 0.15700881577912607,
+        theta6: -0.268951599057612,
+        theta7: 0.2987878995982558,
+        theta8: -0.2911045809043511,
+        theta9: -0.24679861721087304,
+        theta10: -0.06957476243696081
+}
+var pose3 = {
+        theta1: 1.5,
+        theta2: 1,
+        theta3: 1.09501469296521,
+        theta4: 0,
+        theta5: 0.2987878995982558,
+        theta6: -0.3686400173679377,
+        theta7: -0.10882696638174227,
+        theta8: 0,
+        theta9: 0.48424978373151495,
+        theta10: 0.08549611049021233
+}
+var pose4 = {
+        theta1: 1.5,
+        theta2: 1,
+        theta3: 1.5,
+        theta4: 1,
+        theta5: 0.1747312012565173,
+        theta6: -0.2911045809043511,
+        theta7: -0.09110458090435114,
+        theta8: 0,
+        theta9: 0.2184140015706466,
+        theta10: 0.17410803787716844
+}
+
+var keys = [
+  [0, pose4],
+  [0.250, pose1],
+  [0.500, pose2],
+  [0.750, pose3],
+  [1, pose4]
+];
+
+var T = 240/87;
+var clock = new THREE.Clock();
+var ts = clock.getElapsedTime();  // start time
+var intKey = [];
+var soundTrack;
+var isDimming = false, soundVal = 1.0, sign = 1.0;
+////////////////////////
 init();
 animate();
 
@@ -157,7 +235,7 @@ function init() {
 	HiroGroup = new THREE.Group();
 	markerHiro.add(HiroGroup);
 	let inHiro = addMarkerHiro();
-	HiroGroup.add(inHiro[0],inHiro[1],inHiro[2])
+	HiroGroup.add(inHiro[0])
 
 
 	markerKanji = new THREE.Group();
@@ -168,18 +246,116 @@ function init() {
 	scene.add (markerKanji);
 	KanjiGroup = new THREE.Group();
 	markerKanji.add(KanjiGroup);
-	let man = buildMan();
-	KanjiGroup.add(man);
+
 	let inKanji = addMarkerKanji();
-	KanjiGroup.add(inKanji[0],inKanji[1])
+	KanjiGroup.add(inKanji[0])
+
+	mine = new THREE.Group();
+	//HiroGroup.add(mine);
+	head = makeHead();
+	torso = makeTorso();
+	mine.add (torso);
+	head.position.y = 7.57*k-4.09*k;
+	torso.position.y = 4.09*k;
+	torso.add(head);
+
+	leftarm = makeArm();
+	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
+	leftarm[0].add(leftarm[1]);
+	leftarm[1].add(leftarm[2]);
+	torso.add (leftarm[0]);
+	
+	rightarm = makeArm();
+	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
+	rightarm[0].add(rightarm[1]);
+	rightarm[1].add(rightarm[2]);
+	torso.add(rightarm[0]);
+
+	leftleg = makeLeg();
+	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
+	leftleg[0].add(leftleg[1]);
+	torso.add(leftleg[0]);
+
+
+	rightleg = makeLeg();
+	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
+	rightleg[0].add(rightleg[1]);
+	torso.add(rightleg[0]);
+
+	mine.rotation.y=-Math.PI/2;	
+	mine.position.y=0.01;
+	leftarm[0].rotation.z = -Math.PI/2;
+	rightarm[0].rotation.z = -Math.PI/2;
+	leftleg[0].rotation.z = -Math.PI/2;
+	rightleg[0].rotation.z = -Math.PI/2;
+	
+	leftarm[0].rotation.order = 'ZYX';
+	rightarm[0].rotation.order = 'ZYX';
+	leftleg[0].rotation.order = 'ZYX';
+	rightleg[0].rotation.order = 'ZYX';
+	
+	let drum = buildDrum();
+	HiroGroup.add(drum);
+	
+	
+	var geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
+		var material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
+	circle = new THREE.Mesh( geometry, material );
+	circle.rotation.x=-Math.PI/2;
+	circle.position.y=0.01;
+	scene.add(circle);
+	/////////////////////
+	gcontrol = {
+		theta1: 0.01,
+		theta2: 0.01,
+		theta3: 0.01,
+		theta4: 0.01,
+		theta5: 0.01,
+		theta6: 0.01,
+		theta7: 0.01,
+		theta8: 0.01,
+		theta9: 0.01,
+		theta10: 0.01,
+		theta11: 0.01,
+		theta12: 0.01,
+	};
+
+	var gui = new dat.GUI({load:loadJSON(), preset:'key1'});
+	gui.domElement.id = 'gui';
+	
+	gui.remember (gcontrol);
+	
+	gui.add(gcontrol, 'theta1', -0.5, 1.5);
+	gui.add(gcontrol, 'theta2', 0, 1);
+	gui.add(gcontrol, 'theta3', -0.5, 1.5);
+	gui.add(gcontrol, 'theta4', 0, 1);
+	gui.add(gcontrol, 'theta5', -0.8, 0.8);
+	gui.add(gcontrol, 'theta6', -1, 0);
+	gui.add(gcontrol, 'theta7', -0.8, 0.8);
+	gui.add(gcontrol, 'theta8', -1, 0);
+	gui.add(gcontrol, 'theta9', -1, 1);
+	gui.add(gcontrol, 'theta10', -1, 1); 
+  ///////////////////////////////////////
+		car= new THREE.Group();
+    tire1=buildtire();
+    tire1.position.set(0,0.1,0.15);
+    tire2=buildtire();
+    tire2.position.set(0,0.1,-0.15);
+    var material = new THREE.MeshBasicMaterial( { color:'black',side:THREE.DoubleSide } );
+  	box = new THREE.Mesh (new THREE.BoxGeometry(0.2, 0.15, 0.02), material); 
+    box.rotation.set(Math.PI/2,0,Math.PI/2);
+    box.position.set(0,0.1,0);
+    car.add(tire1,tire2,box,mine);
+    HiroGroup.add(car);
+
 
 	var ambient = new THREE.AmbientLight( 0x666666 );
-	scene.add( ambient );
+	scene.add(ambient)
 
 	let light = new THREE.PointLight( 0xffffff, 1, 1000 );
-	light.position.set( 0,5,0 ); // default; light shining from top
+	light.position.set(1.5,3,1.5 ); // default; light shining from top
 	light.castShadow = true;
-	scene.add( light );
+	scene.add(light)
 
 	stats = new Stats();
 	document.body.appendChild( stats.dom );
@@ -206,54 +382,11 @@ function onResize(){
 		cameraHUD.top = halfH;
 		cameraHUD.bottom = -halfH;
 	}	
-	function buildMan() {
-		let manGroup = new THREE.Object3D();
-		let loader = new THREE.TextureLoader();
-		loader.setCrossOrigin('')
-		let texture = loader.load( 'https://i.imgur.com/dB5hGwk.png' );
-		let material = new THREE.MeshBasicMaterial( { 
-			map: texture,
-			alphaTest: 0.5,
-			side: THREE.DoubleSide
-		} );
-		let mesh1 = new THREE.Mesh(buildGeometry(), material);
-		mesh1.position.set(1,0.3,0);
-		manGroup.add(mesh1);
-      var uniforms = {
-            texture: {
-                type: "t",
-                value: texture
-            }
-          };
-      var vertexShader = document.getElementById('vertexShaderDepth').textContent;
-      var fragmentShader = document.getElementById('fragmentShaderDepth').textContent;
-      mesh1.customDepthMaterial = new THREE.ShaderMaterial({
-            uniforms: uniforms,
-            vertexShader: vertexShader,
-            fragmentShader: fragmentShader
-        });
-        
-        mesh1.castShadow = true;
-        
-        return manGroup;	
-    }
-	function addMarkerKanji () {
-	let loader = new THREE.TextureLoader();
-	loader.setCrossOrigin('');
-	let ballTexture = loader.load("https://i.imgur.com/BxRSVzx.png");
-	let ball1 = new THREE.Mesh(
-		new THREE.SphereGeometry(0.3, 32, 32),
-		new THREE.MeshLambertMaterial({ 
-			map: ballTexture, 
-			color: 0xff0000
-		})
-	);
-	ball1.position.set(0,1,0);
-	ball1.castShadow = true;
-	
+
+function addMarkerKanji () {
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
 	planematerial.opacity = 0.6; 
-	let planegeometry = new THREE.PlaneGeometry(3, 3)
+	let planegeometry = new THREE.PlaneGeometry(1, 1)
 	let planeMesh = new THREE.Mesh( planegeometry, planematerial);
 	planeMesh.receiveShadow = true;
 	planeMesh.depthWrite = false;
@@ -261,109 +394,66 @@ function onResize(){
 	/// add gridhelper
 	var gridXZ = new THREE.GridHelper(1,10);
 	//markerRootKanji.add (gridXZ);
-	return [ball1,planeMesh];
+	return [planeMesh];
 }
 function addMarkerHiro(){
-	let markeroot1 = new THREE.Group();
-	let loader = new THREE.TextureLoader();
-	loader.setCrossOrigin('')
-	// add a torus knot	
-	let geometry	= new THREE.TorusKnotGeometry(0.3,0.1,64,16);
-	let material	= new THREE.MeshLambertMaterial({color:0xffff00});
-	mesh2 = new THREE.Mesh( geometry, material );
-	mesh2.position.set(-1,0.5,0);
-	mesh2.castShadow = true;
-    mesh2.receiveShadow = true;
-	markeroot1.add(mesh2);
-	let ballTexture = loader.load("https://i.imgur.com/BxRSVzx.png");
-	ball2 = new THREE.Mesh(
-		new THREE.SphereGeometry(0.3, 32, 32),
-		new THREE.MeshLambertMaterial({ 
-			map: ballTexture, 
-			color: 0x0000ff
-		})
-	);
-	ball2.position.set(0,1,0);
-	ball2.castShadow = true;
-	markeroot1.add( ball2 );
-
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
 	planematerial.opacity = 0.6; 
-	let planegeometry = new THREE.PlaneGeometry(3, 3)
+	let planegeometry = new THREE.PlaneGeometry(1, 1)
 	let planeMesh = new THREE.Mesh( planegeometry, planematerial);
 	planeMesh.receiveShadow = true;
 	planeMesh.depthWrite = false;
 	planeMesh.rotation.x = -Math.PI/2
-	markeroot1.add(planeMesh);
 
-	return [mesh2,ball2,planeMesh];
+	return [planeMesh];
 }	
 function update() {
-	// o1, x1, z1
-	let o1 = markerHiro.position.clone();
-	let x1 = markerHiro.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
-	let z1 = markerHiro.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
-	// o2, x2, z2
-	let o2 = markerKanji.position.clone();
-	let x2 = markerKanji.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
-	let z2 = markerKanji.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
-	// ball position (eye coord)
-	//ballPosEye = markerHiro.localToWorld (ballPos.clone());
-	//let ballPos2 = ballPosEye.sub (o2);
-	//ball2.position.x = ballPos2.dot (x2);   
-	//ball2.position.z = ballPos2.dot (z2) ;  
-	let msg
-	if(markerKanji.visible === true&&markerHiro.visible === true){
-		msg += ' Hiro Kanji'
-		if(flag){
-			time+= 0.01;
-			if(time>=1)flag = 0;
-		}
-		else{
-			time-=0.01
-			if(time<=0)flag = 1;
-		}
-		let ot = Evaluate(o1, o2, time);
-		HiroGroup.children[1].position.copy(ot); //ball2
-		KanjiGroup.children[1].position.copy(ot); //ball1
-		//HiroGroup.children[1].position.copy (boxPos);
-		//markerKanji.children[1].position.copy (boxPos);
-	}
+   // o1, x1, z1
+   let o1 = markerHiro.position.clone();
+   let x1 = markerHiro.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
+   let z1 = markerHiro.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
+   
+   // o2, x2, z2
+   let o2 = markerKanji.position.clone();
+   let x2 = markerKanji.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
+   let z2 = markerKanji.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
+   
+   // box position (eye coord)
+  /*manPosEye = markerHiro.localToWorld (manPos.clone());
+  let manPos2 = manPosEye.sub (o2);
+  HiroGroup.children[2].position.x = manPos2.dot (x2);   
+  HiroGroup.children[2].position.z = manPos2.dot (z2); */
+  if ( markerHiro.visible && markerKanji.visible ){
+    if(time<=1&& flag == 0){
+      time +=0.02
+      if(time>1)flag = 1;
+    }
+    if(time>=0&&flag){
+      time -=0.02
+      if(time<0)flag = 0;
+    }
+    let pos = Path( o1.clone(), o2.clone(), time );
+    manPosEye = pos.clone();
+    let manPos2 = manPosEye.sub (o2.clone());
+    //HiroGroup.children[2].position.copy(manPos2);
+    HiroGroup.children[2].position.x = -1*manPos2.dot (x2);   
+    HiroGroup.children[2].position.z = -1*manPos2.dot (z2); 
+  }
 }
-function Evaluate(o1, o2, t)
-{
-	let ot1 = o1.clone().multiplyScalar(1-t);
-	let ot2 = o2.clone().multiplyScalar(t);
-	let ot = ot1.clone().add(ot2);
-	return new THREE.Vector3(ot.x, ot.y, ot.z);
-}
-function buildGeometry() {
-  var geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-.3, -.3, 0),
-    new THREE.Vector3(.3, -.3, 0),
-    new THREE.Vector3(.3, .3, 0),
-    new THREE.Vector3(-.3, .3, 0)
-  );
+  function Evaluate(o1, o2, t)
+    {
+        return (1-t)*o1 + t*o2;
+    }
 
-  var face;
-  face = new THREE.Face3(0, 1, 2);
-  geometry.faces.push(face);
-  face = new THREE.Face3(0, 2, 3);
-  geometry.faces.push(face);
-
-  st0 = new THREE.Vector2(0, 0.33);
-  st1 = new THREE.Vector2(0.125, 0.33);
-  st2 = new THREE.Vector2(0.125, 0.66);
-  st3 = new THREE.Vector2(0, 0.66);
-  geometry.faceVertexUvs[0].push([st0, st1, st2]);
-  geometry.faceVertexUvs[0].push([st0, st2, st3]);
-
-  geometry.computeBoundingSphere();
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-  return geometry;
-}
+    function Path( pointStart, pointEnd, time )
+    {
+        //let pointMiddle = new THREE.Vector3().addVectors( pointStart, pointEnd ).multiplyScalar(0.5).add( new THREE.Vector3(0,2,0) );
+        return new THREE.Vector3(
+            Evaluate( pointStart.x, pointEnd.x, time ),
+            Evaluate( pointStart.y, pointEnd.y, time ),
+            Evaluate( pointStart.z, pointEnd.z, time )
+        );
+    }
 function pickCompute (ndcX, ndcY) {
 	// use 2D algorithm 	
 	let dist = button1.dInfTo ([halfW * ndcX, halfH * ndcY]);	
@@ -376,6 +466,7 @@ function pickCompute (ndcX, ndcY) {
 		console.log ('no hit')
 	}
 }
+
 function onMouseDown (event) {
 	console.log ('in mouse down')
 	event.preventDefault();
@@ -384,6 +475,7 @@ function onMouseDown (event) {
 
 	pickCompute (ndcX, ndcY);		
 }	
+
 function onTouchStart (event) {
 	console.log ('in touch start')
 
@@ -397,6 +489,336 @@ function onTouchStart (event) {
 		
 	}	
 }	
+function makeArm() {
+	var group = new THREE.Group();
+ 	var group2 = new THREE.Group();
+  var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
+  uparm = new THREE.Mesh (new THREE.BoxGeometry(1.91*k, 1.20*k, 1.20*k), material); 
+  var material = new THREE.MeshLambertMaterial( { color:'white'} );
+  dowmarm = new THREE.Mesh (new THREE.BoxGeometry(1.91*k, 1.10*k, 1.10*k), material);
+  var geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.1, 32 );
+  var material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
+  stick= new THREE.Mesh( geometry, material );
+  let armtexture=buildarm();
+  armtexture.rotation.z=Math.PI/2;
+  armtexture.position.x = 1.91*k/2;
+  stick.position.set(2*k,0,-0.05);
+  stick.rotation.x=Math.PI/2;
+  group2.add(dowmarm,armtexture,stick);
+  group.add (uparm,group2);
+  uparm.position.x = 1.91*k/2;
+  dowmarm.position.x = 1.91*k/2;
+  group2.position.x =2*k;
+  uparm.castShadow = true;
+  uparm.receiveShadow = true;
+  dowmarm.castShadow = true;
+  dowmarm.receiveShadow = true;
+  stick.castShadow = true;
+  stick.receiveShadow = true;
+
+  //group.add (new THREE.AxesHelper (k));
+  //group2.add (new THREE.AxesHelper (k));
+	return [group,group2,stick];
+}
+
+function makeLeg() {
+	var group = new THREE.Group();
+	var group2 = new THREE.Group();
+	var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
+	upleg = new THREE.Mesh (new THREE.BoxGeometry(2.045*k,  1.26*k, 1.26*k), material);
+	downleg = new THREE.Mesh (new THREE.BoxGeometry(2.045*k, 1.26*k, 1.26*k), material);
+	group2.add(downleg);
+		group.add (upleg,group2);
+	upleg.position.x = 2.045*k/2;
+	downleg.position.x =2.045*k/2;
+	group2.position.x =2.045*k;
+	upleg.castShadow = true;
+	upleg.receiveShadow = true;
+	downleg.castShadow = true;
+	downleg.receiveShadow = true;
+	//group.add (new THREE.AxesHelper (k));
+	//group2.add (new THREE.AxesHelper (k));
+		return [group,group2];
+}
+
+function makeHead() {
+	var headGroup = new THREE.Group();
+  var mat = new THREE.MeshLambertMaterial({color:0x99d8ea});
+  headBody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 2.52*k, 2.52*k), mat);
+  headBody2=buildface();
+  headBody2.rotation.y=Math.PI;
+  headBody2.position.z = -2.52*k;
+	headGroup.add (headBody,headBody2);
+  headBody.position.y = 2.52*k/2;
+  headBody.castShadow = true;
+  headBody.receiveShadow = true;
+  //headGroup.add (new THREE.AxesHelper (k));
+	return headGroup;
+}
+
+function makeTorso () {
+	var group = new THREE.Group();
+  var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
+  Torsobody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), material);
+  Torsobody2=buildTorso();
+  Torsobody2.rotation.y=Math.PI;
+  Torsobody2.position.z = -1.27*k;
+	group.add (Torsobody,Torsobody2);
+  Torsobody.position.y = 3.48*k/2;
+  Torsobody.castShadow = true;
+  Torsobody.receiveShadow = true;
+	//group.add (new THREE.AxesHelper (2*k));
+return group;
+
+}
+
+function keyframe(t) {
+  var s = ((t - ts) % T) / T;
+
+  for (var i = 1; i < keys.length; i++) {
+    if (keys[i][0] > s) break;
+  }
+  // take i-1
+  var ii = i - 1;
+  var a = (s - keys[ii][0]) / (keys[ii + 1][0] - keys[ii][0]);
+  intKey = [keys[ii][1].theta1 * (1 - a) + keys[ii + 1][1].theta1 * a,
+            keys[ii][1].theta2 * (1 - a) + keys[ii + 1][1].theta2 * a,
+            keys[ii][1].theta3 * (1 - a) + keys[ii + 1][1].theta3 * a,
+            keys[ii][1].theta4 * (1 - a) + keys[ii + 1][1].theta4 * a,
+            keys[ii][1].theta5 * (1 - a) + keys[ii + 1][1].theta5 * a,
+            keys[ii][1].theta6 * (1 - a) + keys[ii + 1][1].theta6 * a,
+            keys[ii][1].theta7 * (1 - a) + keys[ii + 1][1].theta7 * a,
+            keys[ii][1].theta8 * (1 - a) + keys[ii + 1][1].theta8 * a,
+            keys[ii][1].theta9 * (1 - a) + keys[ii + 1][1].theta9 * a,
+            keys[ii][1].theta10 * (1 - a) + keys[ii + 1][1].theta10 * a
+  ];
+
+}
+
+function buildface() {
+  let geometry = new THREE.Geometry();
+  geometry.vertices.push(
+    new THREE.Vector3(-2.52*k/2, 0, -2.52*k/2),
+    new THREE.Vector3(2.52*k/2, 0, -2.52*k/2),
+    new THREE.Vector3(-2.52*k/2, 2.52*k, -2.52*k/2),
+    new THREE.Vector3(2.52*k/2, 2.52*k, -2.52*k/2)
+  );
+
+
+  let face;
+  face = new THREE.Face3(0, 1, 2);
+  face.materialIndex = 0;
+  geometry.faces.push(face);
+  face = new THREE.Face3(2, 1, 3);
+  face.materialIndex = 0;
+  geometry.faces.push(face);
+
+
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
+
+  let loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  let texture = loader.load('https://i.imgur.com/J0uy9Kv.png');
+  
+  materialArray = [];
+  materialArray.push(new THREE.MeshLambertMaterial({
+      map: texture
+    }));
+  return new THREE.Mesh(geometry, materialArray);
+}
+function buildTorso() {
+  let geometry = new THREE.Geometry();
+  geometry.vertices.push(
+    new THREE.Vector3(-2.5*k/2, 0, -1.26*k/2),
+    new THREE.Vector3(2.52*k/2, 0, -1.26*k/2),
+    new THREE.Vector3(-2.52*k/2, 3.48*k, -1.26*k/2),
+    new THREE.Vector3(2.52*k/2, 3.48*k, -1.26*k/2)
+  );
+
+
+  let face;
+  face = new THREE.Face3(0, 1, 2);
+  face.materialIndex = 0;
+  geometry.faces.push(face);
+  face = new THREE.Face3(2, 1, 3);
+  face.materialIndex = 0;
+  geometry.faces.push(face);
+
+
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
+
+  let loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  let texture = loader.load('https://i.imgur.com/ncljgL4.png');
+  
+  materialArray = [];
+  materialArray.push(new THREE.MeshLambertMaterial({
+      map: texture
+    }));
+  return new THREE.Mesh(geometry, materialArray);
+}
+function buildarm() {
+  let geometry = new THREE.Geometry();
+  geometry.vertices.push(
+    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
+    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
+    new THREE.Vector3(1.25*k/2, 1.2*k, -1.25*k/2),
+    new THREE.Vector3(-1.25*k/2, 1.2*k, -1.25*k/2),
+    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
+    new THREE.Vector3(1.25*k/2, 1.2*k, 1.25*k/2),
+    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
+    new THREE.Vector3(-1.25*k/2, 1.2*k, 1.25*k/2),
+  );
+
+
+  let face;
+  face = new THREE.Face3(0, 1, 2);
+  face.materialIndex = 0;
+  geometry.faces.push(face);
+  face = new THREE.Face3(2, 3, 0);
+  face.materialIndex = 0;
+  geometry.faces.push(face);
+  face = new THREE.Face3(1, 4, 5);
+  face.materialIndex = 1;
+  geometry.faces.push(face);
+  face = new THREE.Face3(5, 2, 1);
+  face.materialIndex = 1;
+  geometry.faces.push(face);
+  face = new THREE.Face3(4, 6, 7);
+  face.materialIndex = 2;
+  geometry.faces.push(face);
+  face = new THREE.Face3(7, 5, 4);
+  face.materialIndex = 2;
+  geometry.faces.push(face);
+  face = new THREE.Face3(6, 0, 3);
+  face.materialIndex = 3;
+  geometry.faces.push(face);
+  face = new THREE.Face3(3, 7, 6);
+  face.materialIndex = 3;
+  geometry.faces.push(face);
+
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
+  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
+
+
+  
+  materialArray = [];
+  materialArray.push(new THREE.MeshLambertMaterial({
+      color: 0xd0d0c,side: THREE.DoubleSide
+    }));
+    materialArray.push(new THREE.MeshLambertMaterial({
+      color: 0xd0d0c,side: THREE.DoubleSide
+    }));
+    materialArray.push(new THREE.MeshLambertMaterial({
+      color: 0xd0d0c,side: THREE.DoubleSide
+    }));
+    materialArray.push(new THREE.MeshLambertMaterial({
+      color: 0xd0d0c,side: THREE.DoubleSide
+    }));
+  return new THREE.Mesh(geometry, materialArray);
+}
+
+function buildtire() {
+
+		var loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    var colormap = loader.load ('http://jyunming-chen.github.io/tutsplus/images/tire-side.png');
+    var colormap2 = loader.load ('http://jyunming-chen.github.io/tutsplus/images/tire-wheel.jpg');
+    
+    var tire = new THREE.Object3D();
+    var geometry = new THREE.CircleGeometry(0.1, 30);
+    var material = new THREE.MeshBasicMaterial({
+        map: colormap,
+       // transparent: true,  // for cut-out texture
+        alphaTest: 0.5,
+        side: THREE.DoubleSide
+    });
+    carmesh1 = new THREE.Mesh(geometry, material);
+colormap2.wrapS = colormap2.wrapT = THREE.RepeatWrapping; 
+	colormap2.repeat.set( 8, 1 );
+    carmesh2 = new THREE.Mesh(new THREE.CylinderGeometry(0.1, 0.1, 0.1, 30, 1, true), // only side
+    new THREE.MeshBasicMaterial({
+        map: colormap2,
+        side: THREE.DoubleSide
+    }));
+    carmesh2.rotation.x = Math.PI / 2;
+    carmesh1.position.set(0, 0, 0.05);
+    carmesh0 = carmesh1.clone();
+    carmesh0.position.set(0, 0, -0.05);
+    carmesh0.rotation.y = Math.PI;
+    tire.add (carmesh1);
+    tire.add(carmesh0);
+    tire.add(carmesh2);
+    carmesh0.castShadow = true;
+    carmesh0.receiveShadow = true;
+    carmesh2.castShadow = true;
+    carmesh2.receiveShadow = true;
+    return tire;
+}
+function buildDrum(){
+	drumgroup = new THREE.Group();
+  var geometry = new THREE.CylinderBufferGeometry(0.15, 0.15, 0.1, 32 );
+  var material = new THREE.MeshLambertMaterial( {color: 'red'} );
+  cylinder1 = new THREE.Mesh( geometry, material );
+  cylinder1.position.set(0.3,0.4,0);
+  cylinder1.rotation.z=-Math.PI/2;
+  var geometry = new THREE.CylinderBufferGeometry(0.15, 0.15, 0.02, 32 );
+  var material = new THREE.MeshLambertMaterial( {color: 0xeba434} );
+  cylinder2 = new THREE.Mesh( geometry, material );
+  cylinder2.position.set(0.24,0.4,0);
+  cylinder2.rotation.z=-Math.PI/2;
+  cylinder3 = new THREE.Mesh( geometry, material );
+  cylinder3.position.set(0.36,0.4,0);
+  cylinder3.rotation.z=-Math.PI/2;
+  var geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.5, 32 );
+  var material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
+  cylinder4 = new THREE.Mesh( geometry, material );
+  cylinder4.position.set(0.36,0.18,0);
+  cylinder4.rotation.x=-Math.PI/4;
+  cylinder5 = new THREE.Mesh( geometry, material );
+  cylinder5.position.set(0.36,0.18,0);
+  cylinder5.rotation.x=Math.PI/4;
+  cylinder6 = new THREE.Mesh( geometry, material );
+  cylinder6.position.set(0.24,0.18,0);
+  cylinder6.rotation.x=-Math.PI/4;
+  cylinder7 = new THREE.Mesh( geometry, material );
+  cylinder7.position.set(0.24,0.18,0);
+  cylinder7.rotation.x=Math.PI/4;
+  
+  cylinder1.castShadow = true;
+  cylinder1.receiveShadow = true;
+  cylinder2.castShadow = true;
+  cylinder2.receiveShadow = true;
+  cylinder3.castShadow = true;
+  cylinder3.receiveShadow = true;
+  cylinder4.castShadow = true;
+  cylinder4.receiveShadow = true;
+  cylinder5.castShadow = true;
+  cylinder5.receiveShadow = true;
+  cylinder6.castShadow = true;
+  cylinder6.receiveShadow = true;
+  cylinder7.castShadow = true;
+  cylinder7.receiveShadow = true;
+  
+  drumgroup.add(cylinder1,cylinder2,cylinder3,cylinder4,cylinder5,cylinder6,cylinder7);
+  return drumgroup;
+}
 
 function animate() {
 	requestAnimationFrame (animate);
@@ -405,37 +827,93 @@ function animate() {
 
 	renderer.clear();
 	renderer.render( scene, camera );
+  stats.update();
 	//button.material.visible = markerHiro.visible;
 	scene.visible = camera.visible
 	renderer.render (sceneHUD, cameraHUD);
 	update();
-	//let did =  markerHiro.position.distanceTo (markerKanji.position)
-	//console.log (did)
-	//$('#printDis').text ('DIS: ' + did.toFixed(2))
-	
-	// billboard of sitckman
-	// camera at eye coord: (0,0,0)
-	// corresponding marker coordinate:
-	/*let p0 = new THREE.Vector3 (0,0,0)
-	let mw = new THREE.Matrix4();		
-	p0.applyMatrix4 (mw.getInverse(markerKanji.matrixWorld));
-
-	p0.y = 0;
-	let front = new THREE.Vector3(0,0,1);
-	let angle = p0.angleTo (front);
-	let axis = new THREE.Vector3();
-	axis.crossVectors ( front, p0 ).normalize();
-	if (axis.y > 0)  // 0, 1, 0
-		markerKanji.children[0].rotation.y = angle;
-	else 
-		markerKanji.children[0].rotation.y = -angle;*/
-	HiroGroup.children[0].material.visible = false;
-	KanjiGroup.children[0].material.visible = false;
-	//KanjiGroup.children[0].rotation.x += 0.1;
-	//KanjiGroup.children[1].material.visible = false;
-	//$('#printDis').text (msg)
+  keyframe(clock.getElapsedTime()); 
+  leftarm[0].rotation.y = intKey[0];//gcontrol.theta1;
+  leftarm[1].rotation.y = intKey[1];//gcontrol.theta2;
+  rightarm[0].rotation.y = intKey[2];//gcontrol.theta3;
+  rightarm[1].rotation.y = intKey[3];//gcontrol.theta4;
+  leftleg[0].rotation.y = intKey[4];//gcontrol.theta5;
+  leftleg[1].rotation.y = intKey[5];//gcontrol.theta6;
+  rightleg[0].rotation.y =intKey[6];//gcontrol.theta7;
+  rightleg[1].rotation.y =intKey[7];//gcontrol.theta8;
+	head.rotation.y= intKey[8];//gcontrol.theta9;
+  torso.rotation.y = intKey[9];//gcontrol.theta10;
+  //HiroGroup.children[0].material.visible = false;
 	if (cubeSpin)
 		markerHiro.children[0].rotation.x += 0.1
+}
+function loadJSON() {
+	return{
+  "preset": "key1",
+  "remembered": {
+    "Default": {
+      "0": {}
+    },
+    "key1": {
+      "0": {
+        "theta1": 1.2057796021989051,
+        "theta2": 0,
+        "theta3": 1.5,
+        "theta4": 1,
+        "theta5": -0.09110458090435114,
+        "theta6": 0,
+        "theta7": 0.24562074316608218,
+        "theta8": -0.3575635264445681,
+        "theta9": -0.33541054459782915,
+        "theta10": -0.025268798743482757
+      }
+    },
+    "key2": {
+      "0": {
+        "theta1": 1.5,
+        "theta2": 1,
+        "theta3": 1.5,
+        "theta4": 1,
+        "theta5": 0.15700881577912607,
+        "theta6": -0.268951599057612,
+        "theta7": 0.2987878995982558,
+        "theta8": -0.2911045809043511,
+        "theta9": -0.24679861721087304,
+        "theta10": -0.06957476243696081
+      }
+    },
+    "key3": {
+      "0": {
+        "theta1": 1.5,
+        "theta2": 1,
+        "theta3": 1.09501469296521,
+        "theta4": 0,
+        "theta5": 0.2987878995982558,
+        "theta6": -0.3686400173679377,
+        "theta7": -0.10882696638174227,
+        "theta8": 0,
+        "theta9": 0.48424978373151495,
+        "theta10": 0.08549611049021233
+      }
+    },
+    "key4": {
+      "0": {
+        "theta1": 1.5,
+        "theta2": 1,
+        "theta3": 1.5,
+        "theta4": 1,
+        "theta5": 0.1747312012565173,
+        "theta6": -0.2911045809043511,
+        "theta7": -0.09110458090435114,
+        "theta8": 0,
+        "theta9": 0.2184140015706466,
+        "theta10": 0.17410803787716844
+      }
+    }
+  },
+  "closed": false,
+  "folders": {}
+}
 }
 
 </script></body>
