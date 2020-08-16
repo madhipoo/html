@@ -72,13 +72,14 @@ class Button {
 // global variables
 var renderer,stats;
 var scene, camera,sceneHUD, cameraHUD;
-var markerKanji, markerHiro;
-var KanjiGroup,HiroGroup
+var markerA, markerB;
+var men = [],car = [];
+var GroupA,GroupB;
 var arToolKitSource, arToolKitContext;
 var button,time = 0,flag = 0;
 var k = 0.05,angle=0;
 var opc = 0.5;
-var head,leftarm, torso, leftleg, rightarm ,rightleg;
+//var head,leftarm, torso, leftleg, rightarm ,rightleg;
 var gcontrol;
 //var raycaster, pickables;
 var manPos = new THREE.Vector3(),pos;
@@ -87,77 +88,132 @@ var button1,cubeSpin = false;
 var _iOSDevice;
 //var onRenderFcts= [];
 //var debugEnabled = false
-var theta1 = 0,
-  theta2 = 0,
-  theta3 = 0,
-  theta4 = 0,
-  theta5 = 0,
-  theta6 = 0,
-  theta7 = 0,
-  theta8 = 0,
-  theta9 = 0,
-  theta10 = 0;
-var pose1 = {
-        theta1: 1.2057796021989051,
-        theta2: 0,
-        theta3: 1.5,
-        theta4: 1,
-        theta5: -0.09110458090435114,
-        theta6: 0,
-        theta7: 0.24562074316608218,
-        theta8: -0.3575635264445681,
-        theta9: -0.33541054459782915,
-        theta10: -0.025268798743482757
+var Drumpose1 = {
+        Dtheta1: 1.2057796021989051,
+        Dtheta2: 0,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: -0.09110458090435114,
+        Dtheta6: 0,
+        Dtheta7: 0.24562074316608218,
+        Dtheta8: -0.3575635264445681,
+        Dtheta9: -0.33541054459782915,
+        Dtheta10: -0.025268798743482757
 	}
-var pose2 = {
-        theta1: 1.5,
-        theta2: 1,
-        theta3: 1.5,
-        theta4: 1,
-        theta5: 0.15700881577912607,
-        theta6: -0.268951599057612,
-        theta7: 0.2987878995982558,
-        theta8: -0.2911045809043511,
-        theta9: -0.24679861721087304,
-        theta10: -0.06957476243696081
+var Drumpose2 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0.15700881577912607,
+        Dtheta6: -0.268951599057612,
+        Dtheta7: 0.2987878995982558,
+        Dtheta8: -0.2911045809043511,
+        Dtheta9: -0.24679861721087304,
+        Dtheta10: -0.06957476243696081
 }
-var pose3 = {
-        theta1: 1.5,
-        theta2: 1,
-        theta3: 1.09501469296521,
-        theta4: 0,
-        theta5: 0.2987878995982558,
-        theta6: -0.3686400173679377,
-        theta7: -0.10882696638174227,
-        theta8: 0,
-        theta9: 0.48424978373151495,
-        theta10: 0.08549611049021233
+var Drumpose3 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.09501469296521,
+        Dtheta4: 0,
+        Dtheta5: 0.2987878995982558,
+        Dtheta6: -0.3686400173679377,
+        Dtheta7: -0.10882696638174227,
+        Dtheta8: 0,
+        Dtheta9: 0.48424978373151495,
+        Dtheta10: 0.08549611049021233
 }
-var pose4 = {
-        theta1: 1.5,
-        theta2: 1,
-        theta3: 1.5,
-        theta4: 1,
-        theta5: 0.1747312012565173,
-        theta6: -0.2911045809043511,
-        theta7: -0.09110458090435114,
-        theta8: 0,
-        theta9: 0.2184140015706466,
-        theta10: 0.17410803787716844
+var Drumpose4 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0.1747312012565173,
+        Dtheta6: -0.2911045809043511,
+        Dtheta7: -0.09110458090435114,
+        Dtheta8: 0,
+        Dtheta9: 0.2184140015706466,
+        Dtheta10: 0.17410803787716844
 }
 
-var keys = [
-  [0, pose4],
-  [0.250, pose1],
-  [0.500, pose2],
-  [0.750, pose3],
-  [1, pose4]
+var Cymbalpose1 = {
+        Ctheta1: 0.7,
+        Ctheta2: 1,
+        Ctheta3: 0.7,
+        Ctheta4: 1,
+        Ctheta5: 0,
+        Ctheta6: 0,
+        Ctheta7: 0,
+        Ctheta8: 0,
+        Ctheta9: 0,
+        Ctheta10: 0,
+        Ctheta11: 0.7500855658923833,
+        Ctheta12:  -0.7500855658923833,
+	}
+var Cymbalpose2 = {
+        Ctheta1: 0.7,
+        Ctheta2: 1,
+        Ctheta3: 0.7,
+        Ctheta4: 1,
+        Ctheta5: 0,
+        Ctheta6: 0,
+        Ctheta7: 0,
+        Ctheta8: 0,
+        Ctheta9: 0,
+        Ctheta10: 0,
+				Ctheta11: 0.37348487449781986,
+        Ctheta12: -0.33541054459782915
+}
+var Cymbalpose3 = {
+        Ctheta1: 0.7,
+        Ctheta2: 1,
+        Ctheta3: 0.7,
+        Ctheta4: 1,
+        Ctheta5: 0,
+        Ctheta6: 0,
+        Ctheta7: 0,
+        Ctheta8: 0,
+        Ctheta9: 0,
+        Ctheta10: 0,
+        Ctheta11: 0,
+        Ctheta12: 0
+}
+var Cymbalpose4 = {
+        Ctheta1: 0.7,
+        Ctheta2: 1,
+        Ctheta3: 0.7,
+        Ctheta4: 1,
+        Ctheta5: 0,
+        Ctheta6: 0,
+        Ctheta7: 0,
+        Ctheta8: 0,
+        Ctheta9: 0,
+        Ctheta10: 0,
+        Ctheta11:  0.24056698341738558,
+        Ctheta12: -0.268951599057612
+}
+
+
+var Drumkeys = [
+  [0, Drumpose4],
+  [0.250, Drumpose1],
+  [0.500, Drumpose2],
+  [0.750, Drumpose3],
+  [1, Drumpose4]
+];
+var Cymbalkeys = [
+  [0, Cymbalpose4],
+  [0.250, Cymbalpose1],
+  [0.500, Cymbalpose2],
+  [0.750, Cymbalpose3],
+  [1, Cymbalpose4]
 ];
 
 var T = 240/87;
 var clock = new THREE.Clock();
-var ts = clock.getElapsedTime();  // start time
-var intKey = [];
+var ts = clock.getElapsedTime(),tss = clock.getElapsedTime();  // start time
+var intKey1 = [], intKey2 = [];
 var soundTrack;
 var isDimming = false, soundVal = 1.0, sign = 1.0;
 ////////////////////////
@@ -226,76 +282,35 @@ function init() {
 	renderer.shadowMap.type = THREE.PCFSoftShadowMap
     renderer.shadowMap.enabled = true;
 
-	markerHiro = new THREE.Group();
-	var artoolkitMarker = new THREEx.ArMarkerControls(arToolkitContext, markerHiro, {
+	markerA = new THREE.Group();
+	var markerControlsA = new THREEx.ArMarkerControls(arToolkitContext, markerA, {
 		type : 'pattern',
-		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.hiro',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.Aletter',
 	})
-	scene.add (markerHiro);
-	HiroGroup = new THREE.Group();
-	markerHiro.add(HiroGroup);
-	let inHiro = addMarkerHiro();
-	HiroGroup.add(inHiro[0])
+	scene.add (markerA);
+	GroupA = new THREE.Group();
+	markerA.add(GroupA);
+	let inA = addMarkerA();
+	GroupA.add(inA[0])
 
 
-	markerKanji = new THREE.Group();
-	var markerControls = new THREEx.ArMarkerControls(arToolkitContext, markerKanji, {
+	markerB = new THREE.Group();
+	var markerControlsB = new THREEx.ArMarkerControls(arToolkitContext, markerB, {
 		type : 'pattern',
-		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.kanji',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.Bletter',
 	})
-	scene.add (markerKanji);
-	KanjiGroup = new THREE.Group();
-	markerKanji.add(KanjiGroup);
+	scene.add (markerB);
+	GroupB = new THREE.Group();
+	markerB.add(GroupB);
 
-	let inKanji = addMarkerKanji();
-	KanjiGroup.add(inKanji[0])
+	let inB = addMarkerB();
+	GroupB.add(inB[0])
 
-	mine = new THREE.Group();
-	//HiroGroup.add(mine);
-	head = makeHead();
-	torso = makeTorso();
-	mine.add (torso);
-	head.position.y = 7.57*k-4.09*k;
-	torso.position.y = 4.09*k;
-	torso.add(head);
+  men[0] = buildDrumMan();
+  men[1] = buildCymbalMan();
 
-	leftarm = makeArm();
-	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
-	leftarm[0].add(leftarm[1]);
-	leftarm[1].add(leftarm[2]);
-	torso.add (leftarm[0]);
-	
-	rightarm = makeArm();
-	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
-	rightarm[0].add(rightarm[1]);
-	rightarm[1].add(rightarm[2]);
-	torso.add(rightarm[0]);
-
-	leftleg = makeLeg();
-	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
-	leftleg[0].add(leftleg[1]);
-	torso.add(leftleg[0]);
-
-
-	rightleg = makeLeg();
-	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
-	rightleg[0].add(rightleg[1]);
-	torso.add(rightleg[0]);
-
-	mine.rotation.y=-Math.PI/2;	
-	mine.position.y=0.01;
-	leftarm[0].rotation.z = -Math.PI/2;
-	rightarm[0].rotation.z = -Math.PI/2;
-	leftleg[0].rotation.z = -Math.PI/2;
-	rightleg[0].rotation.z = -Math.PI/2;
-	
-	leftarm[0].rotation.order = 'ZYX';
-	rightarm[0].rotation.order = 'ZYX';
-	leftleg[0].rotation.order = 'ZYX';
-	rightleg[0].rotation.order = 'ZYX';
-	
 	let drum = buildDrum();
-	HiroGroup.add(drum);
+	GroupA.add(drum);
 	
 	
 	var geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
@@ -305,49 +320,20 @@ function init() {
 	circle.position.y=0.01;
 	scene.add(circle);
 	/////////////////////
-	gcontrol = {
-		theta1: 0.01,
-		theta2: 0.01,
-		theta3: 0.01,
-		theta4: 0.01,
-		theta5: 0.01,
-		theta6: 0.01,
-		theta7: 0.01,
-		theta8: 0.01,
-		theta9: 0.01,
-		theta10: 0.01,
-		theta11: 0.01,
-		theta12: 0.01,
-	};
-
-	var gui = new dat.GUI({load:loadJSON(), preset:'key1'});
-	gui.domElement.id = 'gui';
-	
-	gui.remember (gcontrol);
-	
-	gui.add(gcontrol, 'theta1', -0.5, 1.5);
-	gui.add(gcontrol, 'theta2', 0, 1);
-	gui.add(gcontrol, 'theta3', -0.5, 1.5);
-	gui.add(gcontrol, 'theta4', 0, 1);
-	gui.add(gcontrol, 'theta5', -0.8, 0.8);
-	gui.add(gcontrol, 'theta6', -1, 0);
-	gui.add(gcontrol, 'theta7', -0.8, 0.8);
-	gui.add(gcontrol, 'theta8', -1, 0);
-	gui.add(gcontrol, 'theta9', -1, 1);
-	gui.add(gcontrol, 'theta10', -1, 1); 
+	/*var gui1 = new dat.GUI({load:DrumJSON(), preset:'key1'});
+	gui1.domElement.id = 'gui';
+	var gui2 = new dat.GUI({load:CymbalJSON(), preset:'key1'});
+	gui2.domElement.id = 'gui';*/
   ///////////////////////////////////////
-		car= new THREE.Group();
-    tire1=buildtire();
-    tire1.position.set(0,0.1,0.15);
-    tire2=buildtire();
-    tire2.position.set(0,0.1,-0.15);
-    var material = new THREE.MeshBasicMaterial( { color:'black',side:THREE.DoubleSide } );
-  	box = new THREE.Mesh (new THREE.BoxGeometry(0.2, 0.15, 0.02), material); 
-    box.rotation.set(Math.PI/2,0,Math.PI/2);
-    box.position.set(0,0.1,0);
-    car.add(tire1,tire2,box,mine);
-    HiroGroup.add(car);
+		car[0] = buildcar();
+    men[0][0].position.set(0,0.1,0);
+    car[0].add(men[0][0]);
 
+    car[1] = buildcar();
+    men[1][0].position.set(0,0.1,0);
+    car[1].add(men[1][0]);
+    GroupA.add(car[0]);
+    GroupB.add(car[1]);
 
 	var ambient = new THREE.AmbientLight( 0x666666 );
 	scene.add(ambient)
@@ -382,8 +368,127 @@ function onResize(){
 		cameraHUD.top = halfH;
 		cameraHUD.bottom = -halfH;
 	}	
+function buildDrumMan(){
+  mine = new THREE.Group();
+	//GroupA.add(mine);
+	head = makeHead();
+	torso = makeTorso();
+	mine.add(torso);
+	head.position.y = 7.57*k-4.09*k;
+	torso.position.y = 4.09*k;
+	torso.add(head);
 
-function addMarkerKanji () {
+	leftarm = makeArm();
+  let geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.1, 32 );
+  let material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
+  stick1= new THREE.Mesh( geometry, material );
+	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
+	leftarm[0].add(leftarm[1]);
+	leftarm[1].add(stick1);
+	torso.add (leftarm[0]);
+  stick1.position.set(2*k,0,-0.05);
+  stick1.rotation.x=Math.PI/2;
+  stick1.castShadow = true;
+  stick1.receiveShadow = true;
+
+	rightarm = makeArm();
+  geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.1, 32 );
+  material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
+  stick2= new THREE.Mesh( geometry, material );
+	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
+	rightarm[0].add(rightarm[1]);
+	rightarm[1].add(stick2);
+	torso.add(rightarm[0]);
+  stick2.position.set(2*k,0,-0.05);
+  stick2.rotation.x=Math.PI/2;
+  stick2.castShadow = true;
+  stick2.receiveShadow = true;
+
+	leftleg = makeLeg();
+	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
+	leftleg[0].add(leftleg[1]);
+	torso.add(leftleg[0]);
+
+
+	rightleg = makeLeg();
+	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
+	rightleg[0].add(rightleg[1]);
+	torso.add(rightleg[0]);
+
+	mine.rotation.y=-Math.PI/2;	
+	mine.position.y=0.01;
+	leftarm[0].rotation.z = -Math.PI/2;
+	rightarm[0].rotation.z = -Math.PI/2;
+	leftleg[0].rotation.z = -Math.PI/2;
+	rightleg[0].rotation.z = -Math.PI/2;
+	
+	leftarm[0].rotation.order = 'ZYX';
+	rightarm[0].rotation.order = 'ZYX';
+	leftleg[0].rotation.order = 'ZYX';
+	rightleg[0].rotation.order = 'ZYX';
+  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
+}
+function buildCymbalMan(){
+  mine = new THREE.Group();
+	//GroupA.add(mine);
+	head = makeHead();
+	torso = makeTorso();
+	mine.add(torso);
+	head.position.y = 7.57*k-4.09*k;
+	torso.position.y = 4.09*k;
+	torso.add(head);
+
+	leftarm = makeArm();
+  let geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
+  let material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
+  cymbal1= new THREE.Mesh( geometry, material );
+	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
+	leftarm[0].add(leftarm[1]);
+	leftarm[1].add(cymbal1);
+	torso.add (leftarm[0]);
+  cymbal1.position.set(2*k,0.03,0);
+  cymbal1.rotation.z=-Math.PI/4;
+  cymbal1.castShadow = true;
+  cymbal1.receiveShadow = true;
+
+	rightarm = makeArm();
+  geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
+  material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
+  cymbal2= new THREE.Mesh( geometry, material );
+	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
+	rightarm[0].add(rightarm[1]);
+	rightarm[1].add(cymbal2);
+	torso.add(rightarm[0]);
+  cymbal2.position.set(2*k,-0.03,0);
+  cymbal2.rotation.z=Math.PI/5;
+  cymbal2.castShadow = true;
+  cymbal2.receiveShadow = true;
+
+	leftleg = makeLeg();
+	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
+	leftleg[0].add(leftleg[1]);
+	torso.add(leftleg[0]);
+
+
+	rightleg = makeLeg();
+	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
+	rightleg[0].add(rightleg[1]);
+	torso.add(rightleg[0]);
+
+	mine.rotation.y=-Math.PI/2;	
+	mine.position.y=0.01;
+	leftarm[0].rotation.z = -Math.PI/2;
+	rightarm[0].rotation.z = -Math.PI/2;
+	leftleg[0].rotation.z = -Math.PI/2;
+	rightleg[0].rotation.z = -Math.PI/2;
+	
+	leftarm[0].rotation.order = 'ZYX';
+	rightarm[0].rotation.order = 'ZYX';
+	leftleg[0].rotation.order = 'ZYX';
+	rightleg[0].rotation.order = 'ZYX';
+  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
+}
+function addMarkerB () {
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
 	planematerial.opacity = 0.6; 
 	let planegeometry = new THREE.PlaneGeometry(1, 1)
@@ -396,7 +501,7 @@ function addMarkerKanji () {
 	//markerRootKanji.add (gridXZ);
 	return [planeMesh];
 }
-function addMarkerHiro(){
+function addMarkerA(){
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
 	planematerial.opacity = 0.6; 
 	let planegeometry = new THREE.PlaneGeometry(1, 1)
@@ -409,43 +514,52 @@ function addMarkerHiro(){
 }	
 function update() {
    // o1, x1, z1
-   let o1 = markerHiro.position.clone();
-   let x1 = markerHiro.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
-   let z1 = markerHiro.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
+   let o1 = markerA.position.clone();
+   let x1 = markerA.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
+   let z1 = markerA.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
    
    // o2, x2, z2
-   let o2 = markerKanji.position.clone();
-   let x2 = markerKanji.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
-   let z2 = markerKanji.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
+   let o2 = markerB.position.clone();
+   let x2 = markerB.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
+   let z2 = markerB.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
    
    // box position (eye coord)
-  /*manPosEye = markerHiro.localToWorld (manPos.clone());
+  /*manPosEye = markerA.localToWorld (manPos.clone());
   let manPos2 = manPosEye.sub (o2);
-  HiroGroup.children[2].position.x = manPos2.dot (x2);   
-  HiroGroup.children[2].position.z = manPos2.dot (z2); */
-  if ( markerHiro.visible && markerKanji.visible ){
+  GroupA.children[2].position.x = manPos2.dot (x2);   
+  GroupA.children[2].position.z = manPos2.dot (z2); */
+  
     if(time<=1&& flag == 0){
-      time +=0.02
-      if(time>1)flag = 1;
+      time +=0.005
+      if(time>1){
+        GroupA.children[2].rotation.y += Math.PI;
+        GroupB.children[1].rotation.y += Math.PI;
+        flag = 1;
+      }
     }
     if(time>=0&&flag){
-      time -=0.02
-      if(time<0)flag = 0;
+      time -=0.005
+      if(time<0){
+        GroupA.children[2].rotation.y += Math.PI;
+        GroupB.children[1].rotation.y += Math.PI;
+        flag = 0;
+      }
     }
     let pos = Path( o1.clone(), o2.clone(), time );
     manPosEye = pos.clone();
-    let manPos2 = manPosEye.sub (o2.clone());
-    //HiroGroup.children[2].position.copy(manPos2);
-    HiroGroup.children[2].position.x = -1*manPos2.dot (x2);   
-    HiroGroup.children[2].position.z = -1*manPos2.dot (z2); 
-  }
+    let manPos2 = manPosEye.sub (o2);
+    //GroupA.children[2].position.copy(manPos2);
+    GroupB.children[1].position.x = manPos2.dot (x2);   
+    GroupB.children[1].position.z = manPos2.dot (z2); 
+    //GroupB.children[1].position.copy(manPos);
+    GroupA.children[2].position.copy(GroupB.children[1].position);
 }
   function Evaluate(o1, o2, t)
     {
         return (1-t)*o1 + t*o2;
     }
 
-    function Path( pointStart, pointEnd, time )
+function Path( pointStart, pointEnd, time )
     {
         //let pointMiddle = new THREE.Vector3().addVectors( pointStart, pointEnd ).multiplyScalar(0.5).add( new THREE.Vector3(0,2,0) );
         return new THREE.Vector3(
@@ -496,15 +610,10 @@ function makeArm() {
   uparm = new THREE.Mesh (new THREE.BoxGeometry(1.91*k, 1.20*k, 1.20*k), material); 
   var material = new THREE.MeshLambertMaterial( { color:'white'} );
   dowmarm = new THREE.Mesh (new THREE.BoxGeometry(1.91*k, 1.10*k, 1.10*k), material);
-  var geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.1, 32 );
-  var material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
-  stick= new THREE.Mesh( geometry, material );
   let armtexture=buildarm();
   armtexture.rotation.z=Math.PI/2;
   armtexture.position.x = 1.91*k/2;
-  stick.position.set(2*k,0,-0.05);
-  stick.rotation.x=Math.PI/2;
-  group2.add(dowmarm,armtexture,stick);
+  group2.add(dowmarm,armtexture);
   group.add (uparm,group2);
   uparm.position.x = 1.91*k/2;
   dowmarm.position.x = 1.91*k/2;
@@ -513,12 +622,9 @@ function makeArm() {
   uparm.receiveShadow = true;
   dowmarm.castShadow = true;
   dowmarm.receiveShadow = true;
-  stick.castShadow = true;
-  stick.receiveShadow = true;
-
   //group.add (new THREE.AxesHelper (k));
   //group2.add (new THREE.AxesHelper (k));
-	return [group,group2,stick];
+	return [group,group2];
 }
 
 function makeLeg() {
@@ -572,29 +678,51 @@ return group;
 
 }
 
-function keyframe(t) {
+function Drumkeyframe(t) {
   var s = ((t - ts) % T) / T;
 
-  for (var i = 1; i < keys.length; i++) {
-    if (keys[i][0] > s) break;
+  for (var i = 1; i < Drumkeys.length; i++) {
+    if (Drumkeys[i][0] > s) break;
   }
   // take i-1
   var ii = i - 1;
-  var a = (s - keys[ii][0]) / (keys[ii + 1][0] - keys[ii][0]);
-  intKey = [keys[ii][1].theta1 * (1 - a) + keys[ii + 1][1].theta1 * a,
-            keys[ii][1].theta2 * (1 - a) + keys[ii + 1][1].theta2 * a,
-            keys[ii][1].theta3 * (1 - a) + keys[ii + 1][1].theta3 * a,
-            keys[ii][1].theta4 * (1 - a) + keys[ii + 1][1].theta4 * a,
-            keys[ii][1].theta5 * (1 - a) + keys[ii + 1][1].theta5 * a,
-            keys[ii][1].theta6 * (1 - a) + keys[ii + 1][1].theta6 * a,
-            keys[ii][1].theta7 * (1 - a) + keys[ii + 1][1].theta7 * a,
-            keys[ii][1].theta8 * (1 - a) + keys[ii + 1][1].theta8 * a,
-            keys[ii][1].theta9 * (1 - a) + keys[ii + 1][1].theta9 * a,
-            keys[ii][1].theta10 * (1 - a) + keys[ii + 1][1].theta10 * a
+  var a = (s - Drumkeys[ii][0]) / (Drumkeys[ii + 1][0] - Drumkeys[ii][0]);
+  intKey1 = [Drumkeys[ii][1].Dtheta1 * (1 - a) + Drumkeys[ii + 1][1].Dtheta1 * a,
+            Drumkeys[ii][1].Dtheta2 * (1 - a) + Drumkeys[ii + 1][1].Dtheta2 * a,
+            Drumkeys[ii][1].Dtheta3 * (1 - a) + Drumkeys[ii + 1][1].Dtheta3 * a,
+            Drumkeys[ii][1].Dtheta4 * (1 - a) + Drumkeys[ii + 1][1].Dtheta4 * a,
+            Drumkeys[ii][1].Dtheta5 * (1 - a) + Drumkeys[ii + 1][1].Dtheta5 * a,
+            Drumkeys[ii][1].Dtheta6 * (1 - a) + Drumkeys[ii + 1][1].Dtheta6 * a,
+            Drumkeys[ii][1].Dtheta7 * (1 - a) + Drumkeys[ii + 1][1].Dtheta7 * a,
+            Drumkeys[ii][1].Dtheta8 * (1 - a) + Drumkeys[ii + 1][1].Dtheta8 * a,
+            Drumkeys[ii][1].Dtheta9 * (1 - a) + Drumkeys[ii + 1][1].Dtheta9 * a,
+            Drumkeys[ii][1].Dtheta10 * (1 - a) + Drumkeys[ii + 1][1].Dtheta10 * a
   ];
 
 }
+function Cymbalkeyframe(t) {
+  var s = ((t - tss) % T) / T;
 
+  for (var i = 1; i < Cymbalkeys.length; i++) {
+    if (Cymbalkeys[i][0] > s) break;
+  }
+  // take i-1
+  var ii = i - 1;
+  var a = (s - Cymbalkeys[ii][0]) / (Cymbalkeys[ii + 1][0] - Cymbalkeys[ii][0]);
+  intKey2 = [Cymbalkeys[ii][1].Ctheta1 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta1 * a,
+            Cymbalkeys[ii][1].Ctheta2 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta2 * a,
+            Cymbalkeys[ii][1].Ctheta3 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta3 * a,
+            Cymbalkeys[ii][1].Ctheta4 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta4 * a,
+            Cymbalkeys[ii][1].Ctheta5 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta5 * a,
+            Cymbalkeys[ii][1].Ctheta6 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta6 * a,
+            Cymbalkeys[ii][1].Ctheta7 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta7 * a,
+            Cymbalkeys[ii][1].Ctheta8 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta8 * a,
+            Cymbalkeys[ii][1].Ctheta9 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta9 * a,
+            Cymbalkeys[ii][1].Ctheta10 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta10 * a,
+            Cymbalkeys[ii][1].Ctheta11 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta11 * a,
+            Cymbalkeys[ii][1].Ctheta12 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta12 * a
+  ];
+}
 function buildface() {
   let geometry = new THREE.Geometry();
   geometry.vertices.push(
@@ -733,7 +861,6 @@ function buildarm() {
     }));
   return new THREE.Mesh(geometry, materialArray);
 }
-
 function buildtire() {
 
 		var loader = new THREE.TextureLoader();
@@ -770,6 +897,19 @@ colormap2.wrapS = colormap2.wrapT = THREE.RepeatWrapping;
     carmesh2.castShadow = true;
     carmesh2.receiveShadow = true;
     return tire;
+}
+function buildcar(){
+  var c= new THREE.Group();
+    tire1=buildtire();
+    tire1.position.set(0,0.1,0.15);
+    tire2=buildtire();
+    tire2.position.set(0,0.1,-0.15);
+    var material = new THREE.MeshBasicMaterial( { color:'black',side:THREE.DoubleSide } );
+  	box = new THREE.Mesh (new THREE.BoxGeometry(0.2, 0.15, 0.02), material); 
+    box.rotation.set(Math.PI/2,0,Math.PI/2);
+    box.position.set(0,0.1,0);
+    c.add(tire1,tire2,box);
+  return c;
 }
 function buildDrum(){
 	drumgroup = new THREE.Group();
@@ -828,92 +968,43 @@ function animate() {
 	renderer.clear();
 	renderer.render( scene, camera );
   stats.update();
-	//button.material.visible = markerHiro.visible;
+	//button.material.visible = markerA.visible;
 	scene.visible = camera.visible
 	renderer.render (sceneHUD, cameraHUD);
-	update();
-  keyframe(clock.getElapsedTime()); 
-  leftarm[0].rotation.y = intKey[0];//gcontrol.theta1;
-  leftarm[1].rotation.y = intKey[1];//gcontrol.theta2;
-  rightarm[0].rotation.y = intKey[2];//gcontrol.theta3;
-  rightarm[1].rotation.y = intKey[3];//gcontrol.theta4;
-  leftleg[0].rotation.y = intKey[4];//gcontrol.theta5;
-  leftleg[1].rotation.y = intKey[5];//gcontrol.theta6;
-  rightleg[0].rotation.y =intKey[6];//gcontrol.theta7;
-  rightleg[1].rotation.y =intKey[7];//gcontrol.theta8;
-	head.rotation.y= intKey[8];//gcontrol.theta9;
-  torso.rotation.y = intKey[9];//gcontrol.theta10;
-  //HiroGroup.children[0].material.visible = false;
+  if ( markerA.visible && markerB.visible ){
+    update();
+  }
+  if(markerA.visible){
+    Drumkeyframe(clock.getElapsedTime()); 
+    men[0][3].rotation.y = intKey1[0];//gcontrol.theta1;
+    men[0][4].rotation.y = intKey1[1];//gcontrol.theta2;
+    men[0][5].rotation.y = intKey1[2];//gcontrol.theta3;
+    men[0][6].rotation.y = intKey1[3];//gcontrol.theta4;
+    men[0][7].rotation.y = intKey1[4];//gcontrol.theta5;
+    men[0][8].rotation.y = intKey1[5];//gcontrol.theta6;
+    men[0][9].rotation.y =intKey1[6];//gcontrol.theta7;
+    men[0][10].rotation.y =intKey1[7];//gcontrol.theta8;
+    men[0][1].rotation.y= intKey1[8];//gcontrol.theta9;
+    men[0][2].rotation.y = intKey1[9];//gcontrol.theta10;
+  }
+  if(markerB.visible){
+    Cymbalkeyframe(clock.getElapsedTime()); 
+    men[1][3].rotation.y = intKey2[0];//gcontrol.theta1;
+    men[1][4].rotation.y = intKey2[1];//gcontrol.theta2;
+    men[1][5].rotation.y = intKey2[2];//gcontrol.theta3;
+    men[1][6].rotation.y = intKey2[3];//gcontrol.theta4;
+    men[1][7].rotation.y = intKey2[4];//gcontrol.theta5;
+    men[1][8].rotation.y = intKey2[5];//gcontrol.theta6;
+    men[1][9].rotation.y = intKey2[6];//gcontrol.theta7;
+    men[1][10].rotation.y = intKey2[7];//gcontrol.theta8;
+    men[1][1].rotation.y = intKey2[8];//gcontrol.theta9;
+    men[1][2].rotation.y = intKey2[9];//gcontrol.theta10;
+    men[1][4].rotation.z = intKey2[10];//gcontrol.theta11;
+    men[1][6].rotation.z = intKey2[11];//gcontrol.theta12;
+  }
+  //GroupA.children[0].material.visible = false;
 	if (cubeSpin)
-		markerHiro.children[0].rotation.x += 0.1
-}
-function loadJSON() {
-	return{
-  "preset": "key1",
-  "remembered": {
-    "Default": {
-      "0": {}
-    },
-    "key1": {
-      "0": {
-        "theta1": 1.2057796021989051,
-        "theta2": 0,
-        "theta3": 1.5,
-        "theta4": 1,
-        "theta5": -0.09110458090435114,
-        "theta6": 0,
-        "theta7": 0.24562074316608218,
-        "theta8": -0.3575635264445681,
-        "theta9": -0.33541054459782915,
-        "theta10": -0.025268798743482757
-      }
-    },
-    "key2": {
-      "0": {
-        "theta1": 1.5,
-        "theta2": 1,
-        "theta3": 1.5,
-        "theta4": 1,
-        "theta5": 0.15700881577912607,
-        "theta6": -0.268951599057612,
-        "theta7": 0.2987878995982558,
-        "theta8": -0.2911045809043511,
-        "theta9": -0.24679861721087304,
-        "theta10": -0.06957476243696081
-      }
-    },
-    "key3": {
-      "0": {
-        "theta1": 1.5,
-        "theta2": 1,
-        "theta3": 1.09501469296521,
-        "theta4": 0,
-        "theta5": 0.2987878995982558,
-        "theta6": -0.3686400173679377,
-        "theta7": -0.10882696638174227,
-        "theta8": 0,
-        "theta9": 0.48424978373151495,
-        "theta10": 0.08549611049021233
-      }
-    },
-    "key4": {
-      "0": {
-        "theta1": 1.5,
-        "theta2": 1,
-        "theta3": 1.5,
-        "theta4": 1,
-        "theta5": 0.1747312012565173,
-        "theta6": -0.2911045809043511,
-        "theta7": -0.09110458090435114,
-        "theta8": 0,
-        "theta9": 0.2184140015706466,
-        "theta10": 0.17410803787716844
-      }
-    }
-  },
-  "closed": false,
-  "folders": {}
-}
+		markerA.children[0].rotation.x += 0.1
 }
 
 </script></body>
