@@ -72,7 +72,7 @@ class Button {
 // global variables
 var renderer,stats;
 var scene, camera,sceneHUD, cameraHUD;
-var markerA, markerB;
+var markerA, markerB,markerC;
 var men = [],car = [];
 var GroupA,GroupB;
 var arToolKitSource, arToolKitContext;
@@ -290,10 +290,25 @@ function init() {
 	scene.add (markerA);
 	GroupA = new THREE.Group();
 	markerA.add(GroupA);
+
 	let inA = addMarkerA();
-	GroupA.add(inA[0])
+	GroupA.add(inA[0],inA[1])
+    men[0] = buildWalkMan();
+    men[1] = buildDrumMan();
+	let drum = buildDrum();
+  drum.rotation.y = Math.PI/2;
+	GroupA.add(drum);
 
-
+  car[0] = buildcar();
+  men[0][0].position.set(0,0.1,0);
+  car[0].add(men[0][0]);
+  car[0].rotation.y = Math.PI/2;
+  GroupA.add(car[0]);
+  car[1] = buildcar();
+  men[1][0].position.set(0,0.1,0);
+  car[1].add(men[1][0]);
+  car[1].rotation.y = Math.PI/2;
+  GroupA.add(car[1]);
 	markerB = new THREE.Group();
 	var markerControlsB = new THREEx.ArMarkerControls(arToolkitContext, markerB, {
 		type : 'pattern',
@@ -304,36 +319,31 @@ function init() {
 	markerB.add(GroupB);
 
 	let inB = addMarkerB();
-	GroupB.add(inB[0])
+	GroupB.add(inB[0],inB[1])
+  men[2] = buildCymbalMan();
+  car[2] = buildcar();
+  men[2][0].position.set(0,0.1,0);
+  car[2].add(men[2][0]);
+  car[2].rotation.y = -Math.PI/2;
+  GroupB.add(car[2]);
+	markerC = new THREE.Group();
+	var markerControlsB = new THREEx.ArMarkerControls(arToolkitContext, markerC, {
+		type : 'pattern',
+		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.Cletter',
+	})
+	scene.add (markerC);
+	GroupC = new THREE.Group();
+	markerC.add(GroupC);
 
-  men[0] = buildDrumMan();
-  men[1] = buildCymbalMan();
-
-	let drum = buildDrum();
-	GroupA.add(drum);
+    let inC = addMarkerC();
+	GroupC.add(inC[0],inC[1])
 	
-	
-	var geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
-		var material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
-	circle = new THREE.Mesh( geometry, material );
-	circle.rotation.x=-Math.PI/2;
-	circle.position.y=0.01;
-	scene.add(circle);
 	/////////////////////
 	/*var gui1 = new dat.GUI({load:DrumJSON(), preset:'key1'});
 	gui1.domElement.id = 'gui';
 	var gui2 = new dat.GUI({load:CymbalJSON(), preset:'key1'});
 	gui2.domElement.id = 'gui';*/
   ///////////////////////////////////////
-		car[0] = buildcar();
-    men[0][0].position.set(0,0.1,0);
-    car[0].add(men[0][0]);
-
-    car[1] = buildcar();
-    men[1][0].position.set(0,0.1,0);
-    car[1].add(men[1][0]);
-    GroupA.add(car[0]);
-    GroupB.add(car[1]);
 
 	var ambient = new THREE.AmbientLight( 0x666666 );
 	scene.add(ambient)
@@ -429,7 +439,7 @@ function buildDrumMan(){
   return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
 }
 function buildCymbalMan(){
-  mine = new THREE.Group();
+    mine = new THREE.Group();
 	//GroupA.add(mine);
 	head = makeHead();
 	torso = makeTorso();
@@ -439,36 +449,78 @@ function buildCymbalMan(){
 	torso.add(head);
 
 	leftarm = makeArm();
-  let geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
-  let material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
-  cymbal1= new THREE.Mesh( geometry, material );
+    let geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
+    let material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
+    cymbal1= new THREE.Mesh( geometry, material );
 	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
 	leftarm[0].add(leftarm[1]);
 	leftarm[1].add(cymbal1);
 	torso.add (leftarm[0]);
-  cymbal1.position.set(2*k,0.03,0);
-  cymbal1.rotation.z=-Math.PI/4;
-  cymbal1.castShadow = true;
-  cymbal1.receiveShadow = true;
+    cymbal1.position.set(2*k,0.03,0);
+    cymbal1.rotation.z=-Math.PI/4;
+    cymbal1.castShadow = true;
+    cymbal1.receiveShadow = true;
 
 	rightarm = makeArm();
-  geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
-  material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
-  cymbal2= new THREE.Mesh( geometry, material );
+    geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
+    material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
+    cymbal2= new THREE.Mesh( geometry, material );
 	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
 	rightarm[0].add(rightarm[1]);
 	rightarm[1].add(cymbal2);
 	torso.add(rightarm[0]);
-  cymbal2.position.set(2*k,-0.03,0);
-  cymbal2.rotation.z=Math.PI/5;
-  cymbal2.castShadow = true;
-  cymbal2.receiveShadow = true;
+    cymbal2.position.set(2*k,-0.03,0);
+    cymbal2.rotation.z=Math.PI/5;
+    cymbal2.castShadow = true;
+    cymbal2.receiveShadow = true;
 
 	leftleg = makeLeg();
 	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
 	leftleg[0].add(leftleg[1]);
 	torso.add(leftleg[0]);
 
+	rightleg = makeLeg();
+	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
+	rightleg[0].add(rightleg[1]);
+	torso.add(rightleg[0]);
+
+	mine.rotation.y=-Math.PI/2;	
+	mine.position.y=0.01;
+	leftarm[0].rotation.z = -Math.PI/2;
+	rightarm[0].rotation.z = -Math.PI/2;
+	leftleg[0].rotation.z = -Math.PI/2;
+	rightleg[0].rotation.z = -Math.PI/2;
+	
+	leftarm[0].rotation.order = 'ZYX';
+	rightarm[0].rotation.order = 'ZYX';
+	leftleg[0].rotation.order = 'ZYX';
+	rightleg[0].rotation.order = 'ZYX';
+  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
+}
+function buildWalkMan(){
+    mine = new THREE.Group();
+	//GroupA.add(mine);
+	head = makeHead();
+	torso = makeTorso();
+	mine.add(torso);
+	head.position.y = 7.57*k-4.09*k;
+	torso.position.y = 4.09*k;
+	torso.add(head);
+
+	leftarm = makeArm();
+	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
+	leftarm[0].add(leftarm[1]);
+	torso.add (leftarm[0]);
+
+	rightarm = makeArm();
+	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
+	rightarm[0].add(rightarm[1]);
+	torso.add(rightarm[0]);
+
+	leftleg = makeLeg();
+	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
+	leftleg[0].add(leftleg[1]);
+	torso.add(leftleg[0]);
 
 	rightleg = makeLeg();
 	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
@@ -497,9 +549,14 @@ function addMarkerB () {
 	planeMesh.depthWrite = false;
 	planeMesh.rotation.x = -Math.PI/2
 	/// add gridhelper
+    let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
+	let material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
+	circle = new THREE.Mesh( geometry, material );
+	circle.rotation.x=-Math.PI/2;
+	circle.position.y=0.01;
 	var gridXZ = new THREE.GridHelper(1,10);
 	//markerRootKanji.add (gridXZ);
-	return [planeMesh];
+	return [planeMesh,circle];
 }
 function addMarkerA(){
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
@@ -509,65 +566,77 @@ function addMarkerA(){
 	planeMesh.receiveShadow = true;
 	planeMesh.depthWrite = false;
 	planeMesh.rotation.x = -Math.PI/2
-
-	return [planeMesh];
+    let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
+	let material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
+	circle = new THREE.Mesh( geometry, material );
+	circle.rotation.x=-Math.PI/2;
+	circle.position.y=0.01;
+	return [planeMesh,circle];
+}	
+function addMarkerC(){
+	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
+	planematerial.opacity = 0.6; 
+	let planegeometry = new THREE.PlaneGeometry(1, 1)
+	let planeMesh = new THREE.Mesh( planegeometry, planematerial);
+	planeMesh.receiveShadow = true;
+	planeMesh.depthWrite = false;
+	planeMesh.rotation.x = -Math.PI/2
+    let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
+	let material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
+	circle = new THREE.Mesh( geometry, material );
+	circle.rotation.x=-Math.PI/2;
+	circle.position.y=0.01;
+	return [planeMesh,circle];
 }	
 function update() {
    // o1, x1, z1
    let o1 = markerA.position.clone();
    let x1 = markerA.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
    let z1 = markerA.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
-   
+   let Az = markerA.localToWorld (new THREE.Vector3(0,0,-1)).sub(o1);
    // o2, x2, z2
    let o2 = markerB.position.clone();
    let x2 = markerB.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
    let z2 = markerB.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
-   
-   // box position (eye coord)
-  /*manPosEye = markerA.localToWorld (manPos.clone());
-  let manPos2 = manPosEye.sub (o2);
-  GroupA.children[2].position.x = manPos2.dot (x2);   
-  GroupA.children[2].position.z = manPos2.dot (z2); */
-  
-    if(time<=1&& flag == 0){
-      time +=0.005
-      if(time>1){
-        GroupA.children[2].rotation.y += Math.PI;
-        GroupB.children[1].rotation.y += Math.PI;
-        flag = 1;
-      }
-    }
-    if(time>=0&&flag){
+   let Bz = markerB.localToWorld (new THREE.Vector3(0,0,-1)).sub(o2);
+    /*if(time>=0&&flag){
       time -=0.005
-      if(time<0){
-        GroupA.children[2].rotation.y += Math.PI;
-        GroupB.children[1].rotation.y += Math.PI;
+      if(time<0)
         flag = 0;
+    }*/ 
+
+    let manPosEye = markerA.localToWorld (manPos.clone());
+    let manPos2 = manPosEye.sub (o2);
+    let s = manPos2.sub(manPos);
+    if(time==0){
+      a = Az.clone().angleTo(s);
+      while(a>0){
+        GroupA.children[3].rotation.y += 0.0002;
+        a-=0.0002;
       }
     }
-    let pos = Path( o1.clone(), o2.clone(), time );
-    manPosEye = pos.clone();
-    let manPos2 = manPosEye.sub (o2);
-    //GroupA.children[2].position.copy(manPos2);
-    GroupB.children[1].position.x = manPos2.dot (x2);   
-    GroupB.children[1].position.z = manPos2.dot (z2); 
-    //GroupB.children[1].position.copy(manPos);
-    GroupA.children[2].position.copy(GroupB.children[1].position);
-}
-  function Evaluate(o1, o2, t)
-    {
-        return (1-t)*o1 + t*o2;
+    if(time<=1){
+      time +=0.005
     }
+    let p = manPos.clone().multiplyScalar(1-time).add(manPos2.clone().multiplyScalar(time));
+    //let p = s.clone().multiplyScalar(time);
+    //let pos = s.sub(p)
+    //console.log(a);
+    GroupA.children[3].position.x = -p.x;  
+    GroupA.children[3].position.y = 0; 
+    GroupA.children[3].position.z = -p.z; 
+    if(time==1){
+      b = s.clone().angleTo(Bz);
+      while(b>0){
+        GroupA.children[3].rotation.y -= 0.0002;
+        //GroupB.children[].rotation.y += 0.0002;
+        //GroupA.children[3].rotation.y += 0.0002;
+        b-=0.0002;
+      }
+    }
+    //console.log(GroupA.children[3].position);
 
-function Path( pointStart, pointEnd, time )
-    {
-        //let pointMiddle = new THREE.Vector3().addVectors( pointStart, pointEnd ).multiplyScalar(0.5).add( new THREE.Vector3(0,2,0) );
-        return new THREE.Vector3(
-            Evaluate( pointStart.x, pointEnd.x, time ),
-            Evaluate( pointStart.y, pointEnd.y, time ),
-            Evaluate( pointStart.z, pointEnd.z, time )
-        );
-    }
+}
 function pickCompute (ndcX, ndcY) {
 	// use 2D algorithm 	
 	let dist = button1.dInfTo ([halfW * ndcX, halfH * ndcY]);	
@@ -975,33 +1044,73 @@ function animate() {
     update();
   }
   if(markerA.visible){
+    GroupA.children[4].visible = true;
     Drumkeyframe(clock.getElapsedTime()); 
-    men[0][3].rotation.y = intKey1[0];//gcontrol.theta1;
-    men[0][4].rotation.y = intKey1[1];//gcontrol.theta2;
-    men[0][5].rotation.y = intKey1[2];//gcontrol.theta3;
-    men[0][6].rotation.y = intKey1[3];//gcontrol.theta4;
-    men[0][7].rotation.y = intKey1[4];//gcontrol.theta5;
-    men[0][8].rotation.y = intKey1[5];//gcontrol.theta6;
-    men[0][9].rotation.y =intKey1[6];//gcontrol.theta7;
-    men[0][10].rotation.y =intKey1[7];//gcontrol.theta8;
-    men[0][1].rotation.y= intKey1[8];//gcontrol.theta9;
-    men[0][2].rotation.y = intKey1[9];//gcontrol.theta10;
+    men[1][3].rotation.y = intKey1[0];//gcontrol.theta1;
+    men[1][4].rotation.y = intKey1[1];//gcontrol.theta2;
+    men[1][5].rotation.y = intKey1[2];//gcontrol.theta3;
+    men[1][6].rotation.y = intKey1[3];//gcontrol.theta4;
+    men[1][7].rotation.y = intKey1[4];//gcontrol.theta5;
+    men[1][8].rotation.y = intKey1[5];//gcontrol.theta6;
+    men[1][9].rotation.y =intKey1[6];//gcontrol.theta7;
+    men[1][10].rotation.y =intKey1[7];//gcontrol.theta8;
+    men[1][1].rotation.y= intKey1[8];//gcontrol.theta9;
+    men[1][2].rotation.y = intKey1[9];//gcontrol.theta10;
   }
   if(markerB.visible){
+    GroupB.children[2].visible = true;
     Cymbalkeyframe(clock.getElapsedTime()); 
-    men[1][3].rotation.y = intKey2[0];//gcontrol.theta1;
-    men[1][4].rotation.y = intKey2[1];//gcontrol.theta2;
-    men[1][5].rotation.y = intKey2[2];//gcontrol.theta3;
-    men[1][6].rotation.y = intKey2[3];//gcontrol.theta4;
-    men[1][7].rotation.y = intKey2[4];//gcontrol.theta5;
-    men[1][8].rotation.y = intKey2[5];//gcontrol.theta6;
-    men[1][9].rotation.y = intKey2[6];//gcontrol.theta7;
-    men[1][10].rotation.y = intKey2[7];//gcontrol.theta8;
-    men[1][1].rotation.y = intKey2[8];//gcontrol.theta9;
-    men[1][2].rotation.y = intKey2[9];//gcontrol.theta10;
-    men[1][4].rotation.z = intKey2[10];//gcontrol.theta11;
-    men[1][6].rotation.z = intKey2[11];//gcontrol.theta12;
+    men[2][3].rotation.y = intKey2[0];//gcontrol.theta1;
+    men[2][4].rotation.y = intKey2[1];//gcontrol.theta2;
+    men[2][5].rotation.y = intKey2[2];//gcontrol.theta3;
+    men[2][6].rotation.y = intKey2[3];//gcontrol.theta4;
+    men[2][7].rotation.y = intKey2[4];//gcontrol.theta5;
+    men[2][8].rotation.y = intKey2[5];//gcontrol.theta6;
+    men[2][9].rotation.y = intKey2[6];//gcontrol.theta7;
+    men[2][10].rotation.y = intKey2[7];//gcontrol.theta8;
+    men[2][1].rotation.y = intKey2[8];//gcontrol.theta9;
+    men[2][2].rotation.y = intKey2[9];//gcontrol.theta10;
+    men[2][4].rotation.z = intKey2[10];//gcontrol.theta11;
+    men[2][6].rotation.z = intKey2[11];//gcontrol.theta12;
   }
+  GroupA.children[4].visible = false;
+  GroupB.children[2].visible = false;
+  /*if(GroupA.children[3].position.distanceTo(GroupA.children[1].position)<=0.3){
+    GroupA.children[4].visible = true;
+    Drumkeyframe(clock.getElapsedTime()); 
+    men[1][3].rotation.y = intKey1[0];//gcontrol.theta1;
+    men[1][4].rotation.y = intKey1[1];//gcontrol.theta2;
+    men[1][5].rotation.y = intKey1[2];//gcontrol.theta3;
+    men[1][6].rotation.y = intKey1[3];//gcontrol.theta4;
+    men[1][7].rotation.y = intKey1[4];//gcontrol.theta5;
+    men[1][8].rotation.y = intKey1[5];//gcontrol.theta6;
+    men[1][9].rotation.y =intKey1[6];//gcontrol.theta7;
+    men[1][10].rotation.y =intKey1[7];//gcontrol.theta8;
+    men[1][1].rotation.y= intKey1[8];//gcontrol.theta9;
+    men[1][2].rotation.y = intKey1[9];//gcontrol.theta10;
+  }
+  else {
+    GroupA.children[4].visible = false;
+  }
+  if(GroupA.children[3].position.distanceTo(GroupB.children[1].position)<=0.3){
+    GroupB.children[2].visible = true;
+    Cymbalkeyframe(clock.getElapsedTime()); 
+    men[2][3].rotation.y = intKey2[0];//gcontrol.theta1;
+    men[2][4].rotation.y = intKey2[1];//gcontrol.theta2;
+    men[2][5].rotation.y = intKey2[2];//gcontrol.theta3;
+    men[2][6].rotation.y = intKey2[3];//gcontrol.theta4;
+    men[2][7].rotation.y = intKey2[4];//gcontrol.theta5;
+    men[2][8].rotation.y = intKey2[5];//gcontrol.theta6;
+    men[2][9].rotation.y = intKey2[6];//gcontrol.theta7;
+    men[2][10].rotation.y = intKey2[7];//gcontrol.theta8;
+    men[2][1].rotation.y = intKey2[8];//gcontrol.theta9;
+    men[2][2].rotation.y = intKey2[9];//gcontrol.theta10;
+    men[2][4].rotation.z = intKey2[10];//gcontrol.theta11;
+    men[2][6].rotation.z = intKey2[11];//gcontrol.theta12;
+  }
+  else{
+    GroupB.children[2].visible = false;
+  }*/
   //GroupA.children[0].material.visible = false;
 	if (cubeSpin)
 		markerA.children[0].rotation.x += 0.1
