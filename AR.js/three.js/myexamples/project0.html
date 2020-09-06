@@ -76,15 +76,16 @@ var markerA, markerB,markerC;
 var men = [],car = [];
 var GroupA,GroupB;
 var arToolKitSource, arToolKitContext;
-var button,time = 0,flag = 0;
+var button = [],time = 0,flag = 0;
 var k = 0.05,angle=0;
+var theta = 0;
 var opc = 0.5;
 //var head,leftarm, torso, leftleg, rightarm ,rightleg;
 var gcontrol;
 //var raycaster, pickables;
 var manPos = new THREE.Vector3(),pos;
 var whRatio, halfW, halfH;
-var button1,cubeSpin = false;
+var detect = [],HUD1 = false,HUD2 = false;
 var _iOSDevice;
 //var onRenderFcts= [];
 //var debugEnabled = false
@@ -93,48 +94,224 @@ var Drumpose1 = {
         Dtheta2: 0,
         Dtheta3: 1.5,
         Dtheta4: 1,
-        Dtheta5: -0.09110458090435114,
+        Dtheta5: 0,
         Dtheta6: 0,
-        Dtheta7: 0.24562074316608218,
-        Dtheta8: -0.3575635264445681,
+        Dtheta7: 0,
+        Dtheta8: 0,
         Dtheta9: -0.33541054459782915,
-        Dtheta10: -0.025268798743482757
+        Dtheta10: -0.025268798743482757,
+        Dtheta11: 0,
+        Dtheta12: 0
 	}
 var Drumpose2 = {
         Dtheta1: 1.5,
         Dtheta2: 1,
         Dtheta3: 1.5,
         Dtheta4: 1,
-        Dtheta5: 0.15700881577912607,
-        Dtheta6: -0.268951599057612,
-        Dtheta7: 0.2987878995982558,
-        Dtheta8: -0.2911045809043511,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
         Dtheta9: -0.24679861721087304,
-        Dtheta10: -0.06957476243696081
+        Dtheta10: -0.06957476243696081,
+        Dtheta11: 0,
+        Dtheta12: 0
 }
 var Drumpose3 = {
         Dtheta1: 1.5,
         Dtheta2: 1,
-        Dtheta3: 1.09501469296521,
+        Dtheta3: 1.5,
         Dtheta4: 0,
-        Dtheta5: 0.2987878995982558,
-        Dtheta6: -0.3686400173679377,
-        Dtheta7: -0.10882696638174227,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
         Dtheta8: 0,
         Dtheta9: 0.48424978373151495,
-        Dtheta10: 0.08549611049021233
+        Dtheta10: 0.15,
+        Dtheta11: 0,
+        Dtheta12: 0.6
 }
 var Drumpose4 = {
         Dtheta1: 1.5,
         Dtheta2: 1,
         Dtheta3: 1.5,
         Dtheta4: 1,
-        Dtheta5: 0.1747312012565173,
-        Dtheta6: -0.2911045809043511,
-        Dtheta7: -0.09110458090435114,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
         Dtheta8: 0,
         Dtheta9: 0.2184140015706466,
-        Dtheta10: 0.17410803787716844
+        Dtheta10: 0.17410803787716844,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose5 = {
+        Dtheta1: 1.2057796021989051,
+        Dtheta2: 0,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: -0.33541054459782915,
+        Dtheta10: -0.025268798743482757,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose6 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.09501469296521,
+        Dtheta4: 0,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: 0.48424978373151495,
+        Dtheta10: 0.08549611049021233,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose7 = {
+        Dtheta1: 1.5,
+        Dtheta2: 0,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: -0.33541054459782915,
+        Dtheta10: -0.15,
+        Dtheta11: -0.6,
+        Dtheta12: 0
+}
+var Drumpose8 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: -0.24679861721087304,
+        Dtheta10: -0.06957476243696081,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose9 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.09501469296521,
+        Dtheta4: 0,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: 0.48424978373151495,
+        Dtheta10: 0.08549611049021233,
+        Dtheta11: 0,
+        Dtheta12: 0
+	}
+var Drumpose10 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: 0.2184140015706466,
+        Dtheta10: 0.17410803787716844,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose11 = {
+        Dtheta1: 1.5,
+        Dtheta2: 0,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: -0.33541054459782915,
+        Dtheta10: -0.15,
+        Dtheta11: -0.6,
+        Dtheta12: 0
+}
+var Drumpose12 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: -0.24679861721087304,
+        Dtheta10: -0.06957476243696081,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose13 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.09501469296521,
+        Dtheta4: 0,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: 0.48424978373151495,
+        Dtheta10: 0.08549611049021233,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose14 = {
+        Dtheta1: 1.2057796021989051,
+        Dtheta2: 0,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: -0.33541054459782915,
+        Dtheta10: -0.025268798743482757,
+        Dtheta11: 0,
+        Dtheta12: 0
+}
+var Drumpose15 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.5,
+        Dtheta4: 0,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: 0.48424978373151495,
+        Dtheta10: 0.15,
+        Dtheta11: 0,
+        Dtheta12: 0.6
+}
+var Drumpose16 = {
+        Dtheta1: 1.5,
+        Dtheta2: 1,
+        Dtheta3: 1.5,
+        Dtheta4: 1,
+        Dtheta5: 0,
+        Dtheta6: 0,
+        Dtheta7: 0,
+        Dtheta8: 0,
+        Dtheta9: 0.2184140015706466,
+        Dtheta10: 0.17410803787716844,
+        Dtheta11: 0,
+        Dtheta12: 0
 }
 
 var Cymbalpose1 = {
@@ -194,13 +371,89 @@ var Cymbalpose4 = {
         Ctheta12: -0.268951599057612
 }
 
+var Smalldrumpose1 = {
+        Stheta1: 1.2,
+        Stheta2: 0.4,
+        Stheta3: 1.2,
+        Stheta4: 0.4,
+        Stheta5: 0,
+        Stheta6: 0,
+        Stheta7: 0,
+        Stheta8: 0,
+        Stheta9: -0.33541054459782915,
+        Stheta10: -0.025268798743482757,
+        Stheta11: -1.903427398586418,
+        Stheta12: -1.202492653517395,
+        Stheta13: 0,
+        Stheta14: -1.7341642178391317
+	}
+var Smalldrumpose2 = {
+        Stheta1: 1.2,
+        Stheta2: 0.4,
+        Stheta3: 1.2,
+        Stheta4: 0.4,
+        Stheta5: 0,
+        Stheta6: 0,
+        Stheta7: 0,
+        Stheta8: 0,
+        Stheta9: -0.24679861721087304,
+        Stheta10: -0.06957476243696081,
+        Stheta11: -1.903427398586418,
+        Stheta12: -1.202492653517395,
+        Stheta13: 0.797507346482605,
+        Stheta14: -1.1581866898239168
+}
+var Smalldrumpose3 = {
+        Stheta1: 1.2,
+        Stheta2: 0.4,
+        Stheta3: 1.2,
+        Stheta4: 0.4,
+        Stheta5: 0,
+        Stheta6: 0,
+        Stheta7: 0,
+        Stheta8: 0,
+        Stheta9: 0.48424978373151495,
+        Stheta10: 0.08549611049021233,
+        Stheta11: -1.903427398586418,
+        Stheta12: -1.202492653517395,
+        Stheta13: 1.7057796021989051,
+        Stheta14: 0
+}
+var Smalldrumpose4 = {
+        Stheta1: 1.2,
+        Stheta2: 0.4,
+        Stheta3: 1.2,
+        Stheta4: 0.4,
+        Stheta5: 0,
+        Stheta6: 0,
+        Stheta7: 0,
+        Stheta8: 0,
+        Stheta9: 0.2184140015706466,
+        Stheta10: 0.17410803787716844,
+        Stheta11: -1.903427398586418,
+        Stheta12: -1.202492653517395,
+        Stheta13: 1.1962610197239076,
+        Stheta14: -0.7815859984293534
+}
 
 var Drumkeys = [
-  [0, Drumpose4],
-  [0.250, Drumpose1],
-  [0.500, Drumpose2],
-  [0.750, Drumpose3],
-  [1, Drumpose4]
+  [0, Drumpose16],
+  [0.0625, Drumpose1],
+  [0.1250, Drumpose2],
+  [0.1875, Drumpose3],
+  [0.2500, Drumpose4],
+  [0.3125, Drumpose5],
+  [0.3750, Drumpose6],
+  [0.4375, Drumpose7],
+  [0.5000, Drumpose8],
+  [0.5625, Drumpose9],
+  [0.6250, Drumpose10],
+  [0.6875, Drumpose11],
+  [0.7500, Drumpose12],
+  [0.8125, Drumpose13],
+  [0.8750, Drumpose14],
+  [0.9375, Drumpose15],
+  [1, Drumpose16]
 ];
 var Cymbalkeys = [
   [0, Cymbalpose4],
@@ -209,11 +462,17 @@ var Cymbalkeys = [
   [0.750, Cymbalpose3],
   [1, Cymbalpose4]
 ];
+var Smalldrumkeys = [
+  [0, Smalldrumpose4],
+  [0.250, Smalldrumpose1],
+  [0.500, Smalldrumpose2],
+  [0.750, Smalldrumpose3],
+  [1, Smalldrumpose4]
+];
 
-var T = 240/87;
 var clock = new THREE.Clock();
 var ts = clock.getElapsedTime(),tss = clock.getElapsedTime();  // start time
-var intKey1 = [], intKey2 = [];
+var intKey1 = [], intKey2 = [],intKey3 = [];
 var soundTrack;
 var isDimming = false, soundVal = 1.0, sign = 1.0;
 ////////////////////////
@@ -250,11 +509,16 @@ function init() {
 	cameraHUD = new THREE.OrthographicCamera (-halfW,halfW, halfH,-halfH, -10,10);
 
 	var buttonSize = halfH/3;
-	button = new THREE.Mesh (new THREE.PlaneGeometry(buttonSize, buttonSize), 
+	button[0] = new THREE.Mesh (new THREE.PlaneGeometry(buttonSize, buttonSize), 
 			new THREE.MeshBasicMaterial({color:"yellow", transparent:true, opacity:0.8}));	
-	button1 = new Button (buttonSize, 0, -halfH/2);
-	button.position.set (button1.centerX, button1.centerY, 0);
-	sceneHUD.add (button);
+	detect[0] = new Button (buttonSize, -halfH, -halfH/2);
+	button[0].position.set (detect[0].centerX, detect[0].centerY, 0);
+	sceneHUD.add (button[0]);
+  button[1] = new THREE.Mesh (new THREE.PlaneGeometry(buttonSize, buttonSize), 
+			new THREE.MeshBasicMaterial({color:"blue", transparent:true, opacity:0.8}));	
+	detect[1] = new Button (buttonSize, 0, -halfH/2);
+	button[1].position.set (detect[1].centerX, detect[1].centerY, 0);
+	sceneHUD.add (button[1]);
 	arToolkitSource = new THREEx.ArToolkitSource({
 		// to read from the webcam 
 		sourceType : 'webcam',
@@ -293,8 +557,7 @@ function init() {
 
 	let inA = addMarkerA();
 	GroupA.add(inA[0],inA[1])
-    men[0] = buildWalkMan();
-    men[1] = buildDrumMan();
+  men[0] = buildDrumMan();
 	let drum = buildDrum();
   drum.rotation.y = Math.PI/2;
 	GroupA.add(drum);
@@ -304,11 +567,6 @@ function init() {
   car[0].add(men[0][0]);
   car[0].rotation.y = Math.PI/2;
   GroupA.add(car[0]);
-  car[1] = buildcar();
-  men[1][0].position.set(0,0.1,0);
-  car[1].add(men[1][0]);
-  car[1].rotation.y = Math.PI/2;
-  GroupA.add(car[1]);
 	markerB = new THREE.Group();
 	var markerControlsB = new THREEx.ArMarkerControls(arToolkitContext, markerB, {
 		type : 'pattern',
@@ -320,14 +578,14 @@ function init() {
 
 	let inB = addMarkerB();
 	GroupB.add(inB[0],inB[1])
-  men[2] = buildCymbalMan();
-  car[2] = buildcar();
-  men[2][0].position.set(0,0.1,0);
-  car[2].add(men[2][0]);
-  car[2].rotation.y = -Math.PI/2;
-  GroupB.add(car[2]);
+  men[1] = buildCymbalMan();
+  car[1] = buildcar();
+  men[1][0].position.set(0,0.1,0);
+  car[1].add(men[1][0]);
+  car[1].rotation.y = -Math.PI/2;
+  GroupB.add(car[1]);
 	markerC = new THREE.Group();
-	var markerControlsB = new THREEx.ArMarkerControls(arToolkitContext, markerC, {
+	var markerControlsC = new THREEx.ArMarkerControls(arToolkitContext, markerC, {
 		type : 'pattern',
 		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.Cletter',
 	})
@@ -335,14 +593,14 @@ function init() {
 	GroupC = new THREE.Group();
 	markerC.add(GroupC);
 
-    let inC = addMarkerC();
+  let inC = addMarkerC();
 	GroupC.add(inC[0],inC[1])
-	
-	/////////////////////
-	/*var gui1 = new dat.GUI({load:DrumJSON(), preset:'key1'});
-	gui1.domElement.id = 'gui';
-	var gui2 = new dat.GUI({load:CymbalJSON(), preset:'key1'});
-	gui2.domElement.id = 'gui';*/
+  men[2] = buildSmallDrumMan();
+  car[2] = buildcar();
+  men[2][0].position.set(0,0.1,0);
+  car[2].add(men[2][0]);
+  car[2].rotation.y = -Math.PI/2;
+  GroupC.add(car[2]);
   ///////////////////////////////////////
 
 	var ambient = new THREE.AmbientLight( 0x666666 );
@@ -436,7 +694,7 @@ function buildDrumMan(){
 	rightarm[0].rotation.order = 'ZYX';
 	leftleg[0].rotation.order = 'ZYX';
 	rightleg[0].rotation.order = 'ZYX';
-  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
+  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],stick1,stick2];
 }
 function buildCymbalMan(){
     mine = new THREE.Group();
@@ -449,30 +707,49 @@ function buildCymbalMan(){
 	torso.add(head);
 
 	leftarm = makeArm();
-    let geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
-    let material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
-    cymbal1= new THREE.Mesh( geometry, material );
+  let geometry = new THREE.BoxGeometry(0.02, 0.01, 0.01, 32 );
+  let material = new THREE.MeshLambertMaterial( {color: 'red'} );
+  line1= new THREE.Mesh( geometry, material );
+  line1.position.set(2*k,0.01,0);
+  line1.rotation.z=Math.PI/4;
+  let loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  var colormap = loader.load ('https://i.imgur.com/54uWXuj.jpg');
+  geometry = new THREE.CylinderBufferGeometry(0.05, 0.1, 0.01, 32 );
+  material = new THREE.MeshLambertMaterial( {map: colormap} );
+  cymbal1= new THREE.Mesh( geometry, material );
+
 	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
 	leftarm[0].add(leftarm[1]);
-	leftarm[1].add(cymbal1);
+	leftarm[1].add(cymbal1,line1);
 	torso.add (leftarm[0]);
-    cymbal1.position.set(2*k,0.03,0);
-    cymbal1.rotation.z=-Math.PI/4;
-    cymbal1.castShadow = true;
-    cymbal1.receiveShadow = true;
+  cymbal1.position.set(2*k,0.03,0);
+  cymbal1.rotation.z=-Math.PI/4;
+  cymbal1.castShadow = true;
+  cymbal1.receiveShadow = true;
+  line1.castShadow = true;
+  line1.receiveShadow = true;
 
 	rightarm = makeArm();
-    geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.01, 32 );
-    material = new THREE.MeshLambertMaterial( {color: 0xdbbf4d} );
-    cymbal2= new THREE.Mesh( geometry, material );
+  geometry = new THREE.BoxGeometry(0.02, 0.01, 0.01, 32 );
+  material = new THREE.MeshLambertMaterial( {color: 'red'} );
+  line2= new THREE.Mesh( geometry, material );
+  line2.position.set(2*k,0.01,0);
+  line2.rotation.z=Math.PI/4;
+  var colormap = loader.load ('https://i.imgur.com/54uWXuj.jpg');
+  geometry = new THREE.CylinderBufferGeometry(0.05, 0.1, 0.01, 32 );
+  material = new THREE.MeshLambertMaterial( {map: colormap} );
+  cymbal2= new THREE.Mesh( geometry, material );
 	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
 	rightarm[0].add(rightarm[1]);
-	rightarm[1].add(cymbal2);
+	rightarm[1].add(cymbal2,line2);
 	torso.add(rightarm[0]);
-    cymbal2.position.set(2*k,-0.03,0);
-    cymbal2.rotation.z=Math.PI/5;
-    cymbal2.castShadow = true;
-    cymbal2.receiveShadow = true;
+  cymbal2.position.set(2*k,-0.03,0);
+  cymbal2.rotation.z=Math.PI/5;
+  cymbal2.castShadow = true;
+  cymbal2.receiveShadow = true;
+  line2.castShadow = true;
+  line2.receiveShadow = true;
 
 	leftleg = makeLeg();
 	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
@@ -495,10 +772,10 @@ function buildCymbalMan(){
 	rightarm[0].rotation.order = 'ZYX';
 	leftleg[0].rotation.order = 'ZYX';
 	rightleg[0].rotation.order = 'ZYX';
-  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
+  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],cymbal1,cymbal2];
 }
-function buildWalkMan(){
-    mine = new THREE.Group();
+function buildSmallDrumMan(){
+  mine = new THREE.Group();
 	//GroupA.add(mine);
 	head = makeHead();
 	torso = makeTorso();
@@ -506,16 +783,49 @@ function buildWalkMan(){
 	head.position.y = 7.57*k-4.09*k;
 	torso.position.y = 4.09*k;
 	torso.add(head);
-
+  let smalldrum = buildSmallDrum();
+  torso.add(smalldrum);
 	leftarm = makeArm();
+  let geometry = new THREE.CylinderBufferGeometry(0.01, 0.005, 0.1, 0.32 );
+  let material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
+  stick1= new THREE.Mesh( geometry, material );
+  geometry = new THREE.DodecahedronBufferGeometry(0.01,5 );
+  material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
+  ball1= new THREE.Mesh( geometry, material );
+  stick1.add(ball1);
+  
 	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
 	leftarm[0].add(leftarm[1]);
+	leftarm[1].add(stick1);
 	torso.add (leftarm[0]);
+  stick1.position.set(2*k,0,-0.05);
+  stick1.rotation.x=Math.PI/2;
+  ball1.position.set(0,0.05,0);
+  stick1.castShadow = true;
+  stick1.receiveShadow = true;
+  ball1.castShadow = true;
+  ball1.receiveShadow = true;
+
 
 	rightarm = makeArm();
+  geometry = new THREE.CylinderBufferGeometry(0.01, 0.005, 0.1, 0.32 );
+  material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
+  stick2= new THREE.Mesh( geometry, material );
+  geometry = new THREE.DodecahedronBufferGeometry(0.01,5 );
+  material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
+  ball2= new THREE.Mesh( geometry, material );
+  stick2.add(ball2);
 	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
 	rightarm[0].add(rightarm[1]);
+	rightarm[1].add(stick2);
 	torso.add(rightarm[0]);
+  stick2.position.set(2*k,0,-0.05);
+  stick2.rotation.x=Math.PI/2;
+  ball2.position.set(0,-0.05,0);
+  stick2.castShadow = true;
+  stick2.receiveShadow = true;
+  ball2.castShadow = true;
+  ball2.receiveShadow = true;
 
 	leftleg = makeLeg();
 	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
@@ -538,7 +848,8 @@ function buildWalkMan(){
 	rightarm[0].rotation.order = 'ZYX';
 	leftleg[0].rotation.order = 'ZYX';
 	rightleg[0].rotation.order = 'ZYX';
-  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
+  mine.rotation.order = 'ZXY';
+  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],stick1,stick2,smalldrum];
 }
 function addMarkerB () {
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
@@ -549,9 +860,9 @@ function addMarkerB () {
 	planeMesh.depthWrite = false;
 	planeMesh.rotation.x = -Math.PI/2
 	/// add gridhelper
-    let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
+  let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
 	let material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
-	circle = new THREE.Mesh( geometry, material );
+	let circle = new THREE.Mesh( geometry, material );
 	circle.rotation.x=-Math.PI/2;
 	circle.position.y=0.01;
 	var gridXZ = new THREE.GridHelper(1,10);
@@ -566,9 +877,9 @@ function addMarkerA(){
 	planeMesh.receiveShadow = true;
 	planeMesh.depthWrite = false;
 	planeMesh.rotation.x = -Math.PI/2
-    let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
+  let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
 	let material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
-	circle = new THREE.Mesh( geometry, material );
+	let circle = new THREE.Mesh( geometry, material );
 	circle.rotation.x=-Math.PI/2;
 	circle.position.y=0.01;
 	return [planeMesh,circle];
@@ -583,70 +894,40 @@ function addMarkerC(){
 	planeMesh.rotation.x = -Math.PI/2
     let geometry = new THREE.CircleBufferGeometry( 0.01, 32 );
 	let material = new THREE.MeshBasicMaterial( { color: 'red',side:THREE.DoubleSide});
-	circle = new THREE.Mesh( geometry, material );
+	let circle = new THREE.Mesh( geometry, material );
 	circle.rotation.x=-Math.PI/2;
 	circle.position.y=0.01;
 	return [planeMesh,circle];
 }	
-function update() {
+function update(start,end,group) {
    // o1, x1, z1
-   let o1 = markerA.position.clone();
-   let x1 = markerA.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
-   let z1 = markerA.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
-   let Az = markerA.localToWorld (new THREE.Vector3(0,0,-1)).sub(o1);
+   let o1 = start.position.clone();
+   let x1 = start.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
+   let z1 = start.localToWorld (new THREE.Vector3(0,0,1)).sub(o1);
+   
    // o2, x2, z2
-   let o2 = markerB.position.clone();
-   let x2 = markerB.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
-   let z2 = markerB.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
-   let Bz = markerB.localToWorld (new THREE.Vector3(0,0,-1)).sub(o2);
-    /*if(time>=0&&flag){
-      time -=0.005
-      if(time<0)
-        flag = 0;
-    }*/ 
-
-    let manPosEye = markerA.localToWorld (manPos.clone());
-    let manPos2 = manPosEye.sub (o2);
-    let s = manPos2.sub(manPos);
-    if(time==0){
-      a = Az.clone().angleTo(s);
-      while(a>0){
-        GroupA.children[3].rotation.y += 0.0002;
-        a-=0.0002;
-      }
-    }
-    if(time<=1){
-      time +=0.005
-    }
-    let p = manPos.clone().multiplyScalar(1-time).add(manPos2.clone().multiplyScalar(time));
-    //let p = s.clone().multiplyScalar(time);
-    //let pos = s.sub(p)
-    //console.log(a);
-    GroupA.children[3].position.x = -p.x;  
-    GroupA.children[3].position.y = 0; 
-    GroupA.children[3].position.z = -p.z; 
-    if(time==1){
-      b = s.clone().angleTo(Bz);
-      while(b>0){
-        GroupA.children[3].rotation.y -= 0.0002;
-        //GroupB.children[].rotation.y += 0.0002;
-        //GroupA.children[3].rotation.y += 0.0002;
-        b-=0.0002;
-      }
-    }
-    //console.log(GroupA.children[3].position);
-
+   let o2 = end.position.clone();
+   let x2 = end.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
+   let z2 = end.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
+   
+   // box position (eye coord)
+   manPosEye = start.localToWorld (manPos.clone());
+   let manPos2 = manPosEye.sub (o2);;
+	group.children[2].position.x = manPos2.dot (x2);   
+	group.children[2].position.z = manPos2.dot (z2);   
 }
 function pickCompute (ndcX, ndcY) {
 	// use 2D algorithm 	
-	let dist = button1.dInfTo ([halfW * ndcX, halfH * ndcY]);	
-	$('#touch').text ('Mouse-dist-Button: ' + dist.toFixed(2))
-
-	if (dist < button1.size/2) {
+	let dist1 = detect[0].dInfTo ([halfW * ndcX, halfH * ndcY]);	
+	$('#touch').text ('Mouse-dist-Button: ' + dist1.toFixed(2))
+  let dist2 = detect[1].dInfTo ([halfW * ndcX, halfH * ndcY]);	
+	if (dist1 < detect[0].size/2) {
 		console.log ('picked')
-		cubeSpin = !cubeSpin;
-	} else {
-		console.log ('no hit')
+		HUD1 = !HUD1;
+	}
+  if (dist2 < detect[1].size/2) {
+		console.log ('picked')
+		HUD2 = !HUD2;
 	}
 }
 
@@ -748,6 +1029,7 @@ return group;
 }
 
 function Drumkeyframe(t) {
+  let T = 960/87;
   var s = ((t - ts) % T) / T;
 
   for (var i = 1; i < Drumkeys.length; i++) {
@@ -765,11 +1047,14 @@ function Drumkeyframe(t) {
             Drumkeys[ii][1].Dtheta7 * (1 - a) + Drumkeys[ii + 1][1].Dtheta7 * a,
             Drumkeys[ii][1].Dtheta8 * (1 - a) + Drumkeys[ii + 1][1].Dtheta8 * a,
             Drumkeys[ii][1].Dtheta9 * (1 - a) + Drumkeys[ii + 1][1].Dtheta9 * a,
-            Drumkeys[ii][1].Dtheta10 * (1 - a) + Drumkeys[ii + 1][1].Dtheta10 * a
+            Drumkeys[ii][1].Dtheta10 * (1 - a) + Drumkeys[ii + 1][1].Dtheta10 * a,
+            Drumkeys[ii][1].Dtheta11 * (1 - a) + Drumkeys[ii + 1][1].Dtheta11 * a,
+            Drumkeys[ii][1].Dtheta12 * (1 - a) + Drumkeys[ii + 1][1].Dtheta12 * a
   ];
 
 }
 function Cymbalkeyframe(t) {
+  let T = 240/87;
   var s = ((t - tss) % T) / T;
 
   for (var i = 1; i < Cymbalkeys.length; i++) {
@@ -792,6 +1077,34 @@ function Cymbalkeyframe(t) {
             Cymbalkeys[ii][1].Ctheta12 * (1 - a) + Cymbalkeys[ii + 1][1].Ctheta12 * a
   ];
 }
+function Smalldrumkeyframe(t) {
+  let T = 240/87;
+  var s = ((t - ts) % T) / T;
+
+  for (var i = 1; i < Smalldrumkeys.length; i++) {
+    if (Smalldrumkeys[i][0] > s) break;
+  }
+  // take i-1
+  var ii = i - 1;
+  var a = (s - Smalldrumkeys[ii][0]) / (Smalldrumkeys[ii + 1][0] - Smalldrumkeys[ii][0]);
+  intKey3 = [Smalldrumkeys[ii][1].Stheta1 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta1 * a,
+            Smalldrumkeys[ii][1].Stheta2 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta2 * a,
+            Smalldrumkeys[ii][1].Stheta3 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta3 * a,
+            Smalldrumkeys[ii][1].Stheta4 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta4 * a,
+            Smalldrumkeys[ii][1].Stheta5 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta5 * a,
+            Smalldrumkeys[ii][1].Stheta6 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta6 * a,
+            Smalldrumkeys[ii][1].Stheta7 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta7 * a,
+            Smalldrumkeys[ii][1].Stheta8 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta8 * a,
+            Smalldrumkeys[ii][1].Stheta9 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta9 * a,
+            Smalldrumkeys[ii][1].Stheta10 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta10 * a,
+            Smalldrumkeys[ii][1].Stheta11 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta11 * a,
+            Smalldrumkeys[ii][1].Stheta12 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta12 * a,
+            Smalldrumkeys[ii][1].Stheta13 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta13 * a,
+            Smalldrumkeys[ii][1].Stheta14 * (1 - a) + Smalldrumkeys[ii + 1][1].Stheta14 * a
+  ];
+
+}
+
 function buildface() {
   let geometry = new THREE.Geometry();
   geometry.vertices.push(
@@ -981,37 +1294,59 @@ function buildcar(){
   return c;
 }
 function buildDrum(){
-	drumgroup = new THREE.Group();
-  var geometry = new THREE.CylinderBufferGeometry(0.15, 0.15, 0.1, 32 );
-  var material = new THREE.MeshLambertMaterial( {color: 'red'} );
-  cylinder1 = new THREE.Mesh( geometry, material );
-  cylinder1.position.set(0.3,0.4,0);
-  cylinder1.rotation.z=-Math.PI/2;
-  var geometry = new THREE.CylinderBufferGeometry(0.15, 0.15, 0.02, 32 );
+  drumgroup = new THREE.Group();
+  var loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  var colormap = loader.load ('https://i.imgur.com/MTtMccq.jpg');
+  var points = [];
+  for ( var i = 0; i < 10; i ++ ) {
+    points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 0.02 + 0.18, ( i - 5 ) * 0.02 ) );
+  }
+  var geometry = new THREE.LatheGeometry( points );
+  var material = new THREE.MeshLambertMaterial( { map: colormap} );
+  var lathe1 = new THREE.Mesh( geometry, material );
+  lathe1.rotation.z=Math.PI/2;
+  lathe1.position.set(0.48,0.45,0);
+  //scene.add( lathe1 );
+  for ( var i = 0; i < 10; i ++ ) {
+    points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 0.02 + 18, ( i - 5 ) * 0.02 ) );
+  }
+
+  var lathe2 = new THREE.Mesh( geometry, material );
+  lathe2.rotation.z=-Math.PI/2;
+  lathe2.position.set(0.33,0.45,0);
+  //scene.add( lathe2 );
+
+  var geometry = new THREE.CylinderBufferGeometry(0.18, 0.18, 0.01, 64 );
   var material = new THREE.MeshLambertMaterial( {color: 0xeba434} );
   cylinder2 = new THREE.Mesh( geometry, material );
-  cylinder2.position.set(0.24,0.4,0);
+  cylinder2.position.set(0.23,0.45,0);
   cylinder2.rotation.z=-Math.PI/2;
   cylinder3 = new THREE.Mesh( geometry, material );
-  cylinder3.position.set(0.36,0.4,0);
+  cylinder3.position.set(0.58,0.45,0);
   cylinder3.rotation.z=-Math.PI/2;
+  var loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  var colormap = loader.load ('https://i.imgur.com/rMKI0rA.jpg');
   var geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.5, 32 );
-  var material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
+  var material = new THREE.MeshLambertMaterial( {map: colormap} );
   cylinder4 = new THREE.Mesh( geometry, material );
-  cylinder4.position.set(0.36,0.18,0);
+  cylinder4.position.set(0.51,0.18,0);
   cylinder4.rotation.x=-Math.PI/4;
   cylinder5 = new THREE.Mesh( geometry, material );
-  cylinder5.position.set(0.36,0.18,0);
+  cylinder5.position.set(0.51,0.18,0);
   cylinder5.rotation.x=Math.PI/4;
   cylinder6 = new THREE.Mesh( geometry, material );
-  cylinder6.position.set(0.24,0.18,0);
+  cylinder6.position.set(0.3,0.18,0);
   cylinder6.rotation.x=-Math.PI/4;
   cylinder7 = new THREE.Mesh( geometry, material );
-  cylinder7.position.set(0.24,0.18,0);
+  cylinder7.position.set(0.3,0.18,0);
   cylinder7.rotation.x=Math.PI/4;
-  
-  cylinder1.castShadow = true;
-  cylinder1.receiveShadow = true;
+  drumgroup.add(lathe1,lathe2,cylinder2,cylinder3,cylinder4,cylinder5,cylinder6,cylinder7);
+  lathe1.castShadow = true;
+  lathe1.receiveShadow = true;
+  lathe2.castShadow = true;
+  lathe2.receiveShadow = true;
   cylinder2.castShadow = true;
   cylinder2.receiveShadow = true;
   cylinder3.castShadow = true;
@@ -1024,9 +1359,98 @@ function buildDrum(){
   cylinder6.receiveShadow = true;
   cylinder7.castShadow = true;
   cylinder7.receiveShadow = true;
-  
-  drumgroup.add(cylinder1,cylinder2,cylinder3,cylinder4,cylinder5,cylinder6,cylinder7);
   return drumgroup;
+}
+function buildSmallDrum(){
+  smalldrumgroup = new THREE.Group();
+  var geometry = new THREE.CylinderBufferGeometry(0.1, 0.1, 0.131, 0.32 );
+  var material = new THREE.MeshLambertMaterial( {color: 'white'} );
+  cylinder1 = new THREE.Mesh( geometry, material );
+  cylinder1.position.set(0,-0.01,-2.8*k);
+  var geometry = new THREE.CylinderBufferGeometry(0.101, 0.101, 0.13, 0.32 );
+  var material = new THREE.MeshLambertMaterial( {color: 'blue'} );
+  cylinder2 = new THREE.Mesh( geometry, material );
+  cylinder2.position.set(0,-0.01,-2.8*k);
+  let loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  let texture = loader.load('https://i.imgur.com/DvME6OT.jpg');
+	var geometry = new THREE.TorusBufferGeometry( 0.101, 0.005, 0.32, 100 );
+	var material = new THREE.MeshLambertMaterial( { map: texture } );
+	cylinder3 = new THREE.Mesh( geometry, material );
+  cylinder3.rotation.x=Math.PI/2;
+  cylinder3.position.set(0,0.06,-2.8*k);
+	cylinder4 = new THREE.Mesh( geometry, material );
+  cylinder4.rotation.x=Math.PI/2;
+  cylinder4.position.set(0,-0.08,-2.8*k);
+	var geometry = new THREE.BoxBufferGeometry( 0.14, 0.01, 0.01 );
+	var material = new THREE.MeshLambertMaterial( {map: texture } );
+  BoxBuffer1= new THREE.Mesh( geometry, material );
+  BoxBuffer1.rotation.z=Math.PI/2;
+  BoxBuffer1.position.set(0.1,-0.01,-2.8*k);
+  BoxBuffer2= new THREE.Mesh( geometry, material );
+  BoxBuffer2.rotation.z=Math.PI/2;
+  BoxBuffer2.position.set(0.075,-0.01,-4.1*k);
+  BoxBuffer3= new THREE.Mesh( geometry, material );
+  BoxBuffer3.rotation.z=Math.PI/2;
+  BoxBuffer3.position.set(0,-0.01,-4.8*k);
+  BoxBuffer4= new THREE.Mesh( geometry, material );
+  BoxBuffer4.rotation.z=Math.PI/2;
+  BoxBuffer4.position.set(-0.075,-0.01,-4.1*k);
+  BoxBuffer5= new THREE.Mesh( geometry, material );
+  BoxBuffer5.rotation.z=Math.PI/2;
+  BoxBuffer5.position.set(-0.1,-0.01,-2.8*k);
+  BoxBuffer6= new THREE.Mesh( geometry, material );
+  BoxBuffer6.rotation.z=Math.PI/2;
+  BoxBuffer6.position.set(-0.075,-0.01,-1.5*k);
+  BoxBuffer7= new THREE.Mesh( geometry, material );
+  BoxBuffer7.rotation.z=Math.PI/2;
+  BoxBuffer7.position.set(0,-0.01,-0.8*k);
+  BoxBuffer8= new THREE.Mesh( geometry, material );
+  BoxBuffer8.rotation.z=Math.PI/2;
+  BoxBuffer8.position.set(0.075,-0.01,-0.015*k);
+  var material = new THREE.MeshLambertMaterial( { color: 'white',side:THREE.DoubleSide } );
+  line1 = new THREE.Mesh (new THREE.BoxGeometry(0.25, 0.01,0.01), material); 
+  line1.position.set(-1.6*k,0.12,-1.2*k);
+  line1.rotation.set(0,-Math.PI/2.6,Math.PI/4);
+  line2 = new THREE.Mesh (new THREE.BoxGeometry(0.25, 0.01, 0.01), material); 
+  line2.position.set(1.6*k,0.12,-1.2*k);
+  line2.rotation.set(0,Math.PI/2.6,-Math.PI/4);
+  var material = new THREE.MeshLambertMaterial( { color: 'white',side:THREE.DoubleSide } );
+  line3 = new THREE.Mesh (new THREE.BoxGeometry(0.14, 0.01, 0.01), material); 
+  line3.position.set(0,0.17,0.01);
+  line3.rotation.y=Math.PI;
+  cylinder1.castShadow = true;
+  cylinder1.receiveShadow = true;
+  cylinder2.castShadow = true;
+  cylinder2.receiveShadow = true;
+  cylinder3.castShadow = true;
+  cylinder3.receiveShadow = true;
+  cylinder4.castShadow = true;
+  cylinder4.receiveShadow = true;
+  BoxBuffer1.castShadow = true;
+  BoxBuffer1.receiveShadow = true;
+  BoxBuffer2.castShadow = true;
+  BoxBuffer2.receiveShadow = true;
+  BoxBuffer3.castShadow = true;
+  BoxBuffer3.receiveShadow = true;
+  BoxBuffer4.castShadow = true;
+  BoxBuffer4.receiveShadow = true;
+  BoxBuffer5.castShadow = true;
+  BoxBuffer5.receiveShadow = true;
+  BoxBuffer6.castShadow = true;
+  BoxBuffer6.receiveShadow = true;
+  BoxBuffer7.castShadow = true;
+  BoxBuffer7.receiveShadow = true;
+  BoxBuffer8.castShadow = true;
+  BoxBuffer8.receiveShadow = true;
+  line1.castShadow = true;
+  line1.receiveShadow = true;
+  line2.castShadow = true;
+  line2.receiveShadow = true;
+  line3.castShadow = true;
+  line3.receiveShadow = true;
+  smalldrumgroup.add (cylinder1,cylinder2,cylinder3,cylinder4,line1,line2,line3,BoxBuffer1,BoxBuffer2,BoxBuffer3,BoxBuffer4,BoxBuffer5,BoxBuffer6,BoxBuffer7,BoxBuffer8);
+  return smalldrumgroup;
 }
 
 function animate() {
@@ -1040,80 +1464,90 @@ function animate() {
 	//button.material.visible = markerA.visible;
 	scene.visible = camera.visible
 	renderer.render (sceneHUD, cameraHUD);
-  if ( markerA.visible && markerB.visible ){
-    update();
-  }
-  if(markerA.visible){
-    GroupA.children[4].visible = true;
+  
+  GroupB.children[0].visible = false;
+  GroupA.children[0].visible = false;
+  theta += 0.01;
+	manPos.set ( 0.5*Math.cos(theta), 0.1, 0.5*Math.sin(theta) )	
+	GroupA.children[3].position.copy (manPos)
+  update(markerA,markerB,GroupB);
+  update(markerA,markerC,GroupC);
+
+  if(markerA.visible) GroupA.children[3].visible = true;
+  else GroupA.children[3].visible = false;
+  if(markerB.visible) GroupB.children[2].visible = true;
+  else GroupB.children[2].visible = false;
+  if(GroupA.children[3].position.distanceTo(GroupA.children[1].position)<=0.2){
+    men[0][11].visible = true;
+    men[0][12].visible = true;
     Drumkeyframe(clock.getElapsedTime()); 
-    men[1][3].rotation.y = intKey1[0];//gcontrol.theta1;
-    men[1][4].rotation.y = intKey1[1];//gcontrol.theta2;
-    men[1][5].rotation.y = intKey1[2];//gcontrol.theta3;
-    men[1][6].rotation.y = intKey1[3];//gcontrol.theta4;
-    men[1][7].rotation.y = intKey1[4];//gcontrol.theta5;
-    men[1][8].rotation.y = intKey1[5];//gcontrol.theta6;
-    men[1][9].rotation.y =intKey1[6];//gcontrol.theta7;
-    men[1][10].rotation.y =intKey1[7];//gcontrol.theta8;
-    men[1][1].rotation.y= intKey1[8];//gcontrol.theta9;
-    men[1][2].rotation.y = intKey1[9];//gcontrol.theta10;
-  }
-  if(markerB.visible){
-    GroupB.children[2].visible = true;
-    Cymbalkeyframe(clock.getElapsedTime()); 
-    men[2][3].rotation.y = intKey2[0];//gcontrol.theta1;
-    men[2][4].rotation.y = intKey2[1];//gcontrol.theta2;
-    men[2][5].rotation.y = intKey2[2];//gcontrol.theta3;
-    men[2][6].rotation.y = intKey2[3];//gcontrol.theta4;
-    men[2][7].rotation.y = intKey2[4];//gcontrol.theta5;
-    men[2][8].rotation.y = intKey2[5];//gcontrol.theta6;
-    men[2][9].rotation.y = intKey2[6];//gcontrol.theta7;
-    men[2][10].rotation.y = intKey2[7];//gcontrol.theta8;
-    men[2][1].rotation.y = intKey2[8];//gcontrol.theta9;
-    men[2][2].rotation.y = intKey2[9];//gcontrol.theta10;
-    men[2][4].rotation.z = intKey2[10];//gcontrol.theta11;
-    men[2][6].rotation.z = intKey2[11];//gcontrol.theta12;
-  }
-  GroupA.children[4].visible = false;
-  GroupB.children[2].visible = false;
-  /*if(GroupA.children[3].position.distanceTo(GroupA.children[1].position)<=0.3){
-    GroupA.children[4].visible = true;
-    Drumkeyframe(clock.getElapsedTime()); 
-    men[1][3].rotation.y = intKey1[0];//gcontrol.theta1;
-    men[1][4].rotation.y = intKey1[1];//gcontrol.theta2;
-    men[1][5].rotation.y = intKey1[2];//gcontrol.theta3;
-    men[1][6].rotation.y = intKey1[3];//gcontrol.theta4;
-    men[1][7].rotation.y = intKey1[4];//gcontrol.theta5;
-    men[1][8].rotation.y = intKey1[5];//gcontrol.theta6;
-    men[1][9].rotation.y =intKey1[6];//gcontrol.theta7;
-    men[1][10].rotation.y =intKey1[7];//gcontrol.theta8;
-    men[1][1].rotation.y= intKey1[8];//gcontrol.theta9;
-    men[1][2].rotation.y = intKey1[9];//gcontrol.theta10;
-  }
-  else {
-    GroupA.children[4].visible = false;
-  }
-  if(GroupA.children[3].position.distanceTo(GroupB.children[1].position)<=0.3){
-    GroupB.children[2].visible = true;
-    Cymbalkeyframe(clock.getElapsedTime()); 
-    men[2][3].rotation.y = intKey2[0];//gcontrol.theta1;
-    men[2][4].rotation.y = intKey2[1];//gcontrol.theta2;
-    men[2][5].rotation.y = intKey2[2];//gcontrol.theta3;
-    men[2][6].rotation.y = intKey2[3];//gcontrol.theta4;
-    men[2][7].rotation.y = intKey2[4];//gcontrol.theta5;
-    men[2][8].rotation.y = intKey2[5];//gcontrol.theta6;
-    men[2][9].rotation.y = intKey2[6];//gcontrol.theta7;
-    men[2][10].rotation.y = intKey2[7];//gcontrol.theta8;
-    men[2][1].rotation.y = intKey2[8];//gcontrol.theta9;
-    men[2][2].rotation.y = intKey2[9];//gcontrol.theta10;
-    men[2][4].rotation.z = intKey2[10];//gcontrol.theta11;
-    men[2][6].rotation.z = intKey2[11];//gcontrol.theta12;
+    men[0][3].rotation.y = intKey1[0];//gcontrol.theta1;
+    men[0][4].rotation.y = intKey1[1];//gcontrol.theta2;
+    men[0][5].rotation.y = intKey1[2];//gcontrol.theta3;
+    men[0][6].rotation.y = intKey1[3];//gcontrol.theta4;
+    men[0][7].rotation.y = intKey1[4];//gcontrol.theta5;
+    men[0][8].rotation.y = intKey1[5];//gcontrol.theta6;
+    men[0][9].rotation.y = intKey1[6];//gcontrol.theta7;
+    men[0][10].rotation.y = intKey1[7];//gcontrol.theta8;
+    men[0][1].rotation.y = intKey1[8];//gcontrol.theta9;
+    men[0][2].rotation.y = intKey1[9];//gcontrol.theta10;
+    men[0][4].rotation.z = intKey1[10];//gcontrol.theta11;
+    men[0][6].rotation.z = intKey1[11];//gcontrol.theta12;
   }
   else{
-    GroupB.children[2].visible = false;
-  }*/
+    men[0][11].visible = false;
+    men[0][12].visible = false;
+  }
+  if(GroupB.children[2].position.distanceTo(GroupB.children[1].position)<=0.2){
+    men[1][11].visible = true;
+    men[1][12].visible = true;
+    Cymbalkeyframe(clock.getElapsedTime()); 
+    men[1][3].rotation.y = intKey2[0];//gcontrol.theta1;
+    men[1][4].rotation.y = intKey2[1];//gcontrol.theta2;
+    men[1][5].rotation.y = intKey2[2];//gcontrol.theta3;
+    men[1][6].rotation.y = intKey2[3];//gcontrol.theta4;
+    men[1][7].rotation.y = intKey2[4];//gcontrol.theta5;
+    men[1][8].rotation.y = intKey2[5];//gcontrol.theta6;
+    men[1][9].rotation.y = intKey2[6];//gcontrol.theta7;
+    men[1][10].rotation.y = intKey2[7];//gcontrol.theta8;
+    men[1][1].rotation.y = intKey2[8];//gcontrol.theta9;
+    men[1][2].rotation.y = intKey2[9];//gcontrol.theta10;
+    men[1][4].rotation.z = intKey2[10];//gcontrol.theta11;
+    men[1][6].rotation.z = intKey2[11];//gcontrol.theta12;
+  }
+  else{
+    men[1][11].visible = false;
+    men[1][12].visible = false;
+  }
+  if(GroupC.children[2].position.distanceTo(GroupC.children[1].position)<=0.2){
+    men[2][11].visible = true;
+    men[2][12].visible = true;
+    men[2][13].visible = true;
+    Smalldrumkeyframe(clock.getElapsedTime()); 
+    men[2][3].rotation.y = intKey3[0];//gcontrol.theta1;
+    men[2][4].rotation.y = intKey3[1];//gcontrol.theta2;
+    men[2][5].rotation.y = intKey3[2];//gcontrol.theta3;
+    men[2][6].rotation.y = intKey3[3];//gcontrol.theta4;
+    men[2][7].rotation.y = intKey3[4];//gcontrol.theta5;
+    men[2][8].rotation.y = intKey3[5];//gcontrol.theta6;
+    men[2][9].rotation.y = intKey3[6];//gcontrol.theta7;
+    men[2][10].rotation.y = intKey3[7];//gcontrol.theta8;
+    men[2][1].rotation.y = intKey3[8];//gcontrol.theta9;
+    men[2][2].rotation.y = intKey3[9];//gcontrol.theta10;
+    men[2][3].rotation.z = intKey3[10];//gcontrol.theta11;
+    men[2][5].rotation.z = intKey3[11];//gcontrol.theta12;
+    men[2][4].rotation.x = intKey3[12];//gcontrol.theta13;
+    men[2][6].rotation.x = intKey3[13];//gcontrol.theta14;
+  }
+  else{
+    men[2][11].visible = false;
+    men[2][12].visible = false;
+    men[2][13].visible = false;
+  }
   //GroupA.children[0].material.visible = false;
-	if (cubeSpin)
-		markerA.children[0].rotation.x += 0.1
+	/*if (HUD1){
+    update(markerA,markerB);
+  }*/
 }
 
 </script></body>
