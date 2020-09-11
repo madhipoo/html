@@ -1527,7 +1527,22 @@ function buildSmallDrum(){
   smalldrumgroup.add (cylinder1,cylinder2,cylinder3,cylinder4,line1,line2,line3,BoxBuffer1,BoxBuffer2,BoxBuffer3,BoxBuffer4,BoxBuffer5,BoxBuffer6,BoxBuffer7,BoxBuffer8);
   return smalldrumgroup;
 }
+function Visible(m1,m2,g1,g2){
+  let a1 = m1.position.clone()
+  let y1 = m1.localToWorld (new THREE.Vector3(0,1,0)).sub(a1);
+  let a2 = m2.position.clone()
+  let y2 = m2.localToWorld (new THREE.Vector3(0,1,0)).sub(a2);
+  let z = new THREE.Vector3(0,0,-1);
 
+  if(y1.dot(z.clone())>=y2.dot(z.clone())){
+    g1.children[1].visible = true;
+    g2.children[1].visible = false;
+  }
+  else{
+    g1.children[1].visible = false;
+    g2.children[1].visible = true;
+  }
+}
 function animate() {
 	requestAnimationFrame (animate);
 	if( arToolkitSource.ready === false )	return
@@ -1540,37 +1555,76 @@ function animate() {
 	scene.visible = camera.visible
 	//renderer.render (sceneHUD, cameraHUD);
   
-  GroupB.children[0].visible = false;
   GroupA.children[0].visible = false;
+  GroupA.children[2].visible = false;
+  GroupA.children[3].visible = false;
+  GroupB.children[0].visible = false;
+  GroupB.children[2].visible = false;
+  GroupC.children[0].visible = false;
+  GroupC.children[2].visible = false;
+  GroupD.children[0].visible = false;
+  GroupE.children[0].visible = false;
+  GroupF.children[0].visible = false;
   /*theta += 0.01;
 	manPos.set ( 0.5*Math.cos(theta), 0.1, 0.5*Math.sin(theta) )	
 	GroupA.children[3].position.copy (manPos)*/
   //update(markerA,markerB,GroupB);
   //update(markerA,markerC,GroupC);
-  if(markerA.visible) {
-    GroupA.children[3].visible = true;
-    if(markerB.visible){
-      let a1 = markerA.position.clone()
-      let y1 = markerA.localToWorld (new THREE.Vector3(0,1,0)).sub(a1);
-      let a2 = markerB.position.clone()
-      let y2 = markerB.localToWorld (new THREE.Vector3(0,1,0)).sub(a2);
-      let z = new THREE.Vector3(0,0,-1);
+  /*if(markerA.visible) GroupA.children[3].visible = true;
+  else GroupA.children[3].visible = false;
 
-      if(y1.dot(z.clone())>=y2.dot(z.clone())){
-        GroupA.children[3].visible = true;
-        GroupB.children[2].visible = false;
-      }
-      else{
-        GroupA.children[3].visible = false;
-        GroupB.children[2].visible = true;
-      }
+  if(markerB.visible)GroupB.children[2].visible = true;
+  else GroupB.children[2].visible = false;
 
-    }
-    
+  if(markerC.visible)GroupC.children[2].visible = true;
+  else GroupC.children[2].visible = false;
+
+  if(markerD.visible)GroupD.children[1].visible = true;
+  else GroupD.children[1].visible = false;
+
+  if(markerE.visible)GroupE.children[1].visible = true;
+  else GroupE.children[1].visible = false;
+
+  if(markerF.visible)GroupF.children[1].visible = true;
+  else GroupF.children[1].visible = false;*/
+
+  if(markerA.visible&&markerB.visible){
+    Visible(markerA,markerB,GroupA,GroupB);
   }
-  if(markerB.visible){
-    GroupB.children[2].visible = true;
-  } 
+  if(markerA.visible&&markerF.visible){
+    Visible(markerA,markerF,GroupA,GroupF);
+  }
+  if(markerA.visible&&markerD.visible){
+    Visible(markerA,markerD,GroupA,GroupD);
+  }
+  if(markerA.visible&&markerE.visible){
+    Visible(markerA,markerE,GroupA,GroupE);
+  }
+  if(markerB.visible&&markerF.visible){
+    Visible(markerB,markerF,GroupB,GroupF);
+  }
+  if(markerF.visible&&markerD.visible){
+    Visible(markerF,markerD,GroupF,GroupD);
+  }
+  if(markerD.visible&&markerE.visible){
+    Visible(markerD,markerE,GroupD,GroupE);
+  }
+  if(markerE.visible&&markerB.visible){
+    Visible(markerE,markerB,GroupE,GroupB);
+  }
+  if(markerC.visible&&markerB.visible){
+    Visible(markerC,markerB,GroupC,GroupB);
+  }
+  if(markerC.visible&&markerE.visible){
+    Visible(markerC,markerE,GroupC,GroupE);
+  }
+  if(markerC.visible&&markerD.visible){
+    Visible(markerC,markerD,GroupC,GroupD);
+  }
+  if(markerC.visible&&markerF.visible){
+    Visible(markerC,markerF,GroupC,GroupF);
+  }
+
   if(GroupA.children[3].position.distanceTo(GroupA.children[1].position)<=0.2){
     men[0][11].visible = true;
     men[0][12].visible = true;
