@@ -557,14 +557,14 @@ function init() {
 	let inA = addMarkerA();
 	GroupA.add(inA[0],inA[1])
   men[0] = buildDrumMan();
-	let drum = buildDrum();
-  drum.rotation.y = Math.PI/2;
-	GroupA.add(drum);
   car[0] = buildcar();
   men[0][0].position.set(0,0.1,0);
   car[0].add(men[0][0]);
   car[0].rotation.y = Math.PI/2;
   GroupA.add(car[0]);
+  let drum = buildDrum();
+  drum.rotation.y = Math.PI/2;
+	GroupA.add(drum);
 
 	markerB = new THREE.Group();
 	var markerControlsB = new THREEx.ArMarkerControls(arToolkitContext, markerB, {
@@ -610,6 +610,12 @@ function init() {
 	markerD.add(GroupD);
   let inD = addMarkerD();
 	GroupD.add(inD[0],inD[1])
+  men[3] = buildCymbalMan();
+  car[3] = buildcar();
+  men[3][0].position.set(0,0.1,0);
+  car[3].add(men[3][0]);
+  car[3].rotation.y = -Math.PI/2;
+  GroupD.add(car[3]);
 
   markerE = new THREE.Group();
   var markerControlsE = new THREEx.ArMarkerControls(arToolkitContext, markerE, {
@@ -621,6 +627,13 @@ function init() {
 	markerE.add(GroupE);
   let inE = addMarkerE();
 	GroupE.add(inE[0],inE[1])
+  men[4] = buildCymbalMan();
+  car[4] = buildcar();
+  men[4][0].position.set(0,0.1,0);
+  car[4].add(men[4][0]);
+  car[4].rotation.y = -Math.PI/2;
+  GroupE.add(car[4]);
+
 
   markerF = new THREE.Group();
   var markerControlsF = new THREEx.ArMarkerControls(arToolkitContext, markerF, {
@@ -631,7 +644,13 @@ function init() {
 	GroupF = new THREE.Group();
 	markerF.add(GroupF);
   let inF = addMarkerF();
-	GroupF.add(inF[0],inF[1])
+  GroupF.add(inF[0],inF[1])
+  men[5] = buildCymbalMan();
+  car[5] = buildcar();
+  men[5][0].position.set(0,0.1,0);
+  car[5].add(men[5][0]);
+  car[5].rotation.y = -Math.PI/2;
+  GroupF.add(car[5]);
   ///////////////////////////////////////
 
 	var ambient = new THREE.AmbientLight( 0x666666 );
@@ -727,7 +746,7 @@ function buildDrumMan(){
   return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],stick1,stick2];
 }
 function buildCymbalMan(){
-    mine = new THREE.Group();
+  mine = new THREE.Group();
 	//GroupA.add(mine);
 	head = makeHead();
 	torso = makeTorso();
@@ -1535,12 +1554,12 @@ function Visible(m1,m2,g1,g2){
   let z = new THREE.Vector3(0,0,-1);
 
   if(y1.dot(z.clone())>=y2.dot(z.clone())){
-    g1.children[1].visible = true;
-    g2.children[1].visible = false;
+    g1.children[2].visible = true;
+    g2.children[2].visible = false;
   }
   else{
-    g1.children[1].visible = false;
-    g2.children[1].visible = true;
+    g1.children[2].visible = false;
+    g2.children[2].visible = true;
   }
 }
 function animate() {
@@ -1556,12 +1575,8 @@ function animate() {
 	//renderer.render (sceneHUD, cameraHUD);
   
   GroupA.children[0].visible = false;
-  GroupA.children[2].visible = false;
-  GroupA.children[3].visible = false;
   GroupB.children[0].visible = false;
-  GroupB.children[2].visible = false;
   GroupC.children[0].visible = false;
-  GroupC.children[2].visible = false;
   GroupD.children[0].visible = false;
   GroupE.children[0].visible = false;
   GroupF.children[0].visible = false;
@@ -1570,8 +1585,8 @@ function animate() {
 	GroupA.children[3].position.copy (manPos)*/
   //update(markerA,markerB,GroupB);
   //update(markerA,markerC,GroupC);
-  /*if(markerA.visible) GroupA.children[3].visible = true;
-  else GroupA.children[3].visible = false;
+  if(markerA.visible) GroupA.children[2].visible = true;
+  else GroupA.children[2].visible = false;
 
   if(markerB.visible)GroupB.children[2].visible = true;
   else GroupB.children[2].visible = false;
@@ -1579,49 +1594,61 @@ function animate() {
   if(markerC.visible)GroupC.children[2].visible = true;
   else GroupC.children[2].visible = false;
 
-  if(markerD.visible)GroupD.children[1].visible = true;
-  else GroupD.children[1].visible = false;
+  if(markerD.visible)GroupD.children[2].visible = true;
+  else GroupD.children[2].visible = false;
 
-  if(markerE.visible)GroupE.children[1].visible = true;
-  else GroupE.children[1].visible = false;
+  if(markerE.visible)GroupE.children[2].visible = true;
+  else GroupE.children[2].visible = false;
 
-  if(markerF.visible)GroupF.children[1].visible = true;
-  else GroupF.children[1].visible = false;*/
-
+  if(markerF.visible)GroupF.children[2].visible = true;
+  else GroupF.children[2].visible = false;
+  let msg = '';
   if(markerA.visible&&markerB.visible){
+    msg = 'show A B'
     Visible(markerA,markerB,GroupA,GroupB);
   }
   if(markerA.visible&&markerF.visible){
+    msg = 'show A F'
     Visible(markerA,markerF,GroupA,GroupF);
   }
   if(markerA.visible&&markerD.visible){
+    msg = 'show A D'
     Visible(markerA,markerD,GroupA,GroupD);
   }
   if(markerA.visible&&markerE.visible){
+    msg = 'show A E'
     Visible(markerA,markerE,GroupA,GroupE);
   }
   if(markerB.visible&&markerF.visible){
+    msg = 'show B F'
     Visible(markerB,markerF,GroupB,GroupF);
   }
   if(markerF.visible&&markerD.visible){
+    msg = 'show D F'
     Visible(markerF,markerD,GroupF,GroupD);
   }
   if(markerD.visible&&markerE.visible){
+    msg = 'show D E'
     Visible(markerD,markerE,GroupD,GroupE);
   }
   if(markerE.visible&&markerB.visible){
+    msg = 'show B E'
     Visible(markerE,markerB,GroupE,GroupB);
   }
   if(markerC.visible&&markerB.visible){
+    msg = 'show B C'
     Visible(markerC,markerB,GroupC,GroupB);
   }
   if(markerC.visible&&markerE.visible){
+    msg = 'show C E'
     Visible(markerC,markerE,GroupC,GroupE);
   }
   if(markerC.visible&&markerD.visible){
+    msg = 'show C D'
     Visible(markerC,markerD,GroupC,GroupD);
   }
   if(markerC.visible&&markerF.visible){
+    msg = 'show C F'
     Visible(markerC,markerF,GroupC,GroupF);
   }
 
@@ -1692,17 +1719,8 @@ function animate() {
     men[2][12].visible = false;
     men[2][13].visible = false;
   }
-  //GroupA.children[0].material.visible = false;
-	/*if (HUD1){
-    let o1 = markerA.position.clone();
-    let z1 = markerA.localToWorld (new THREE.Vector3(0,0,-1)).sub(o1);
 
-    let o2 = markerB.position.clone();
-    let z2 = markerB.localToWorld (new THREE.Vector3(0,0,-1)).sub(o2);
-    manPosEye = markerA.localToWorld (manPos.clone());
-    let manPos2 = manPosEye.sub (o2);;
-    Curve(manPos,manPos2,z1,z2.clone().negate());
-  }*/
+  $('#printDis').text (msg)
 }
 
 </script></body>
