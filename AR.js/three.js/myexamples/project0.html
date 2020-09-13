@@ -68,6 +68,15 @@ class Button {
 		return Math.max( Math.abs (v[0]-this.centerX), Math.abs(v[1]-this.centerY) )
 	}
 }
+class Path{
+  constructor(pos1,euler1,euler2,moving){
+    this.pos1 = pos1;
+    this.euler1 = euler1;
+    this.euler2 = euler2;
+    this.turning = 0;
+    this.moving = moving;
+  }
+}
 // global variables
 var renderer,stats;
 var scene, camera,sceneHUD, cameraHUD;
@@ -475,6 +484,8 @@ var intKey1 = [], intKey2 = [],intKey3 = [];
 var soundTrack;
 var isDimming = false, soundVal = 1.0, sign = 1.0;
 var line;
+var L = 1,kk = 8/300; 
+var path = [],alpha;
 ////////////////////////
 init();
 animate();
@@ -519,6 +530,39 @@ function init() {
 	detect[1] = new Button (buttonSize, 0, -halfH/2);
 	button[1].position.set (detect[1].centerX, detect[1].centerY, 0);
 	sceneHUD.add (button[1]);
+
+  //currentPlane = 'PX';
+  pos1 = new THREE.Vector3(0, 0, 0);
+  euler1 = new THREE.Euler (0, Math.PI/2, 0, 'ZYX');
+  //nextPlane = 'PY';
+  euler2 = new THREE.Euler (0,Math.PI,0,'ZYX');
+	moving = 'PX1PY1'; 
+  path[0] = new Path(pos1,euler1,euler2,moving);
+
+  //currentPlane = 'PX';
+  pos1 = new THREE.Vector3(L/2, 0, 0);
+  euler1 = new THREE.Euler (-Math.PI/2, -Math.PI/2, 0, 'ZYX');
+  //nextPlane = 'PZ';
+  euler2 = new THREE.Euler (Math.PI/2, 0, Math.PI,'ZYX');	
+  moving = 'PX1PZ1'; 
+  path[1] = new Path(pos1,euler1,euler2,moving);
+
+  //currentPlane = 'PX';
+  pos1 = new THREE.Vector3(L/2, 0, 0);
+  euler1 = new THREE.Euler (0, 0, -Math.PI/2, 'ZYX');
+  //nextPlane = 'NY';
+  euler2 = new THREE.Euler (0,0,-Math.PI,'ZYX');  
+	moving = 'PX1PY2'; 
+  path[2] = new Path(pos1,euler1,euler2,moving);
+
+  //currentPlane = 'PX';
+  pos1 = new THREE.Vector3(L/2, 0, 0);
+  euler1 = new THREE.Euler (Math.PI/2, Math.PI/2, 0, 'ZYX');
+  //nextPlane = 'NZ';
+  euler2 = new THREE.Euler (-Math.PI/2, 0, Math.PI,'ZYX');
+  moving = 'PX1PZ2'; 
+  path[3] = new Path(pos1,euler1,euler2,moving);
+
 	arToolkitSource = new THREEx.ArToolkitSource({
 		// to read from the webcam 
 		sourceType : 'webcam',
@@ -562,6 +606,8 @@ function init() {
   car[0].add(men[0][0]);
   car[0].rotation.y = Math.PI/2;
   GroupA.add(car[0]);
+  GroupA.children[2].position.copy (path[0].pos1);
+  GroupA.children[2].rotation.copy (path[0].euler1);
   let drum = buildDrum();
   drum.rotation.y = Math.PI/2;
 	GroupA.add(drum);
@@ -743,6 +789,18 @@ function buildDrumMan(){
 	rightarm[0].rotation.order = 'ZYX';
 	leftleg[0].rotation.order = 'ZYX';
 	rightleg[0].rotation.order = 'ZYX';
+
+  var axis0 = new THREE.Mesh (new THREE.CylinderGeometry (0.01,0.01,0.4), new THREE.MeshBasicMaterial({color:0xff0000}));
+  var axis1 = new THREE.Mesh (new THREE.CylinderGeometry (0.01,0.01,0.6), new THREE.MeshBasicMaterial({color:0x00ff00}))
+  var axis2 = new THREE.Mesh (new THREE.CylinderGeometry (0.01,0.01,0.4), new THREE.MeshBasicMaterial({color:0x0000ff}));
+	mine.add (axis0);
+  mine.add (axis1);
+  mine.add (axis2);
+  axis0.position.set (0.2,0,0);
+  axis1.position.set (0,0.3,0);
+  axis2.position.set (0,0,0.2);
+  axis0.rotation.z = - Math.PI/2;
+  axis2.rotation.x = Math.PI/2;
   return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],stick1,stick2];
 }
 function buildCymbalMan(){
@@ -1562,6 +1620,36 @@ function Visible(m1,m2,g1,g2){
     g2.children[2].visible = true;
   }
 }
+function PxtoPy() {
+var triStep = .009;
+//console.log (`turning is ${turning} alpha is ${alpha}`);
+
+  if (path[0].turning === 0) {
+  	GroupA.children[2].position.y += triStep;
+  
+  	if (GroupA.children[2].position.y > L/2-L/kk) {// ready to cross
+      path[0].turning = 1;
+      path[0].pos1 = new THREE.Vector3(0, L/2-L/kk, 0);
+      pos2 = new THREE.Vector3(-L/kk, L/2, 0);
+
+      quat1 = new THREE.Quaternion();
+      quat1.setFromEuler(path[0].euler1);
+      quat2 = new THREE.Quaternion();
+      quat2.setFromEuler(path[0].euler2);
+      alpha = 0;
+    }  
+
+  } else if (path[0].turning === 1) { // in crossing
+  	alpha = Cross(path[0],GroupA,quat1,quat2,pos2);  // update alpha
+  	
+
+  } else { // turning == 2: finish crossing ... always a straight line
+  GroupA.children[2].position.x -= triStep;
+	//console.log (`x is ${plane.position.x}`)
+  	if (GroupA.children[2].position.x < 0) 
+    path[0].moving = false;
+  }
+}
 function animate() {
 	requestAnimationFrame (animate);
 	if( arToolkitSource.ready === false )	return
@@ -1585,6 +1673,7 @@ function animate() {
 	GroupA.children[3].position.copy (manPos)*/
   //update(markerA,markerB,GroupB);
   //update(markerA,markerC,GroupC);
+  //PxtoPy();
   if(markerA.visible) GroupA.children[2].visible = true;
   else GroupA.children[2].visible = false;
 
@@ -1722,5 +1811,25 @@ function animate() {
 
   $('#printDis').text (msg)
 }
-
+function Cross(path,Group,quat1,quat2,pos2){
+  alpha += 0.01;
+    
+  var qm = quat1.clone().slerp(quat2, alpha);
+  Group.children[2].matrix.makeRotationFromQuaternion (qm);
+  
+  var pp = path.pos1.clone().lerp(pos2, alpha);
+  Group.children[2].matrix.setPosition(pp);
+  Group.children[2].matrixAutoUpdate = false;
+  
+  if (alpha > 1.0) {
+  	path.turning = 2; // done turning
+    
+    Group.children[2].position.setFromMatrixPosition (Group.children[2].matrixWorld);
+    Group.children[2].quaternion.setFromRotationMatrix (Group.children[2].matrixWorld); 
+    
+    Group.children[2].matrixAutoUpdate = true;
+  }
+  
+  return alpha;
+}
 </script></body>
