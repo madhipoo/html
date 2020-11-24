@@ -675,447 +675,2289 @@ function onResize(){
 			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
 		}
 	}	
-function buildDrumMan(){
-  mine = new THREE.Group();
-	//GroupA.add(mine);
-	head = makeHead();
-	torso = makeTorso();
-	mine.add(torso);
-	head.position.y = 7.57*k-4.09*k;
-	torso.position.y = 4.09*k;
-	torso.add(head);
+  function buildDrum(){
+    box = new THREE.Group();
+    var loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    var colormap = loader.load ('https://i.imgur.com/MTtMccq.jpg');
+    var points = [];
+    for ( var i = 0; i < 10; i ++ ) {
+      points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 2 + 18, ( i - 5 ) * 2 ) );
+    }
+    var geometry = new THREE.LatheGeometry( points );
+    var material = new THREE.MeshLambertMaterial( { map: colormap} );
+    var lathe1 = new THREE.Mesh( geometry, material );
+    lathe1.rotation.z=Math.PI/2;
+    lathe1.position.set(48,45,0);
+    scene.add( lathe1 );
+    for ( var i = 0; i < 10; i ++ ) {
+      points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 2 + 18, ( i - 5 ) * 2 ) );
+    }
 
-	leftarm = makeArm();
-  let geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.1, 32 );
-  let material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
-  stick1= new THREE.Mesh( geometry, material );
-	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
-	leftarm[0].add(leftarm[1]);
-	leftarm[1].add(stick1);
-	torso.add (leftarm[0]);
-  stick1.position.set(2*k,0,-0.05);
-  stick1.rotation.x=Math.PI/2;
-  stick1.castShadow = true;
-  stick1.receiveShadow = true;
-
-	rightarm = makeArm();
-  geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.1, 32 );
-  material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
-  stick2= new THREE.Mesh( geometry, material );
-	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
-	rightarm[0].add(rightarm[1]);
-	rightarm[1].add(stick2);
-	torso.add(rightarm[0]);
-  stick2.position.set(2*k,0,-0.05);
-  stick2.rotation.x=Math.PI/2;
-  stick2.castShadow = true;
-  stick2.receiveShadow = true;
-
-	leftleg = makeLeg();
-	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
-	leftleg[0].add(leftleg[1]);
-	torso.add(leftleg[0]);
+    var lathe2 = new THREE.Mesh( geometry, material );
+    lathe2.rotation.z=-Math.PI/2;
+    lathe2.position.set(33,45,0);
+    scene.add( lathe2 );
 
 
-	rightleg = makeLeg();
-	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
-	rightleg[0].add(rightleg[1]);
-	torso.add(rightleg[0]);
+    var geometry = new THREE.CylinderBufferGeometry(18, 18, 1, 64 );
+    var material = new THREE.MeshLambertMaterial( {color: 0xeba434} );
+    cylinder2 = new THREE.Mesh( geometry, material );
+    cylinder2.position.set(23,45,0);
+    cylinder2.rotation.z=-Math.PI/2;
+    cylinder3 = new THREE.Mesh( geometry, material );
+    cylinder3.position.set(58,45,0);
+    cylinder3.rotation.z=-Math.PI/2;
+    var loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    var colormap = loader.load ('https://i.imgur.com/rMKI0rA.jpg');
+    var geometry = new THREE.CylinderBufferGeometry(1, 1, 50, 32 );
+    var material = new THREE.MeshLambertMaterial( {map: colormap} );
+    cylinder4 = new THREE.Mesh( geometry, material );
+    cylinder4.position.set(51,18,0);
+    cylinder4.rotation.x=-Math.PI/4;
+    cylinder5 = new THREE.Mesh( geometry, material );
+    cylinder5.position.set(51,18,0);
+    cylinder5.rotation.x=Math.PI/4;
+    cylinder6 = new THREE.Mesh( geometry, material );
+    cylinder6.position.set(30,18,0);
+    cylinder6.rotation.x=-Math.PI/4;
+    cylinder7 = new THREE.Mesh( geometry, material );
+    cylinder7.position.set(30,18,0);
+    cylinder7.rotation.x=Math.PI/4;
+    box.add(lathe1,lathe2,cylinder2,cylinder3,cylinder4,cylinder5,cylinder6,cylinder7);
+    lathe1.castShadow = true;
+    lathe1.receiveShadow = true;
+    lathe2.castShadow = true;
+    lathe2.receiveShadow = true;
+    cylinder2.castShadow = true;
+    cylinder2.receiveShadow = true;
+    cylinder3.castShadow = true;
+    cylinder3.receiveShadow = true;
+    cylinder4.castShadow = true;
+    cylinder4.receiveShadow = true;
+    cylinder5.castShadow = true;
+    cylinder5.receiveShadow = true;
+    cylinder6.castShadow = true;
+    cylinder6.receiveShadow = true;
+    cylinder7.castShadow = true;
+    cylinder7.receiveShadow = true;
+    return box;
+    }
+  function buildDrumMan(){
+    let man = new THREE.Group();
+    //GroupA.add(mine);
+    let head = makeDrumHead();
+    let torso = makeDrumTorso();
+    man.add(torso);
+    head.position.y = 7.57*k-4.09*k;
+    torso.position.y = 4.09*k;
+    torso.add(head);
 
-	mine.rotation.y=-Math.PI/2;	
-	mine.position.y=0.01;
-	leftarm[0].rotation.z = -Math.PI/2;
-	rightarm[0].rotation.z = -Math.PI/2;
-	leftleg[0].rotation.z = -Math.PI/2;
-	rightleg[0].rotation.z = -Math.PI/2;
-	
-  mine.rotation.order = 'ZYX';
-	leftarm[0].rotation.order = 'ZYX';
-	rightarm[0].rotation.order = 'ZYX';
-	leftleg[0].rotation.order = 'ZYX';
-	rightleg[0].rotation.order = 'ZYX';
-
-  var axis0 = new THREE.Mesh (new THREE.CylinderGeometry (0.01,0.01,0.4), new THREE.MeshBasicMaterial({color:0xff0000}));
-  var axis1 = new THREE.Mesh (new THREE.CylinderGeometry (0.01,0.01,0.6), new THREE.MeshBasicMaterial({color:0x00ff00}))
-  var axis2 = new THREE.Mesh (new THREE.CylinderGeometry (0.01,0.01,0.4), new THREE.MeshBasicMaterial({color:0x0000ff}));
-	mine.add (axis0);
-  mine.add (axis1);
-  mine.add (axis2);
-  axis0.position.set (0.2,0,0);
-  axis1.position.set (0,0.3,0);
-  axis2.position.set (0,0,0.2);
-  axis0.rotation.z = - Math.PI/2;
-  axis2.rotation.x = Math.PI/2;
-  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],stick1,stick2];
-}
-function buildCymbalMan(){
-  mine = new THREE.Group();
-	//GroupA.add(mine);
-	head = makeHead();
-	torso = makeTorso();
-	mine.add(torso);
-	head.position.y = 7.57*k-4.09*k;
-	torso.position.y = 4.09*k;
-	torso.add(head);
-
-	leftarm = makeArm();
-  let geometry = new THREE.BoxGeometry(0.02, 0.01, 0.01, 32 );
-  let material = new THREE.MeshLambertMaterial( {color: 'red'} );
-  line1= new THREE.Mesh( geometry, material );
-  line1.position.set(2*k,0.01,0);
-  line1.rotation.z=Math.PI/4;
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  var colormap = loader.load ('https://i.imgur.com/54uWXuj.jpg');
-  geometry = new THREE.CylinderBufferGeometry(0.05, 0.1, 0.01, 32 );
-  material = new THREE.MeshLambertMaterial( {map: colormap} );
-  cymbal1= new THREE.Mesh( geometry, material );
-
-	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
-	leftarm[0].add(leftarm[1]);
-	leftarm[1].add(cymbal1,line1);
-	torso.add (leftarm[0]);
-  cymbal1.position.set(2*k,0.03,0);
-  cymbal1.rotation.z=-Math.PI/4;
-  cymbal1.castShadow = true;
-  cymbal1.receiveShadow = true;
-  line1.castShadow = true;
-  line1.receiveShadow = true;
-
-	rightarm = makeArm();
-  geometry = new THREE.BoxGeometry(0.02, 0.01, 0.01, 32 );
-  material = new THREE.MeshLambertMaterial( {color: 'red'} );
-  line2= new THREE.Mesh( geometry, material );
-  line2.position.set(2*k,0.01,0);
-  line2.rotation.z=Math.PI/4;
-  var colormap = loader.load ('https://i.imgur.com/54uWXuj.jpg');
-  geometry = new THREE.CylinderBufferGeometry(0.05, 0.1, 0.01, 32 );
-  material = new THREE.MeshLambertMaterial( {map: colormap} );
-  cymbal2= new THREE.Mesh( geometry, material );
-	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
-	rightarm[0].add(rightarm[1]);
-	rightarm[1].add(cymbal2,line2);
-	torso.add(rightarm[0]);
-  cymbal2.position.set(2*k,-0.03,0);
-  cymbal2.rotation.z=Math.PI/5;
-  cymbal2.castShadow = true;
-  cymbal2.receiveShadow = true;
-  line2.castShadow = true;
-  line2.receiveShadow = true;
-
-	leftleg = makeLeg();
-	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
-	leftleg[0].add(leftleg[1]);
-	torso.add(leftleg[0]);
-
-	rightleg = makeLeg();
-	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
-	rightleg[0].add(rightleg[1]);
-	torso.add(rightleg[0]);
-
-	mine.rotation.y=-Math.PI/2;	
-	mine.position.y=0.01;
-	leftarm[0].rotation.z = -Math.PI/2;
-	rightarm[0].rotation.z = -Math.PI/2;
-	leftleg[0].rotation.z = -Math.PI/2;
-	rightleg[0].rotation.z = -Math.PI/2;
-	
-	leftarm[0].rotation.order = 'ZYX';
-	rightarm[0].rotation.order = 'ZYX';
-	leftleg[0].rotation.order = 'ZYX';
-	rightleg[0].rotation.order = 'ZYX';
-  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],cymbal1,cymbal2];
-}
-function buildSmallDrumMan(){
-  mine = new THREE.Group();
-	//GroupA.add(mine);
-	head = makeHead();
-	torso = makeTorso();
-	mine.add(torso);
-	head.position.y = 7.57*k-4.09*k;
-	torso.position.y = 4.09*k;
-	torso.add(head);
-  let smalldrum = buildSmallDrum();
-  torso.add(smalldrum);
-	leftarm = makeArm();
-  let geometry = new THREE.CylinderBufferGeometry(0.01, 0.005, 0.1, 0.32 );
-  let material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
-  stick1= new THREE.Mesh( geometry, material );
-  geometry = new THREE.DodecahedronBufferGeometry(0.01,5 );
-  material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
-  ball1= new THREE.Mesh( geometry, material );
-  stick1.add(ball1);
-  
-	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
-	leftarm[0].add(leftarm[1]);
-	leftarm[1].add(stick1);
-	torso.add (leftarm[0]);
-  stick1.position.set(2*k,0,-0.05);
-  stick1.rotation.x=Math.PI/2;
-  ball1.position.set(0,0.05,0);
-  stick1.castShadow = true;
-  stick1.receiveShadow = true;
-  ball1.castShadow = true;
-  ball1.receiveShadow = true;
+    let leftarm = makeDrumArm();
+    leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
+    leftarm[0].add(leftarm[1]);
+    torso.add (leftarm[0]);
+    let rightarm = makeDrumArm();
+    rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
+    rightarm[0].add(rightarm[1]);
+    torso.add(rightarm[0]);
 
 
-	rightarm = makeArm();
-  geometry = new THREE.CylinderBufferGeometry(0.01, 0.005, 0.1, 0.32 );
-  material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
-  stick2= new THREE.Mesh( geometry, material );
-  geometry = new THREE.DodecahedronBufferGeometry(0.01,5 );
-  material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
-  ball2= new THREE.Mesh( geometry, material );
-  stick2.add(ball2);
-	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
-	rightarm[0].add(rightarm[1]);
-	rightarm[1].add(stick2);
-	torso.add(rightarm[0]);
-  stick2.position.set(2*k,0,-0.05);
-  stick2.rotation.x=Math.PI/2;
-  ball2.position.set(0,-0.05,0);
-  stick2.castShadow = true;
-  stick2.receiveShadow = true;
-  ball2.castShadow = true;
-  ball2.receiveShadow = true;
-
-	leftleg = makeLeg();
-	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
-	leftleg[0].add(leftleg[1]);
-	torso.add(leftleg[0]);
-
-	rightleg = makeLeg();
-	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
-	rightleg[0].add(rightleg[1]);
-	torso.add(rightleg[0]);
-
-	mine.rotation.y=-Math.PI/2;	
-	mine.position.y=0.01;
-	leftarm[0].rotation.z = -Math.PI/2;
-	rightarm[0].rotation.z = -Math.PI/2;
-	leftleg[0].rotation.z = -Math.PI/2;
-	rightleg[0].rotation.z = -Math.PI/2;
-	
-	leftarm[0].rotation.order = 'ZYX';
-	rightarm[0].rotation.order = 'ZYX';
-	leftleg[0].rotation.order = 'ZYX';
-	rightleg[0].rotation.order = 'ZYX';
-  mine.rotation.order = 'ZXY';
-  return [mine,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],stick1,stick2,smalldrum];
-}
-
-function makeArm() {
-	var group = new THREE.Group();
- 	var group2 = new THREE.Group();
-  var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
-  uparm = new THREE.Mesh (new THREE.BoxGeometry(1.91*k, 1.20*k, 1.20*k), material); 
-  var material = new THREE.MeshLambertMaterial( { color:'white'} );
-  dowmarm = new THREE.Mesh (new THREE.BoxGeometry(1.91*k, 1.10*k, 1.10*k), material);
-  let armtexture=buildarm();
-  armtexture.rotation.z=Math.PI/2;
-  armtexture.position.x = 1.91*k/2;
-  group2.add(dowmarm,armtexture);
-  group.add (uparm,group2);
-  uparm.position.x = 1.91*k/2;
-  dowmarm.position.x = 1.91*k/2;
-  group2.position.x =2*k;
-  uparm.castShadow = true;
-  uparm.receiveShadow = true;
-  dowmarm.castShadow = true;
-  dowmarm.receiveShadow = true;
-  //group.add (new THREE.AxesHelper (k));
-  //group2.add (new THREE.AxesHelper (k));
-	return [group,group2];
-}
-
-function makeLeg() {
-	var group = new THREE.Group();
-	var group2 = new THREE.Group();
-	var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
-	upleg = new THREE.Mesh (new THREE.BoxGeometry(2.045*k,  1.26*k, 1.26*k), material);
-	downleg = new THREE.Mesh (new THREE.BoxGeometry(2.045*k, 1.26*k, 1.26*k), material);
-	group2.add(downleg);
-		group.add (upleg,group2);
-	upleg.position.x = 2.045*k/2;
-	downleg.position.x =2.045*k/2;
-	group2.position.x =2.045*k;
-	upleg.castShadow = true;
-	upleg.receiveShadow = true;
-	downleg.castShadow = true;
-	downleg.receiveShadow = true;
-	//group.add (new THREE.AxesHelper (k));
-	//group2.add (new THREE.AxesHelper (k));
-		return [group,group2];
-}
-
-function makeHead() {
-	var headGroup = new THREE.Group();
-  var mat = new THREE.MeshLambertMaterial({color:0x99d8ea});
-  headBody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 2.52*k, 2.52*k), mat);
-  headBody2=buildface();
-  headBody2.rotation.y=Math.PI;
-  headBody2.position.z = -2.52*k;
-	headGroup.add (headBody,headBody2);
-  headBody.position.y = 2.52*k/2;
-  headBody.castShadow = true;
-  headBody.receiveShadow = true;
-  //headGroup.add (new THREE.AxesHelper (k));
-	return headGroup;
-}
-
-function makeTorso () {
-	var group = new THREE.Group();
-  var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
-  Torsobody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), material);
-  Torsobody2=buildTorso();
-  Torsobody2.rotation.y=Math.PI;
-  Torsobody2.position.z = -1.27*k;
-	group.add (Torsobody,Torsobody2);
-  Torsobody.position.y = 3.48*k/2;
-  Torsobody.castShadow = true;
-  Torsobody.receiveShadow = true;
-	//group.add (new THREE.AxesHelper (2*k));
-return group;
-
-}
-function buildface() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.52*k/2, 0, -2.52*k/2),
-    new THREE.Vector3(2.52*k/2, 0, -2.52*k/2),
-    new THREE.Vector3(-2.52*k/2, 2.52*k, -2.52*k/2),
-    new THREE.Vector3(2.52*k/2, 2.52*k, -2.52*k/2)
-  );
+    let leftleg = makeDrumLeg();
+    leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
+    leftleg[0].add(leftleg[1]);
+    torso.add(leftleg[0]);
 
 
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 1, 3);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
+    let rightleg = makeDrumLeg();
+    rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
+    rightleg[0].add(rightleg[1]);
+    torso.add(rightleg[0]);
+
+    man.rotation.y=-Math.PI/2;	
+    man.position.y=0.01;
+    leftarm[0].rotation.z = -Math.PI/2;
+    rightarm[0].rotation.z = -Math.PI/2;
+    leftleg[0].rotation.z = -Math.PI/2;
+    rightleg[0].rotation.z = -Math.PI/2;
+    
+    leftarm[0].rotation.order = 'ZYX';
+    rightarm[0].rotation.order = 'ZYX';
+    leftleg[0].rotation.order = 'ZYX';
+    rightleg[0].rotation.order = 'ZYX';
+    man.rotation.order = 'ZYX';
+    return [man,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],leftarm[2],rightarm[2]];
+  }
+
+  function makeDrumArm() {
+    var group = new THREE.Group();
+    var group2 = new THREE.Group();
+    var geometry = new THREE.CylinderBufferGeometry(1, 1, 10, 32 );
+    var material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
+    let stick= new THREE.Mesh( geometry, material );
+    let body3=buildDrumarm();
+    body3.rotation.z=Math.PI/2;
+    body3.position.x = 1.92*k;
+    let body6=buildDrumarm2();
+    body6.rotation.z=Math.PI/2;
+    body6.position.x = 1.92*k;
+    stick.position.set(2*k,0,-5);
+    stick.rotation.x=Math.PI/2;
+    group2.add(stick,body6);
+    group.add (group2,body3);
+    group2.position.x =2*k;
+    
+    body3.castShadow = true;
+    body3.receiveShadow = true;
+    body6.castShadow = true;
+    body6.receiveShadow = true;
+    stick.castShadow = true;
+    stick.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (k));
+    //group2.add (new THREE.AxesHelper (k));
+    return [group,group2,stick];
+  }
+  function makeDrumLeg() {
+    var group = new THREE.Group();
+    var group2 = new THREE.Group();
+    
+    let body7=buildDrumleg();
+    body7.rotation.z=Math.PI/2;
+    body7.position.x = 2.046*k;
+    let body8=buildDrumleg2();
+    body8.rotation.z=Math.PI/2;
+    body8.position.x = 2.046*k;
+    group2.add(body8);
+    group.add (group2,body7);
+    group2.position.x =2.045*k;
+    
+    body7.castShadow = true;
+    body7.receiveShadow = true;
+    body8.castShadow = true;
+    body8.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (k));
+    //group2.add (new THREE.AxesHelper (k));
+    return [group,group2];
+  }
+  function makeDrumHead() {
+    var headGroup = new THREE.Group();
+    var mat = new THREE.MeshLambertMaterial({color:0x99d8ea});
+    let headBody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 2.52*k, 2.52*k), mat);
+    let headBody2=buildDrumface();
+    headBody2.rotation.y=Math.PI;
+    headGroup.add (headBody,headBody2);
+    headBody.position.y = 2.52*k/2;
+    
+    headBody.castShadow = true;
+    headBody.receiveShadow = true;
+    //headGroup.add (new THREE.AxesHelper (k));
+    return headGroup;
+  }
+  function makeDrumTorso () {
+    var group = new THREE.Group();
+    var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
+    let Torsobody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), material);
+    let Torsobody2=buildDrumTorso();
+    Torsobody2.rotation.y=Math.PI;
+    group.add (Torsobody,Torsobody2);
+    Torsobody.position.y = 3.48*k/2;
+    
+    Torsobody.castShadow = true;
+    Torsobody.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (2*k));
+  return group;
+
+  }
+  function buildDrumface() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-2.53*k/2, 0, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 0, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 2.53*k, 2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 2.53*k, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 0, -2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 2.53*k, -2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 0, -2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 2.53*k, -2.53*k/2),
+    );
 
 
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
 
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/J0uy9Kv.png');
-  
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildTorso() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.5*k/2, 0, -1.26*k/2),
-    new THREE.Vector3(2.52*k/2, 0, -1.26*k/2),
-    new THREE.Vector3(-2.52*k/2, 3.48*k, -1.26*k/2),
-    new THREE.Vector3(2.52*k/2, 3.48*k, -1.26*k/2)
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 1, 3);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-
-
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/ncljgL4.png');
-  
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildarm() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.2*k, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.2*k, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.2*k, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.2*k, 1.25*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(0, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 1), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      color: 0xd0d0c,side: THREE.DoubleSide
-    }));
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/3d2gw9B.png');
+    let texture1 = loader.load('https://i.imgur.com/XDyw0Rs.png');
+    let texture2 = loader.load('https://i.imgur.com/8oxlNMA.png');
+    let texture3 = loader.load('https://i.imgur.com/WjEobnE.png');
+    let texture4 = loader.load('https://i.imgur.com/TLdR62i.png');
+    let texture5 = loader.load('https://i.imgur.com/E57CwUJ.png');
+    materialArray = [];
     materialArray.push(new THREE.MeshLambertMaterial({
-      color: 0xd0d0c,side: THREE.DoubleSide
-    }));
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture1
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture4
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture5
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildDrumTorso() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-2.53*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 3.48*k, 1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 3.48*k, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 3.48*k, -1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 3.48*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/SFPQbvU.png');
+    let texture1 = loader.load('https://i.imgur.com/srIZpsC.png');
+    let texture2 = loader.load('https://i.imgur.com/zgO9YE0.png');
+    let texture3 = loader.load('https://i.imgur.com/srIZpsC.png');
+    let texture4 = loader.load('https://i.imgur.com/iADRREk.png');
+    let texture5 = loader.load('https://i.imgur.com/ZPH1PVI.png');
+    materialArray = [];
     materialArray.push(new THREE.MeshLambertMaterial({
-      color: 0xd0d0c,side: THREE.DoubleSide
-    }));
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture1
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture4
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture5
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+
+  function buildDrumarm() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/GBmTa4L.png');
+    let texture2 = loader.load('https://i.imgur.com/xWC8zfg.png');
+    let texture3 = loader.load('https://i.imgur.com/eA5BB9i.png');
+    materialArray = [];
     materialArray.push(new THREE.MeshLambertMaterial({
-      color: 0xd0d0c,side: THREE.DoubleSide
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildDrumarm2() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/eA5BB9i.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+
+  function buildDrumleg() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/HdgeyBu.png');
+    let texture2 = loader.load('https://i.imgur.com/6mpD0ol.png');
+    let texture3 = loader.load('https://i.imgur.com/eA5BB9i.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildDrumleg2() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/4ojGjEo.png');
+    let texture2 = loader.load('https://i.imgur.com/eA5BB9i.png');
+    let texture3 = loader.load('https://i.imgur.com/Xsw5JHL.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+
+  function buildCymbalMan(){
+    let man = new THREE.Group();
+    //GroupA.add(mine);
+    let head = makeCymbalHead();
+    let torso = makeCymbalTorso();
+    man.add(torso);
+    head.position.y = 7.57*k-4.09*k;
+    torso.position.y = 4.09*k;
+    torso.add(head);
+    var loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    var colormap = loader.load ('https://i.imgur.com/54uWXuj.jpg');
+    var geometry = new THREE.CylinderBufferGeometry(5, 10, 1, 32 );
+    var material = new THREE.MeshLambertMaterial( {map: colormap} );
+    let stick= new THREE.Mesh( geometry, material );
+    let stick2= new THREE.Mesh( geometry, material );
+    var geometry = new THREE.BoxGeometry(2, 1, 1, 32 );
+    var material = new THREE.MeshLambertMaterial( {color: 'red'} );
+    line= new THREE.Mesh( geometry, material );
+    line2= new THREE.Mesh( geometry, material );
+    
+    let leftarm = makeCymbalArm();
+    stick.position.set(2*k,3,0);
+    stick.rotation.z+=Math.PI*3/4;
+    line.position.set(2*k,1,0);
+    line.rotation.z=Math.PI/4;
+    let cymbal1 = new THREE.Group();
+    cymbal1.add(stick,line);
+    leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
+    leftarm[0].add(leftarm[1]);
+    leftarm[1].add(cymbal1);
+    torso.add (leftarm[0]);
+    stick.castShadow = true;
+    stick.receiveShadow = true;
+    line.castShadow = true;
+    line.receiveShadow = true;
+    
+    let rightarm = makeCymbalArm();
+    stick2.position.set(2*k,-3,0);
+    stick2.rotation.z=Math.PI/5;
+    line2.position.set(2*k,-1,0);
+    line2.rotation.z=-Math.PI/4;
+    let cymbal2 = new THREE.Group();
+    cymbal2.add(stick2,line2);
+    rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
+    rightarm[0].add(rightarm[1]);
+    rightarm[1].add(cymbal2);
+    torso.add(rightarm[0]);
+    stick2.castShadow = true;
+    stick2.receiveShadow = true;
+    line2.castShadow = true;
+    line2.receiveShadow = true;
+    
+    
+    let leftleg = makeCymbalLeg();
+    leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
+    leftleg[0].add(leftleg[1]);
+    torso.add(leftleg[0]);
+
+
+    let rightleg = makeCymbalLeg();
+    rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
+    rightleg[0].add(rightleg[1]);
+    torso.add(rightleg[0]);
+
+    man.rotation.y=-Math.PI/2;	
+    man.position.y=0.01;
+    leftarm[0].rotation.z = -Math.PI/2;
+    rightarm[0].rotation.z = -Math.PI/2;
+    leftleg[0].rotation.z = -Math.PI/2;
+    rightleg[0].rotation.z = -Math.PI/2;
+    
+    leftarm[0].rotation.order = 'ZYX';
+    rightarm[0].rotation.order = 'ZYX';
+    leftleg[0].rotation.order = 'ZYX';
+    rightleg[0].rotation.order = 'ZYX';
+    man.rotation.order = 'ZYX';
+    return [man,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],cymbal1,cymbal2];
+  }
+
+  function makeCymbalArm() {
+    var group = new THREE.Group();
+    var group2 = new THREE.Group();
+    body3=buildCymbalarm();
+    body3.rotation.z=Math.PI/2;
+    body3.position.x = 1.92*k;
+    body8=buildCymbalarm2();
+    body8.rotation.z=Math.PI/2;
+    body8.position.x = 1.92*k;
+    group2.add(body8);
+    group.add (group2,body3);
+    group2.position.x =2*k;
+    
+    
+    body3.castShadow = true;
+    body3.receiveShadow = true;
+    body8.castShadow = true;
+    body8.receiveShadow = true;
+
+    //group.add (new THREE.AxesHelper (k));
+    //group2.add (new THREE.AxesHelper (k));
+    return [group,group2];
+  }
+  function makeCymbalLeg() {
+    var group = new THREE.Group();
+    var group2 = new THREE.Group();
+    body7=buildCymballeg();
+    body7.rotation.z=Math.PI/2;
+    body7.position.x = 2.046*k;
+    body8=buildCymballeg2();
+    body8.rotation.z=Math.PI/2;
+    body8.position.x = 2.046*k;
+    group2.add(body8);
+    group.add (group2,body7);
+    group2.position.x =2.045*k;
+    
+    body7.castShadow = true;
+    body7.receiveShadow = true;
+    body8.castShadow = true;
+    body8.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (k));
+    //group2.add (new THREE.AxesHelper (k));
+    return [group,group2];
+  }
+  function makeCymbalHead() {
+    var headGroup = new THREE.Group();
+    var mat = new THREE.MeshLambertMaterial({color:0x99d8ea});
+    headBody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 2.52*k, 2.52*k), mat);
+    headBody2=buildCymbalface();
+    headBody2.rotation.y=Math.PI;
+    headGroup.add (headBody,headBody2);
+    headBody.position.y = 2.52*k/2;
+    
+    headBody.castShadow = true;
+    headBody.receiveShadow = true;
+    //headGroup.add (new THREE.AxesHelper (k));
+    return headGroup;
+  }
+  function makeCymbalTorso () {
+    var group = new THREE.Group();
+    var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
+    Torsobody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), material);
+    Torsobody2=buildCymbalTorso();
+    Torsobody2.rotation.y=Math.PI;
+    group.add (Torsobody,Torsobody2);
+    Torsobody.position.y = 3.48*k/2;
+    
+      
+    Torsobody.castShadow = true;
+    Torsobody.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (2*k));
+  return group;
+
+  }
+  function buildCymbalface() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-2.53*k/2, 0, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 0, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 2.53*k, 2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 2.53*k, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 0, -2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 2.53*k, -2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 0, -2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 2.53*k, -2.53*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/IYkzEoo.png');
+    let texture1 = loader.load('https://i.imgur.com/UyF6RiR.png');
+    let texture2 = loader.load('https://i.imgur.com/3vfswFa.png');
+    let texture3 = loader.load('https://i.imgur.com/UQYNSe6.png');
+    let texture4 = loader.load('https://i.imgur.com/TLdR62i.png');
+    let texture5 = loader.load('https://i.imgur.com/E57CwUJ.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture1
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture4
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture5
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildCymbalTorso() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-2.53*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 3.48*k, 1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 3.48*k, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 3.48*k, -1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 3.48*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/Cx06iy5.png');
+    let texture1 = loader.load('https://i.imgur.com/X7OW52g.png');
+    let texture2 = loader.load('https://i.imgur.com/9DKgJ8s.png');
+    let texture3 = loader.load('https://i.imgur.com/X7OW52g.png');
+    let texture4 = loader.load('https://i.imgur.com/wXgv152.png');
+    let texture5 = loader.load('https://i.imgur.com/9DKgJ8s.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture1
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture4
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture5
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildCymbalarm() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/Reypdny.png');
+    let texture2 = loader.load('https://i.imgur.com/UHYXfSO.png');
+    let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildCymbalarm2() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/iAEsM2q.png');
+    let texture2 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildCymballeg() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/Reypdny.png');
+    let texture2 = loader.load('https://i.imgur.com/UHYXfSO.png');
+    let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildCymballeg2() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/Reypdny.png');
+    let texture2 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+
+  function buildSmalldrum(){
+    box = new THREE.Group();
+    var geometry = new THREE.CylinderBufferGeometry(10, 10, 13.1, 32 );
+    var material = new THREE.MeshLambertMaterial( {color: 'white'} );
+    cylinder1 = new THREE.Mesh( geometry, material );
+    cylinder1.position.set(0,-1,-2.8*k);
+    var geometry = new THREE.CylinderBufferGeometry(10.1, 10.1, 13, 32 );
+    var material = new THREE.MeshLambertMaterial( {color: 'blue'} );
+    cylinder2 = new THREE.Mesh( geometry, material );
+    cylinder2.position.set(0,-1,-2.8*k);
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/DvME6OT.jpg');
+    var geometry = new THREE.TorusBufferGeometry( 10.1, 0.5, 32, 100 );
+    var material = new THREE.MeshLambertMaterial( { map: texture } );
+    cylinder3 = new THREE.Mesh( geometry, material );
+    cylinder3.rotation.x=Math.PI/2;
+    cylinder3.position.set(0,6,-2.8*k);
+    cylinder4 = new THREE.Mesh( geometry, material );
+    cylinder4.rotation.x=Math.PI/2;
+    cylinder4.position.set(0,-8,-2.8*k);
+    var geometry = new THREE.BoxBufferGeometry( 14, 1, 1 );
+    var material = new THREE.MeshLambertMaterial( {map: texture } );
+    BoxBuffer1= new THREE.Mesh( geometry, material );
+    BoxBuffer1.rotation.z=Math.PI/2;
+    BoxBuffer1.position.set(10,-1,-2.8*k);
+    BoxBuffer2= new THREE.Mesh( geometry, material );
+    BoxBuffer2.rotation.z=Math.PI/2;
+    BoxBuffer2.position.set(7.5,-1,-4.1*k);
+    BoxBuffer3= new THREE.Mesh( geometry, material );
+    BoxBuffer3.rotation.z=Math.PI/2;
+    BoxBuffer3.position.set(0,-1,-4.8*k);
+    BoxBuffer4= new THREE.Mesh( geometry, material );
+    BoxBuffer4.rotation.z=Math.PI/2;
+    BoxBuffer4.position.set(-7.5,-1,-4.1*k);
+    BoxBuffer5= new THREE.Mesh( geometry, material );
+    BoxBuffer5.rotation.z=Math.PI/2;
+    BoxBuffer5.position.set(-10,-1,-2.8*k);
+    BoxBuffer6= new THREE.Mesh( geometry, material );
+    BoxBuffer6.rotation.z=Math.PI/2;
+    BoxBuffer6.position.set(-7.5,-1,-1.5*k);
+    BoxBuffer7= new THREE.Mesh( geometry, material );
+    BoxBuffer7.rotation.z=Math.PI/2;
+    BoxBuffer7.position.set(0,-1,-0.8*k);
+    BoxBuffer8= new THREE.Mesh( geometry, material );
+    BoxBuffer8.rotation.z=Math.PI/2;
+    BoxBuffer8.position.set(7.5,-1,-1.5*k);
+    var material = new THREE.MeshLambertMaterial( { color: 'white',side:THREE.DoubleSide } );
+    line1 = new THREE.Mesh (new THREE.BoxGeometry(25, 1,1), material); 
+    line1.position.set(-1.6*k,12,-1.2*k);
+    line1.rotation.set(0,-Math.PI/2.6,Math.PI/4);
+    line2 = new THREE.Mesh (new THREE.BoxGeometry(25, 1, 1), material); 
+    line2.position.set(1.6*k,12,-1.2*k);
+    line2.rotation.set(0,Math.PI/2.6,-Math.PI/4);
+    var material = new THREE.MeshLambertMaterial( { color: 'white',side:THREE.DoubleSide } );
+    line3 = new THREE.Mesh (new THREE.BoxGeometry(14, 1, 1), material); 
+    line3.position.set(0,17,1);
+    line3.rotation.y=Math.PI;
+    box.add(cylinder1,cylinder2,cylinder3,cylinder4,BoxBuffer1,BoxBuffer2,BoxBuffer3,BoxBuffer4,BoxBuffer5,BoxBuffer6,BoxBuffer7,BoxBuffer8,line1,line2,line3);
+    cylinder1.castShadow = true;
+    cylinder1.receiveShadow = true;
+    cylinder2.castShadow = true;
+    cylinder2.receiveShadow = true;
+    cylinder3.castShadow = true;
+    cylinder3.receiveShadow = true;
+    cylinder4.castShadow = true;
+    cylinder4.receiveShadow = true;
+    BoxBuffer1.castShadow = true;
+    BoxBuffer1.receiveShadow = true;
+    BoxBuffer2.castShadow = true;
+    BoxBuffer2.receiveShadow = true;
+    BoxBuffer3.castShadow = true;
+    BoxBuffer3.receiveShadow = true;
+    BoxBuffer4.castShadow = true;
+    BoxBuffer4.receiveShadow = true;
+    BoxBuffer5.castShadow = true;
+    BoxBuffer5.receiveShadow = true;
+    BoxBuffer6.castShadow = true;
+    BoxBuffer6.receiveShadow = true;
+    BoxBuffer7.castShadow = true;
+    BoxBuffer7.receiveShadow = true;
+    BoxBuffer8.castShadow = true;
+    BoxBuffer8.receiveShadow = true;
+    line1.castShadow = true;
+    line1.receiveShadow = true;
+    line2.castShadow = true;
+    line2.receiveShadow = true;
+    line3.castShadow = true;
+    line3.receiveShadow = true;
+    return box;
+    }
+  function buildSmalldrumMan(){
+    let man = new THREE.Group();
+    //GroupA.add(mine);
+    let head = makeSmalldrumHead();
+    let torso = makeSmalldrumTorso();
+    let drum=buildSmalldrum();
+    man.add(torso);
+    head.position.y = 7.57*k-4.09*k;
+    torso.position.y = 4.09*k;
+    torso.add(head,drum);
+
+    let leftarm = makeSmalldrumArm();
+    leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
+    leftarm[0].add(leftarm[1]);
+    torso.add (leftarm[0]);
+    let rightarm = makeSmalldrumArm();
+    rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
+    rightarm[0].add(rightarm[1]);
+    torso.add(rightarm[0]);
+
+
+    let leftleg = makeSmalldrumLeg();
+    leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
+    leftleg[0].add(leftleg[1]);
+    torso.add(leftleg[0]);
+
+
+    let rightleg = makeSmalldrumLeg();
+    rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
+    rightleg[0].add(rightleg[1]);
+    torso.add(rightleg[0]);
+
+    man.rotation.y=-Math.PI/2;	
+    man.position.y=0.01;
+    leftarm[0].rotation.z = -Math.PI/2;
+    rightarm[0].rotation.z = -Math.PI/2;
+    leftleg[0].rotation.z = -Math.PI/2;
+    rightleg[0].rotation.z = -Math.PI/2;
+    
+    leftarm[0].rotation.order = 'ZYX';
+    rightarm[0].rotation.order = 'ZYX';
+    leftleg[0].rotation.order = 'ZYX';
+    rightleg[0].rotation.order = 'ZYX';
+    man.rotation.order = 'ZYX';
+    return [man,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],leftarm[2],rightarm[2],drum];
+  }
+  function makeSmalldrumArm() {
+    var group = new THREE.Group();
+    var group2 = new THREE.Group();
+    var stick = new THREE.Group();
+    var geometry = new THREE.CylinderBufferGeometry(1, 0.5, 10, 32 );
+    var material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
+    box= new THREE.Mesh( geometry, material );
+    var geometry = new THREE.DodecahedronBufferGeometry(1,5 );
+    var material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
+    ball= new THREE.Mesh( geometry, material );
+    body3=buildSmalldrumarm();
+    body3.rotation.z=Math.PI/2;
+    body3.position.x = 1.92*k;
+    body6=buildSmalldrumarm2();
+    body6.rotation.z=Math.PI/2;
+    body6.position.x = 1.92*k;
+    box.position.set(2*k,0,-5);
+    box.rotation.x=Math.PI/2;
+    ball.position.set(2*k,0,-10);
+    stick.add(ball,box);
+    group2.add(stick,body6);
+    group.add (group2,body3);
+
+    group2.position.x =2*k;
+    body3.castShadow = true;
+    body3.receiveShadow = true;
+    body6.castShadow = true;
+    body6.receiveShadow = true;
+    stick.castShadow = true;
+    stick.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (k));
+    //group2.add (new THREE.AxesHelper (k));
+    return [group,group2,stick];
+  }
+  function makeSmalldrumLeg() {
+    var group = new THREE.Group();
+    var group2 = new THREE.Group();
+    body7=buildSmalldrumleg();
+    body7.rotation.z=Math.PI/2;
+    body7.position.x = 2.046*k;
+    body8=buildSmalldrumleg2();
+    body8.rotation.z=Math.PI/2;
+    body8.position.x = 2.046*k;
+    group2.add(body8);
+    group.add (group2,body7);
+    group2.position.x =2.045*k;
+    
+    body7.castShadow = true;
+    body7.receiveShadow = true;
+    body8.castShadow = true;
+    body8.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (k));
+    //group2.add (new THREE.AxesHelper (k));
+    return [group,group2];
+  }
+  function makeSmalldrumHead() {
+    var headGroup = new THREE.Group();
+    var mat = new THREE.MeshLambertMaterial({color:0x99d8ea});
+    headBody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 2.52*k, 2.52*k), mat);
+    headBody2=buildSmalldrumface();
+    headBody2.rotation.y=Math.PI;
+    headGroup.add (headBody,headBody2);
+    headBody.position.y = 2.52*k/2;
+    
+    headBody.castShadow = true;
+    headBody.receiveShadow = true;
+    //headGroup.add (new THREE.AxesHelper (k));
+    return headGroup;
+  }
+  function makeSmalldrumTorso () {
+    var group = new THREE.Group();
+    var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
+    Torsobody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), material);
+    Torsobody2=buildSmalldrumTorso();
+    Torsobody2.rotation.y=Math.PI;
+    group.add (Torsobody,Torsobody2);
+    Torsobody.position.y = 3.48*k/2;
+    
+    Torsobody.castShadow = true;
+    Torsobody.receiveShadow = true;
+    //group.add (new THREE.AxesHelper (2*k));
+  return group;
+
+  }
+  function buildSmalldrumface() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-2.53*k/2, 0, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 0, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 2.53*k, 2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 2.53*k, 2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 0, -2.53*k/2),
+      new THREE.Vector3(2.53*k/2, 2.53*k, -2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 0, -2.53*k/2),
+      new THREE.Vector3(-2.53*k/2, 2.53*k, -2.53*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/IYkzEoo.png');
+    let texture1 = loader.load('https://i.imgur.com/UyF6RiR.png');
+    let texture2 = loader.load('https://i.imgur.com/3vfswFa.png');
+    let texture3 = loader.load('https://i.imgur.com/UQYNSe6.png');
+    let texture4 = loader.load('https://i.imgur.com/TLdR62i.png');
+    let texture5 = loader.load('https://i.imgur.com/E57CwUJ.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture1
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture4
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture5
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildSmalldrumTorso() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-2.53*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 3.48*k, 1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 3.48*k, 1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(2.53*k/2, 3.48*k, -1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-2.53*k/2, 3.48*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/9dP72Qr.png');
+    let texture1 = loader.load('https://i.imgur.com/aOHqblB.png');
+    let texture2 = loader.load('https://i.imgur.com/8khnPtP.png');
+    let texture3 = loader.load('https://i.imgur.com/aOHqblB.png');
+    let texture4 = loader.load('https://i.imgur.com/zhr9X0w.png');
+    let texture5 = loader.load('https://i.imgur.com/2wd7fMD.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture1
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture4
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture5
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildSmalldrumarm() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/aANTmBw.png');
+    let texture2 = loader.load('https://i.imgur.com/APu9VDq.png');
+    let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildSmalldrumarm2() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
+      new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/eA5BB9i.png');
+    let texture2 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildSmalldrumleg() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/CZughnT.png');
+    let texture2 = loader.load('https://i.imgur.com/UmnQd9g.png');
+    let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture3
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
+  function buildSmalldrumleg2() {
+    let geometry = new THREE.Geometry();
+    geometry.vertices.push(
+      new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
+      new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
+    );
+
+
+    let face;
+    face = new THREE.Face3(0, 1, 2);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(2, 3, 0);
+    face.materialIndex = 0;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 4, 5);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 2, 1);
+    face.materialIndex = 1;
+    geometry.faces.push(face);
+    face = new THREE.Face3(4, 6, 7);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(7, 5, 4);
+    face.materialIndex = 2;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 0, 3);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 7, 6);
+    face.materialIndex = 3;
+    geometry.faces.push(face);
+    face = new THREE.Face3(3, 2, 5);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(5, 7, 3);
+    face.materialIndex = 4;
+    geometry.faces.push(face);
+    face = new THREE.Face3(6, 4, 1);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    face = new THREE.Face3(1, 0, 6);
+    face.materialIndex = 5;
+    geometry.faces.push(face);
+    
+    
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
+    geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
+    geometry.computeFaceNormals();
+    geometry.computeVertexNormals();
+
+
+    let loader = new THREE.TextureLoader();
+    loader.crossOrigin = '';
+    let texture = loader.load('https://i.imgur.com/DuEEa4x.png');
+    let texture2 = loader.load('https://i.imgur.com/zDr6SGt.png');
+    materialArray = [];
+    materialArray.push(new THREE.MeshLambertMaterial({
+        map: texture
+      }), 
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }),
+      new THREE.MeshPhongMaterial({
+        map: texture2
+      }));
+    return new THREE.Mesh(geometry, materialArray);
+  }
 
 function addMarkerB () {
 	let planematerial = new THREE.MeshLambertMaterial({color:0xffffff, side:THREE.DoubleSide});
@@ -1652,7 +3494,7 @@ function animate() {
 	scene.visible = camera.visible
   var dt = new THREE.Clock();
   
-  setAllFacesTransparent();
+  //setAllFacesTransparent();
   let which = searchFace();
   var timeFromStart = clock.getElapsedTime();
   var eT = (timeFromStart - lastChangeTime ).toFixed(0);
