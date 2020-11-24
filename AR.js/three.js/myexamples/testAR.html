@@ -576,7 +576,7 @@ function init() {
 	scene.add (markerC);
 	GroupC = new THREE.Group();
 	markerC.add(GroupC);
-  men[2] = buildSmallDrumMan();
+  men[2] = buildSmalldrumMan();
   car[2] = buildcar();
   men[2][0].position.set(0,0.1,0);
   car[2].add(men[2][0]);
@@ -688,7 +688,7 @@ function onResize(){
     var material = new THREE.MeshLambertMaterial( { map: colormap} );
     var lathe1 = new THREE.Mesh( geometry, material );
     lathe1.rotation.z=Math.PI/2;
-    lathe1.position.set(48,45,0);
+    lathe1.position.set(0.48,0.45,0);
     scene.add( lathe1 );
     for ( var i = 0; i < 10; i ++ ) {
       points.push( new THREE.Vector2( Math.sin( i * 0.2 ) * 2 + 18, ( i - 5 ) * 2 ) );
@@ -696,17 +696,17 @@ function onResize(){
 
     var lathe2 = new THREE.Mesh( geometry, material );
     lathe2.rotation.z=-Math.PI/2;
-    lathe2.position.set(33,45,0);
+    lathe2.position.set(0.33,0.45,0);
     scene.add( lathe2 );
 
 
-    var geometry = new THREE.CylinderBufferGeometry(18, 18, 1, 64 );
+    var geometry = new THREE.CylinderBufferGeometry(0.18, 0.18, 1, 64 );
     var material = new THREE.MeshLambertMaterial( {color: 0xeba434} );
     cylinder2 = new THREE.Mesh( geometry, material );
-    cylinder2.position.set(23,45,0);
+    cylinder2.position.set(0.23,0.45,0);
     cylinder2.rotation.z=-Math.PI/2;
     cylinder3 = new THREE.Mesh( geometry, material );
-    cylinder3.position.set(58,45,0);
+    cylinder3.position.set(0.58,0.45,0);
     cylinder3.rotation.z=-Math.PI/2;
     var loader = new THREE.TextureLoader();
     loader.crossOrigin = '';
@@ -714,16 +714,16 @@ function onResize(){
     var geometry = new THREE.CylinderBufferGeometry(1, 1, 50, 32 );
     var material = new THREE.MeshLambertMaterial( {map: colormap} );
     cylinder4 = new THREE.Mesh( geometry, material );
-    cylinder4.position.set(51,18,0);
+    cylinder4.position.set(0.51,0.18,0);
     cylinder4.rotation.x=-Math.PI/4;
     cylinder5 = new THREE.Mesh( geometry, material );
-    cylinder5.position.set(51,18,0);
+    cylinder5.position.set(0.51,0.18,0);
     cylinder5.rotation.x=Math.PI/4;
     cylinder6 = new THREE.Mesh( geometry, material );
-    cylinder6.position.set(30,18,0);
+    cylinder6.position.set(0.30,0.18,0);
     cylinder6.rotation.x=-Math.PI/4;
     cylinder7 = new THREE.Mesh( geometry, material );
-    cylinder7.position.set(30,18,0);
+    cylinder7.position.set(0.30,0.18,0);
     cylinder7.rotation.x=Math.PI/4;
     box.add(lathe1,lathe2,cylinder2,cylinder3,cylinder4,cylinder5,cylinder6,cylinder7);
     lathe1.castShadow = true;
@@ -793,7 +793,7 @@ function onResize(){
   function makeDrumArm() {
     var group = new THREE.Group();
     var group2 = new THREE.Group();
-    var geometry = new THREE.CylinderBufferGeometry(1, 1, 10, 32 );
+    var geometry = new THREE.CylinderBufferGeometry(0.01, 0.01, 0.1, 32 );
     var material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
     let stick= new THREE.Mesh( geometry, material );
     let body3=buildDrumarm();
@@ -1454,19 +1454,19 @@ function onResize(){
     var loader = new THREE.TextureLoader();
     loader.crossOrigin = '';
     var colormap = loader.load ('https://i.imgur.com/54uWXuj.jpg');
-    var geometry = new THREE.CylinderBufferGeometry(5, 10, 1, 32 );
+    var geometry = new THREE.CylinderBufferGeometry(0.05, 0.1, 0.01, 32 );
     var material = new THREE.MeshLambertMaterial( {map: colormap} );
     let stick= new THREE.Mesh( geometry, material );
     let stick2= new THREE.Mesh( geometry, material );
-    var geometry = new THREE.BoxGeometry(2, 1, 1, 32 );
+    var geometry = new THREE.BoxGeometry(0.02, 0.01, 0.01, 32 );
     var material = new THREE.MeshLambertMaterial( {color: 'red'} );
     line= new THREE.Mesh( geometry, material );
     line2= new THREE.Mesh( geometry, material );
     
     let leftarm = makeCymbalArm();
-    stick.position.set(2*k,3,0);
+    stick.position.set(2*k,0.03,0);
     stick.rotation.z+=Math.PI*3/4;
-    line.position.set(2*k,1,0);
+    line.position.set(2*k,0.01,0);
     line.rotation.z=Math.PI/4;
     let cymbal1 = new THREE.Group();
     cymbal1.add(stick,line);
@@ -1480,9 +1480,9 @@ function onResize(){
     line.receiveShadow = true;
     
     let rightarm = makeCymbalArm();
-    stick2.position.set(2*k,-3,0);
+    stick2.position.set(2*k,-0.03,0);
     stick2.rotation.z=Math.PI/5;
-    line2.position.set(2*k,-1,0);
+    line2.position.set(2*k,-0.01,0);
     line2.rotation.z=-Math.PI/4;
     let cymbal2 = new THREE.Group();
     cymbal2.add(stick2,line2);
