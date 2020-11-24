@@ -802,7 +802,7 @@ function onResize(){
     let body6=buildDrumarm2();
     body6.rotation.z=Math.PI/2;
     body6.position.x = 1.92*k;
-    stick.position.set(2*k,0,-5);
+    stick.position.set(2*k,0,-0.05);
     stick.rotation.x=Math.PI/2;
     group2.add(stick,body6);
     group.add (group2,body3);
@@ -3689,7 +3689,1075 @@ function animate() {
     men[2][6].rotation.x = 0;
   }
 
-  //$('#printDis').text (msg)
+
+  if (eT==3&&which == 'B'&&manIn=='A') {  // Px2Pz
+      //currentPlane = 'A';
+      //nextPlane = 'B';
+        pos1[0] = new THREE.Vector3(0, 0, 0);  // starting pos
+        euler1[0] = new THREE.Euler (0, 0, 0, 'ZYX');// starting orientation
+        euler2[0] = new THREE.Euler (0, 0, -Math.PI/2,'ZYX');
+
+        pos1[1] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[1] = new THREE.Euler (Math.PI/2, 0, Math.PI/2, 'ZYX');
+        euler2[1] = new THREE.Euler (0, Math.PI/2, 0,'ZYX');
+
+        pos1[2] = new THREE.Vector3(0,-L, 0);
+        euler1[2] = new THREE.Euler (Math.PI, 0, 0, 'ZYX');
+        euler2[2] = new THREE.Euler (0, Math.PI, -Math.PI/2,'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[3] = new THREE.Euler (Math.PI/2, 0, -Math.PI/2, 'ZYX');
+        euler2[3] = new THREE.Euler (0, Math.PI/2, Math.PI,'ZYX');
+
+        pos1[4] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[4] = new THREE.Euler (Math.PI/2, 0, 0, 'ZYX');
+        euler2[4] = new THREE.Euler (0, Math.PI/2, -Math.PI/2,'ZYX');
+
+        pos1[5] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[5] = new THREE.Euler (-Math.PI/2, 0, 0, 'ZYX');
+        euler2[5] = new THREE.Euler (0, -Math.PI/2, -Math.PI/2,'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2, Math.PI, 0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, Math.PI, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (Math.PI/2, 0, 0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0, Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0, -Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning	
+        manIn ='B';
+        moving = 'AtoB';
+      }
+    if (eT==3&&which == 'E'&&manIn=='A') {  // Px2Pz
+      //currentPlane = 'A';
+      //nextPlane = 'E';
+        pos1[0] = new THREE.Vector3(0,0, 0);
+        euler1[0] = new THREE.Euler (0, Math.PI/2, 0, 'ZYX');
+        euler2[0] = new THREE.Euler (-Math.PI/2,0, -Math.PI/2, 'ZYX');
+
+        pos1[1] = new THREE.Vector3(0,- L/2, L/2);
+        euler1[1] = new THREE.Euler (-Math.PI/2, Math.PI, 0, 'ZYX');
+        euler2[1] = new THREE.Euler (0, Math.PI/2, Math.PI/2, 'ZYX');
+
+        pos1[2] = new THREE.Vector3(0,-L, 0);
+        euler1[2] = new THREE.Euler (0, -Math.PI/2, Math.PI, 'ZYX');
+        euler2[2] = new THREE.Euler (Math.PI/2, 0, Math.PI/2, 'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[3] = new THREE.Euler (Math.PI/2, 0, 0, 'ZYX');
+        euler2[3] = new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX');
+
+        pos1[4] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[4] = new THREE.Euler (Math.PI/2,0, Math.PI/2, 'ZYX');
+        euler2[4] = new THREE.Euler (0,Math.PI/2, 0, 'ZYX');
+
+        pos1[5] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[5] = new THREE.Euler (-Math.PI/2,0, -Math.PI/2, 'ZYX');
+        euler2[5] = new THREE.Euler (0,-Math.PI/2, Math.PI, 'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2, Math.PI, 0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, Math.PI, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (Math.PI/2, 0, 0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0, Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0, -Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning		
+        manIn = 'E';
+        moving = 'AtoE';
+      }
+    if (eT==3&&which == 'D'&&manIn=='A') {  // Px2Pz
+      //currentPlane = 'A';
+      //nextPlane = 'D';
+        pos1[0] = new THREE.Vector3(0, 0, 0);
+        euler1[0] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+        euler2[0] = new THREE.Euler (0,Math.PI,Math.PI/2,'ZYX');
+
+        pos1[1] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[1] = new THREE.Euler (Math.PI/2, 0, -Math.PI/2, 'ZYX');
+        euler2[1] = new THREE.Euler (0, Math.PI/2, Math.PI,'ZYX');
+
+        pos1[2] = new THREE.Vector3(0,-L, 0);
+        euler1[2] = new THREE.Euler (0, 0, Math.PI, 'ZYX');
+        euler2[2] = new THREE.Euler (0, 0, Math.PI/2,'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[3] = new THREE.Euler (Math.PI/2, 0, Math.PI/2, 'ZYX');
+        euler2[3] = new THREE.Euler (0, Math.PI/2, 0,'ZYX');
+
+        pos1[4] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[4] = new THREE.Euler (-Math.PI/2, Math.PI, 0, 'ZYX');
+        euler2[4] = new THREE.Euler (0, Math.PI/2, Math.PI/2,'ZYX');
+
+        pos1[5] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[5] = new THREE.Euler (Math.PI/2, Math.PI, 0, 'ZYX');
+        euler2[5] = new THREE.Euler (0, -Math.PI/2, Math.PI/2,'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2, Math.PI, 0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, Math.PI, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (Math.PI/2, 0, 0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0, Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0, -Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning		
+        manIn = 'D';
+        moving = 'AtoD';
+      }
+    if (eT==3&&which == 'F'&&manIn=='A') {  // Px2Pz
+      //currentPlane = 'A';
+      //nextPlane = 'F';
+        pos1[0] = new THREE.Vector3(0, 0, 0);
+        euler1[0] = new THREE.Euler (0, -Math.PI/2, 0, 'ZYX');
+        euler2[0] = new THREE.Euler (Math.PI/2, 0, -Math.PI/2,'ZYX');
+
+        pos1[1] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[1] = new THREE.Euler (Math.PI/2, 0, 0, 'ZYX');
+        euler2[1] = new THREE.Euler (0, Math.PI/2, -Math.PI/2,'ZYX');
+
+        pos1[2] = new THREE.Vector3(0,-L, 0);
+        euler1[2] = new THREE.Euler (0, Math.PI/2, -Math.PI, 'ZYX');
+        euler2[2] = new THREE.Euler (-Math.PI/2, 0, Math.PI/2,'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[3] = new THREE.Euler (-Math.PI/2, Math.PI, 0, 'ZYX');
+        euler2[3] = new THREE.Euler (0, Math.PI/2, Math.PI/2,'ZYX');
+
+        pos1[4] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[4] = new THREE.Euler (Math.PI/2, 0, -Math.PI/2, 'ZYX');
+        euler2[4] = new THREE.Euler (0, Math.PI/2, Math.PI,'ZYX');
+
+        pos1[5] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[5] = new THREE.Euler (-Math.PI/2, 0, Math.PI/2, 'ZYX');
+        euler2[5] = new THREE.Euler (0, -Math.PI/2, 0,'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2, Math.PI, 0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, Math.PI, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (Math.PI/2, 0, 0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0, Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0, -Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning	
+        manIn = 'F';
+        moving = 'AtoF';
+      }
+    /////////////
+    if (eT==3&&which == 'C'&&manIn=='B') {  // Px2Pz
+      //currentPlane = 'B';
+      //nextPlane = 'C';
+        pos1[0] = new THREE.Vector3(L/2, -L/2, 0);
+        euler1[0] = new THREE.Euler (0, 0, -Math.PI/2, 'ZYX'); 
+        euler2[0] = new THREE.Euler (0, 0, -Math.PI, 'ZYX');
+
+        pos1[1] = new THREE.Vector3(0,0, 0);
+        euler1[1] = new THREE.Euler (0, Math.PI/2, 0, 'ZYX');
+        euler2[1] = new THREE.Euler (-Math.PI/2, 0, -Math.PI/2,'ZYX');
+
+        pos1[2] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[2] = new THREE.Euler (0, Math.PI, -Math.PI/2, 'ZYX');
+        euler2[2] = new THREE.Euler (0, Math.PI, 0,'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L, 0);
+        euler1[3] = new THREE.Euler (0, Math.PI/2, Math.PI, 'ZYX');
+        euler2[3] = new THREE.Euler (-Math.PI/2, 0, Math.PI/2,'ZYX');
+
+        pos1[4] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[4] = new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX');
+        euler2[4] = new THREE.Euler (Math.PI/2, Math.PI, 0,'ZYX');
+
+        pos1[5] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[5] = new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX');
+        euler2[5] = new THREE.Euler (-Math.PI/2, Math.PI, 0,'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (0, Math.PI,0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (0, Math.PI, Math.PI, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (0, Math.PI, -Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (0,0, -Math.PI/2, 'ZYX'));
+
+        turning = 0; //not yet turning	
+        manIn = 'C';
+        moving = 'BtoC';
+      }
+    if (eT==3&&which == 'E'&&manIn=='B') {  // Px2Pz
+      //currentPlane = 'B';
+      //nextPlane = 'E';
+        pos1[0] = new THREE.Vector3(L/2, -L/2, 0);
+        euler1[0] = new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX');
+        euler2[0] = new THREE.Euler (-Math.PI/2, 0, Math.PI, 'ZYX');
+
+        pos1[1] = new THREE.Vector3(0, 0, 0);
+        euler1[1] = new THREE.Euler (0, Math.PI,0, 'ZYX');
+        euler2[1] = new THREE.Euler (0,Math.PI, Math.PI/2, 'ZYX');
+
+        pos1[2] = new THREE.Vector3(L/2, -L/2, 0);
+        euler1[2] = new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX');
+        euler2[2] = new THREE.Euler (Math.PI/2, 0, Math.PI, 'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L, 0);
+        euler1[3] = new THREE.Euler (0, Math.PI, Math.PI, 'ZYX');
+        euler2[3] = new THREE.Euler (0, Math.PI, -Math.PI/2, 'ZYX');
+
+        pos1[4] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[4] = new THREE.Euler (0, Math.PI, -Math.PI/2, 'ZYX');
+        euler2[4] = new THREE.Euler (0, Math.PI, 0, 'ZYX');
+
+        pos1[5] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[5] = new THREE.Euler (0,0, -Math.PI/2, 'ZYX');
+        euler2[5] = new THREE.Euler (0,0, -Math.PI, 'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (0, Math.PI,0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (0, Math.PI, Math.PI, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (0, Math.PI, -Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (0,0, -Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning		
+        moving = 'BtoE';
+        manIn = 'E';
+      }
+    if (eT==3&&which == 'A'&&manIn=='B') {  // Px2Pz
+      //currentPlane = 'B';
+      //nextPlane = 'A';
+        pos1[0] = new THREE.Vector3(L/2, -L/2, 0);
+        euler1[0] = new THREE.Euler (0,Math.PI, -Math.PI/2, 'ZYX');
+        euler2[0] = new THREE.Euler (0,Math.PI, 0, 'ZYX');
+
+        pos1[1] = new THREE.Vector3(0, 0, 0);
+        euler1[1] = new THREE.Euler (0,-Math.PI/2, 0, 'ZYX');
+        euler2[1] = new THREE.Euler (Math.PI/2,0, -Math.PI/2, 'ZYX');
+
+        pos1[2] = new THREE.Vector3(L/2, -L/2, 0);
+        euler1[2] = new THREE.Euler (0, 0, -Math.PI/2, 'ZYX');
+        euler2[2] = new THREE.Euler (0, 0, -Math.PI, 'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L, 0);
+        euler1[3] = new THREE.Euler (0, -Math.PI/2, Math.PI, 'ZYX');
+        euler2[3] = new THREE.Euler (Math.PI/2, 0, Math.PI/2, 'ZYX');
+
+        pos1[4] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[4] = new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX');
+        euler2[4] = new THREE.Euler (Math.PI/2, 0, -Math.PI, 'ZYX');
+
+        pos1[5] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[5] = new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX');
+        euler2[5] = new THREE.Euler (-Math.PI/2, 0, Math.PI, 'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (0, Math.PI,0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (0, Math.PI, Math.PI, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (0, Math.PI, -Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (0,0, -Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning	
+        manIn ='A';
+        moving = 'BtoA';
+      }
+    if (eT==3&&which == 'F'&&manIn=='B') {  // Px2Pz
+      //currentPlane = 'B';
+      //nextPlane = 'F';
+        pos1[0] = new THREE.Vector3(L/2, -L/2, 0);
+        euler1[0] = new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX');
+        euler2[0] = new THREE.Euler (Math.PI/2, 0, Math.PI, 'ZYX');
+
+        pos1[1] = new THREE.Vector3(0, 0, 0);
+        euler1[1] = new THREE.Euler (0, 0,0, 'ZYX');
+        euler2[1] = new THREE.Euler (0, 0,-Math.PI/2, 'ZYX');
+
+        pos1[2] = new THREE.Vector3(L/2, -L/2, 0);
+        euler1[2] = new THREE.Euler (0, Math.PI/2,-Math.PI/2, 'ZYX');
+        euler2[2] = new THREE.Euler (-Math.PI/2, 0,Math.PI, 'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L, 0);
+        euler1[3] = new THREE.Euler (0, 0, Math.PI, 'ZYX');
+        euler2[3] = new THREE.Euler (0, 0,Math.PI/2, 'ZYX');
+
+        pos1[4] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[4] = new THREE.Euler (0,0 ,-Math.PI/2, 'ZYX');
+        euler2[4] = new THREE.Euler (0,0 ,-Math.PI, 'ZYX');
+
+        pos1[5] = new THREE.Vector3(L/2,-L/2, 0);
+        euler1[5] = new THREE.Euler (0,Math.PI,-Math.PI/2, 'ZYX');
+        euler2[5] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0, Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (0, Math.PI,0, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0, -Math.PI/2, -Math.PI/2, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (0, Math.PI, Math.PI, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (0, Math.PI, -Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (0,0, -Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning		
+        manIn = 'F';
+        moving = 'BtoF';
+      }
+    //////////////
+    if (eT==3&&which == 'D'&&manIn=='C') {  // Px2Pz
+      //currentPlane = 'C';
+      //nextPlane = 'D';
+        pos1[0] = new THREE.Vector3(0,-L, 0);
+        euler1[0] = new THREE.Euler (0,0,Math.PI, 'ZYX');
+        euler2[0] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+
+        pos1[1] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[1] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+        euler2[1] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+
+        pos1[2] = new THREE.Vector3(0, 0, 0);
+        euler1[2] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+        euler2[2] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[3] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+        euler2[3] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+
+        pos1[4] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[4] = new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX');
+        euler2[4] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+
+        pos1[5] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[5] = new THREE.Euler (Math.PI/2,0,Math.PI, 'ZYX');
+        euler2[5] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,0, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning		
+        manIn ='D'
+        moving = 'CtoD';
+      }
+    if (eT==3&&which == 'E'&&manIn=='C') {  // Px2Pz
+      //currentPlane = 'C';
+      //nextPlane = 'E';
+        pos1[0] = new THREE.Vector3(0,-L, 0);
+        euler1[0] = new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX');
+        euler2[0] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+
+        pos1[1] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[1] = new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX');
+        euler2[1] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+
+        pos1[2] = new THREE.Vector3(0, 0, 0);
+        euler1[2] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+        euler2[2] = new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX');
+
+        pos1[3] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[3] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+        euler2[3] = new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX');
+
+        pos1[4] = new THREE.Vector3(0,-L/2, -L/2);
+        euler1[4] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+        euler2[4] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+
+        pos1[5] = new THREE.Vector3(0,-L/2, L/2);
+        euler1[5] = new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX');
+        euler2[5] = new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX');
+
+        GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,0, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX'));
+        turning = 0; //not yet turning		
+        manIn = 'E';
+        moving = 'CtoE';
+      }
+    if (eT==3&&which == 'B'&&manIn=='C') {  // Px2Pz
+      //currentPlane = 'C';
+      //nextPlane = 'B';
+      pos1[0] = new THREE.Vector3(0,-L, 0);
+      euler1[0] = new THREE.Euler (0,Math.PI,Math.PI, 'ZYX');
+      euler2[0] = new THREE.Euler (0,Math.PI,-Math.PI/2, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[1] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0, 0, 0);
+      euler1[2] = new THREE.Euler (0,0,0, 'ZYX');
+      euler2[2] = new THREE.Euler (0,0,-Math.PI/2, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[3] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[4] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      euler2[4] = new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[5] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+      euler2[5] = new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,0, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'B';
+      moving = 'CtoB'; 
+    }
+    if (eT==3&&which == 'F'&&manIn=='C'){  // Px2Pz
+      //currentPlane = 'C';
+      //nextPlane = 'F';
+      pos1[0] = new THREE.Vector3(0,-L, 0);
+      euler1[0] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+      euler2[0] = new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[1] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      euler2[1] = new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0, 0, 0);
+      euler1[2] = new THREE.Euler (0,Math.PI/2,0, 'ZYX');
+      euler2[2] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[3] = new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX');
+      euler2[3] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[4] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+      euler2[4] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[5] = new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX');
+      euler2[5] = new THREE.Euler (0,Math.PI/2,0, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+        GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX'));
+        GroupB.children[0].position.copy (pos1[1]);
+        GroupB.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX'));
+        GroupC.children[0].position.copy (pos1[2]);
+        GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,0, 'ZYX'));
+        GroupD.children[0].position.copy (pos1[3]);
+        GroupD.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,0, 'ZYX'));
+        GroupE.children[0].position.copy (pos1[4]);
+        GroupE.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX'));
+        GroupF.children[0].position.copy (pos1[5]);
+        GroupF.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'F';
+      moving = 'CtoF'; 
+    }
+    //////////////
+    if (eT==3&&which == 'A'&&manIn=='D') {
+      //currentPlane = 'D';
+      //nextPlane = 'A';
+      pos1[0] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[0] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (0,0,0, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(0,-L, 0);
+      euler1[1] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+      euler2[1] = new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[2] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (Math.PI,0,0, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(0,0,0);
+      euler1[3] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+      euler2[3] = new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[4] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[4] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[5] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[5] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,0,0, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI/2, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn='A';
+      moving = 'DtoA'; 
+    }
+    if (eT==3&&which == 'E'&&manIn=='D') {
+      //currentPlane = 'D';
+      //nextPlane = 'E';
+      pos1[0] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[0] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(0,-L, 0);
+      euler1[1] = new THREE.Euler (0,0,Math.PI, 'ZYX');
+      euler2[1] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[2] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(0,0,0);
+      euler1[3] = new THREE.Euler (0,0,0, 'ZYX');
+      euler2[3] = new THREE.Euler (0,0,-Math.PI/2, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[4] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      euler2[4] = new THREE.Euler (0,0,0, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[5] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      euler2[5] = new THREE.Euler (Math.PI,0,0, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,0,0, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI/2, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn='E';
+      moving = 'DtoE'; 
+    }
+    if (eT==3&&which == 'C'&&manIn=='D') {
+      //currentPlane = 'D';
+      //nextPlane = 'C';
+      pos1[0] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[0] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (Math.PI,0,0, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(0,-L, 0);
+      euler1[1] = new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX');
+      euler2[1] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[2] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (0,0,0, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(0,0,0);
+      euler1[3] = new THREE.Euler (0,Math.PI/2,0, 'ZYX');
+      euler2[3] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[4] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[4] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[5] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[5] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,0,0, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI/2, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn='C';
+      moving = 'DtoC'; 
+    }
+    if (eT==3&&which == 'F'&&manIn=='D') {
+      //currentPlane = 'D';
+      //nextPlane = 'F';
+      pos1[0] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[0] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(0,-L, 0);
+      euler1[1] = new THREE.Euler (0,Math.PI,Math.PI, 'ZYX');
+      euler2[1] = new THREE.Euler (Math.PI,0,Math.PI/2, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[2] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(0,0,0);
+      euler1[3] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+      euler2[3] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[4] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      euler2[4] = new THREE.Euler (Math.PI,0,0, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[5] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      euler2[5] = new THREE.Euler (0,0,0, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,0,0, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,0,Math.PI/2, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn='F';
+      moving = 'DtoF'; 
+    }
+    //////////////
+    if (eT==3&&which == 'A'&&manIn=='E') {
+      //currentPlane = 'E';
+      //nextPlane = 'A';
+      pos1[0] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[0] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[2] = new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (-Math.PI/2,Math.PI,0, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,0, 0);
+      euler1[4] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+      euler2[4] = new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,-L,0);
+      euler1[5] = new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX');
+      euler2[5] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'A';
+      moving = 'EtoA'; 
+    }
+    if (eT==3&&which == 'B'&&manIn=='E') {
+      //currentPlane = 'E';
+      //nextPlane = 'B';
+      pos1[0] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[0] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      euler2[0] = new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (0,0,0, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[2] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+      euler2[2] = new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,0,-Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (0,0,Math.PI, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,0, 0);
+      euler1[4] = new THREE.Euler (0,0,0, 'ZYX');
+      euler2[4] = new THREE.Euler (0,0,-Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,-L,0);
+      euler1[5] = new THREE.Euler (0,Math.PI,Math.PI, 'ZYX');
+      euler2[5] = new THREE.Euler (0,Math.PI,-Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'B';
+      moving = 'EtoB'; 
+    }
+    if (eT==3&&which == 'C'&&manIn=='E') {
+      //currentPlane = 'E';
+      //nextPlane = 'C';
+      pos1[0] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[0] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (Math.PI,-Math.PI/2,0, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[2] = new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (0,Math.PI/2,0, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (Math.PI/2,Math.PI,0, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,0, 0);
+      euler1[4] = new THREE.Euler (0,Math.PI/2,0, 'ZYX');
+      euler2[4] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,-L,0);
+      euler1[5] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+      euler2[5] = new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'C';
+      moving = 'EtoC'; 
+    }
+    if (eT==3&&which == 'D'&&manIn=='E') {
+      //currentPlane = 'E';
+      //nextPlane = 'D';
+      pos1[0] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[0] = new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX');
+      euler2[0] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (0,Math.PI,Math.PI, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[2] = new THREE.Euler (Math.PI/2,0,Math.PI, 'ZYX');
+      euler2[2] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,Math.PI,-Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,0, 0);
+      euler1[4] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+      euler2[4] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,-L,0);
+      euler1[5] = new THREE.Euler (0,0,Math.PI, 'ZYX');
+      euler2[5] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'D';
+      moving = 'EtoD'; 
+    }
+    //////////////
+    if (eT==3&&which == 'A'&&manIn=='F') {
+      //currentPlane = 'F';
+      //nextPlane = 'A';
+      pos1[0] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[0] = new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (0,Math.PI/2,0, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (-Math.PI/2,Math.PI,0, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[2] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,-L, 0);
+      euler1[4] = new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX');
+      euler2[4] = new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,0,0);
+      euler1[5] = new THREE.Euler (0,Math.PI/2,0, 'ZYX');
+      euler2[5] = new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'A';
+      moving = 'FtoA'; 
+    }
+    if (eT==3&&which == 'B'&&manIn=='F') {
+      //currentPlane = 'F';
+      //nextPlane = 'B';
+      pos1[0] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[0] = new THREE.Euler (Math.PI/2,0,0, 'ZYX');
+      euler2[0] = new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,Math.PI,-Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[2] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      euler2[2] = new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (Math.PI,0,0, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,-L, 0);
+      euler1[4] = new THREE.Euler (0,Math.PI,Math.PI, 'ZYX');
+      euler2[4] = new THREE.Euler (0,Math.PI,-Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,0,0);
+      euler1[5] = new THREE.Euler (0,0,0, 'ZYX');
+      euler2[5] = new THREE.Euler (0,0,-Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'B';
+      moving = 'FtoB'; 
+    }
+    if (eT==3&&which == 'C'&&manIn=='F') {
+      //currentPlane = 'F';
+      //nextPlane = 'C';
+      pos1[0] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[0] = new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX');
+      euler2[0] = new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,Math.PI/2,-Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[2] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+      euler2[2] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (-Math.PI/2,0,0, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,-L, 0);
+      euler1[4] = new THREE.Euler (0,Math.PI/2,Math.PI, 'ZYX');
+      euler2[4] = new THREE.Euler (-Math.PI/2,0,Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,0,0);
+      euler1[5] = new THREE.Euler (0,-Math.PI/2,0, 'ZYX');
+      euler2[5] = new THREE.Euler (Math.PI/2,0,-Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'C';
+      moving = 'FtoC'; 
+    }
+    if (eT==3&&which == 'D'&&manIn=='F') {
+      //currentPlane = 'F';
+      //nextPlane = 'D';
+      pos1[0] = new THREE.Vector3(0,-L/2, L/2);
+      euler1[0] = new THREE.Euler (Math.PI/2,0,Math.PI, 'ZYX');
+      euler2[0] = new THREE.Euler (0,Math.PI/2,Math.PI/2, 'ZYX');
+
+      pos1[1] = new THREE.Vector3(L/2,-L/2, 0);
+      euler1[1] = new THREE.Euler (0,0,-Math.PI/2, 'ZYX');
+      euler2[1] = new THREE.Euler (0,0,Math.PI, 'ZYX');
+      
+      pos1[2] = new THREE.Vector3(0,-L/2, -L/2);
+      euler1[2] = new THREE.Euler (-Math.PI/2,0,Math.PI, 'ZYX');
+      euler2[2] = new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX');
+      
+      pos1[3] = new THREE.Vector3(-L/2,-L/2, 0);
+      euler1[3] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      euler2[3] = new THREE.Euler (0,0,0, 'ZYX');
+      
+      pos1[4] = new THREE.Vector3(0,-L, 0);
+      euler1[4] = new THREE.Euler (0,0,Math.PI, 'ZYX');
+      euler2[4] = new THREE.Euler (0,0,Math.PI/2, 'ZYX');
+      
+      pos1[5] = new THREE.Vector3(0,0,0);
+      euler1[5] = new THREE.Euler (0,Math.PI,0, 'ZYX');
+      euler2[5] = new THREE.Euler (0,Math.PI,Math.PI/2, 'ZYX');
+
+      GroupA.children[0].position.copy (pos1[0]);
+      GroupA.children[0].rotation.copy (new THREE.Euler (Math.PI/2,0,Math.PI/2, 'ZYX'));
+      GroupB.children[0].position.copy (pos1[1]);
+      GroupB.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,-Math.PI/2, 'ZYX'));
+      GroupC.children[0].position.copy (pos1[2]);
+      GroupC.children[0].rotation.copy (new THREE.Euler (-Math.PI/2,0,-Math.PI/2, 'ZYX'));
+      GroupD.children[0].position.copy (pos1[3]);
+      GroupD.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI/2, 'ZYX'));
+      GroupE.children[0].position.copy (pos1[4]);
+      GroupE.children[0].rotation.copy (new THREE.Euler (0,-Math.PI/2,Math.PI, 'ZYX'));
+      GroupF.children[0].position.copy (pos1[5]);
+      GroupF.children[0].rotation.copy (new THREE.Euler (0,Math.PI/2,0, 'ZYX'));
+      turning = 0; //not yet turning		
+      manIn = 'D';
+      moving = 'FtoD'; 
+    }
+    
+    if(eT>3&&moving == 'AtoE'&&manIn=='E')AtoE(); 
+    if(eT>3&&moving == 'AtoB'&&manIn=='B')AtoB();
+    if(eT>3&&moving == 'AtoD'&&manIn=='D')AtoD(); 
+    if(eT>3&&moving == 'AtoF'&&manIn=='F')AtoF(); 
+    
+    if(eT>3&&moving == 'BtoC'&&manIn=='C')BtoC();
+    if(eT>3&&moving == 'BtoE'&&manIn=='E')BtoE();
+    if(eT>3&&moving == 'BtoA'&&manIn=='A')BtoA(); 
+    if(eT>3&&moving == 'BtoF'&&manIn=='F')BtoF(); 
+    
+    if(eT>3&&moving == 'CtoD'&&manIn=='D')CtoD(); 
+    if(eT>3&&moving == 'CtoE'&&manIn=='E')CtoE(); 
+    if(eT>3&&moving == 'CtoB'&&manIn=='B')CtoB(); 
+    if(eT>3&&moving == 'CtoF'&&manIn=='F')CtoF(); 
+    
+    if(eT>3&&moving == 'DtoA'&&manIn=='A')DtoA(); 
+    if(eT>3&&moving == 'DtoE'&&manIn=='E')DtoE(); 
+    if(eT>3&&moving == 'DtoC'&&manIn=='C')DtoC(); 
+    if(eT>3&&moving == 'DtoF'&&manIn=='F')DtoF(); 
+    
+    if(eT>3&&moving == 'EtoA'&&manIn=='A')EtoA(); 
+    if(eT>3&&moving == 'EtoB'&&manIn=='B')EtoB(); 
+    if(eT>3&&moving == 'EtoC'&&manIn=='C')EtoC(); 
+    if(eT>3&&moving == 'EtoD'&&manIn=='D')EtoD(); 
+    
+    if(eT>3&&moving == 'FtoA'&&manIn=='A')FtoA(); 
+    if(eT>3&&moving == 'FtoB'&&manIn=='B')FtoB(); 
+    if(eT>3&&moving == 'FtoC'&&manIn=='C')FtoC(); 
+    if(eT>3&&moving == 'FtoD'&&manIn=='D')FtoD(); 
 }
 
 function AtoB() {
