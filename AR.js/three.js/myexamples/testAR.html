@@ -1569,29 +1569,29 @@ function onResize(){
   function makeCymbalHead() {
     var headGroup = new THREE.Group();
     var mat = new THREE.MeshLambertMaterial({color:0x99d8ea});
-    headBody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 2.52*k, 2.52*k), mat);
+    //headBody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 2.52*k, 2.52*k), mat);
     headBody2=buildCymbalface();
     headBody2.rotation.y=Math.PI;
-    headGroup.add (headBody,headBody2);
-    headBody.position.y = 2.52*k/2;
+    headGroup.add (headBody2);
+    //headBody.position.y = 2.52*k/2;
     
-    headBody.castShadow = true;
-    headBody.receiveShadow = true;
+    headBody2.castShadow = true;
+    headBody2.receiveShadow = true;
     //headGroup.add (new THREE.AxesHelper (k));
     return headGroup;
   }
   function makeCymbalTorso () {
     var group = new THREE.Group();
     var material = new THREE.MeshLambertMaterial( { color:0xd0d0c,side:THREE.DoubleSide } );
-    Torsobody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), material);
+    //Torsobody = new THREE.Mesh (new THREE.BoxGeometry(2.52*k, 3.48*k, 1.26*k), material);
     Torsobody2=buildCymbalTorso();
     Torsobody2.rotation.y=Math.PI;
-    group.add (Torsobody,Torsobody2);
-    Torsobody.position.y = 3.48*k/2;
+    group.add (Torsobody2);
+    //Torsobody.position.y = 3.48*k/2;
     
       
-    Torsobody.castShadow = true;
-    Torsobody.receiveShadow = true;
+    Torsobody2.castShadow = true;
+    Torsobody2.receiveShadow = true;
     //group.add (new THREE.AxesHelper (2*k));
   return group;
 
