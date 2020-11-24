@@ -3440,31 +3440,6 @@ function searchFace () {
       faces['C'].visible = false;
     }
   }
-function Visible(m1,m2,g1,g2){
-  let a1 = m1.position.clone()
-  let y1 = m1.localToWorld (new THREE.Vector3(0,1,0)).sub(a1);
-  let a2 = m2.position.clone()
-  let y2 = m2.localToWorld (new THREE.Vector3(0,1,0)).sub(a2);
-  let z = new THREE.Vector3(0,0,-1);
-
-  if(y1.dot(z.clone())>=y2.dot(z.clone())){
-    g1.children[2].visible = true;
-    g2.children[2].visible = false;
-  }
-  else{
-    g1.children[2].visible = false;
-    g2.children[2].visible = true;
-  }
-}
-function move(){
-  switch(path[0].moving){
-    case 'PxtoPz':
-      PxtoPzA();
-    break;
-    default:
-			return;
-  }
-}
 function animate() {
 	requestAnimationFrame (animate);
 	if( arToolkitSource.ready === false )	return
@@ -3476,7 +3451,7 @@ function animate() {
 	scene.visible = camera.visible
   var dt = new THREE.Clock();
   
-  //setAllFacesTransparent();
+  setAllFacesTransparent();
   let which = searchFace();
   var timeFromStart = clock.getElapsedTime();
   var eT = (timeFromStart - lastChangeTime ).toFixed(0);
@@ -3484,103 +3459,10 @@ function animate() {
   
   $('#output').text (output);
     
-  if (keyNow != undefined && keyNow !== which) {
+  if (keyNow != undefined && keyNow != which) {
     keyNow=which;
     lastChangeTime =  timeFromStart;
   }
-
-  /*GroupA.children[0].visible = false;
-  GroupB.children[0].visible = false;
-  GroupC.children[0].visible = false;
-  GroupD.children[0].visible = false;
-  GroupE.children[0].visible = false;
-  GroupF.children[0].visible = false;*/
-
-  //update(markerA,markerB,GroupA,GroupB);
-  //update(markerA,markerC,GroupC);
-  /*if(markerA.visible) {
-    let d = setTimeout(undefined, 1000);
-    GroupA.children[2].visible = true;
-    if(d>=500){
-      GroupA.children[3].visible = false;
-      move();
-    }
-    /*if(time>=3){
-      path[0].moving = 'PxtoPz';
-      console.log(path[0].moving);
-    }*/
-    //let p = new THREE.Vector3(L/2+L/kk,-L/kk,0);
-	  //GroupA.children[2].position.copy (p);
-  /*}
-  else {
-    GroupA.children[2].visible = false;
-  }
-  if(markerB.visible){
-    GroupB.children[2].visible = true;
-    
-  }
-  else GroupB.children[2].visible = false;
-
-  if(markerC.visible)GroupC.children[2].visible = true;
-  else GroupC.children[2].visible = false;
-
-  if(markerD.visible)GroupD.children[2].visible = true;
-  else GroupD.children[2].visible = false;
-
-  if(markerE.visible)GroupE.children[2].visible = true;
-  else GroupE.children[2].visible = false;
-
-  if(markerF.visible)GroupF.children[2].visible = true;
-  else GroupF.children[2].visible = false;
-  let msg = '';
-  /*if(markerA.visible&&markerB.visible){
-    msg = 'show A B'
-    Visible(markerA,markerB,GroupA,GroupB);
-  }*/
-  /*if(markerA.visible&&markerF.visible){
-    msg = 'show A F'
-    Visible(markerA,markerF,GroupA,GroupF);
-  }
-  if(markerA.visible&&markerD.visible){
-    msg = 'show A D'
-    Visible(markerA,markerD,GroupA,GroupD);
-  }
-  if(markerA.visible&&markerE.visible){
-    msg = 'show A E'
-    Visible(markerA,markerE,GroupA,GroupE);
-  }
-  if(markerB.visible&&markerF.visible){
-    msg = 'show B F'
-    Visible(markerB,markerF,GroupB,GroupF);
-  }
-  if(markerF.visible&&markerD.visible){
-    msg = 'show D F'
-    Visible(markerF,markerD,GroupF,GroupD);
-  }
-  if(markerD.visible&&markerE.visible){
-    msg = 'show D E'
-    Visible(markerD,markerE,GroupD,GroupE);
-  }
-  if(markerE.visible&&markerB.visible){
-    msg = 'show B E'
-    Visible(markerE,markerB,GroupE,GroupB);
-  }
-  if(markerC.visible&&markerB.visible){
-    msg = 'show B C'
-    Visible(markerC,markerB,GroupC,GroupB);
-  }
-  if(markerC.visible&&markerE.visible){
-    msg = 'show C E'
-    Visible(markerC,markerE,GroupC,GroupE);
-  }
-  if(markerC.visible&&markerD.visible){
-    msg = 'show C D'
-    Visible(markerC,markerD,GroupC,GroupD);
-  }
-  if(markerC.visible&&markerF.visible){*/
-  //  msg = 'show C F'
-  //  Visible(markerC,markerF,GroupC,GroupF);
-  //}
 
   if(GroupA.children[0].position.distanceTo(GroupA.children[2].position)<=0.2){
     men[0][11].visible = true;
@@ -4760,7 +4642,7 @@ function animate() {
     if(eT>3&&moving == 'FtoD'&&manIn=='D')FtoD(); 
 }
 
-function AtoB() {
+  function AtoB() {
   var triStep = .90;
     if (turning === 0) {
       if(GroupA.children[0].rotation.y>0){
