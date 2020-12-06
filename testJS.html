@@ -584,7 +584,7 @@ var Drumkeys = [
   [0.3750, Drumpose6],
   [0.4375, Drumpose7],
   [0.5675, Drumpose6],
-  [0.6875, Drumpose7],
+  [0.7, Drumpose7],
   [0.8125, Drumpose6],
   [0.8750, Drumpose5],
   [0.9375, Drumpose3],
@@ -907,7 +907,7 @@ function init() {
 	CubeWorld.add (new THREE.AxesHelper (L/5));
   scene.add(CubeWorld);
 
-
+	Pianocylinder.rotation.x+=Math.PI*3/4;
 
   ////// create positionaudio
   var listener = new THREE.AudioListener();
@@ -6289,7 +6289,7 @@ function buildBackground(){
 }
 
 function Drumkeyframe(t) {
-	T = 480/67.5
+	T = 475/67.5;
   var s = ((t - ts) % T) / T;
 
   for (var i = 1; i < Drumkeys.length; i++) {
@@ -6627,10 +6627,12 @@ function animate() {
   	if(people[0][6].rotation.y<0.013&&people[0][6].rotation.z>0.002){
 			collisionsound2.play();
       }
+  	
   soundVal += 0.003;
+  soundVal = THREE.Math.clamp (soundVal, 0, 0.4);
 	soundtrack.volume = soundVal;
 
-	soundVal = THREE.Math.clamp (soundVal, 0, 0.4);
+
 		soundTrack.play()
 	}
   else{
