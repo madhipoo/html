@@ -24,36 +24,36 @@
       <audio id="soundtrack3" autoplay="" loop="" style="display:none">
       <source src="https://madhipoo.github.io/html/music/Aint it fun.mp3" type="audio/mp3">
       </audio>
-      <audio id="collisionsound4" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/G(1).mp3"type="audio/wav">
-        </audio>
-        <audio id="collisionsound5" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/B(3).mp3" type="audio/wav">
-        </audio>
-        <audio id="collisionsound6" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/C(4).mp3" type="audio/wav">
-        </audio>
-        <audio id="collisionsound7" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/D(5).mp3"type="audio/wav">
-        </audio>
-        <audio id="collisionsound8" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/E(6).mp3" type="audio/wav">
-        </audio>
-        <audio id="collisionsound9" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/F(7).mp3" type="audio/wav">
-        </audio>
-        <audio id="collisionsound10" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/G(8).mp3"type="audio/wav">
-        </audio>
-        <audio id="collisionsound11" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/A(9).mp3" type="audio/wav">
-        </audio>
-        <audio id="collisionsound12" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/B(10).mp3" type="audio/wav">
-        </audio>
-        <audio id="collisionsound13" style="display:none">
-        <source src="https://madhipoo.github.io/html/music/misicboxdancer/C(11).mp3" type="audio/wav">
-        </audio>
+      <audio id="collisionsound6" style="display:none">
+      <source src="https://yang880529.github.io/music/G(1).mp3"type="audio/wav">
+      </audio>
+      <audio id="collisionsound7" style="display:none">
+      <source src="https://yang880529.github.io/music/B(3).mp3" type="audio/wav">
+      </audio>
+      <audio id="collisionsound8" style="display:none">
+      <source src="https://yang880529.github.io/music/C(4).mp3" type="audio/wav">
+      </audio>
+      <audio id="collisionsound9" style="display:none">
+      <source src="https://yang880529.github.io/music/D(5).mp3"type="audio/wav">
+      </audio>
+      <audio id="collisionsound10" style="display:none">
+      <source src="https://yang880529.github.io/music/E(6).mp3" type="audio/wav">
+      </audio>
+      <audio id="collisionsound11" style="display:none">
+      <source src="https://yang880529.github.io/music/F(7).mp3" type="audio/wav">
+      </audio>
+      <audio id="collisionsound12" style="display:none">
+      <source src="https://yang880529.github.io/music/G(8).mp3"type="audio/wav">
+      </audio>
+      <audio id="collisionsound13" style="display:none">
+      <source src="https://yang880529.github.io/music/A(9).mp3" type="audio/wav">
+      </audio>
+      <audio id="collisionsound14" style="display:none">
+      <source src="https://yang880529.github.io/music/B(10).mp3" type="audio/wav">
+      </audio>
+      <audio id="collisionsound15" style="display:none">
+      <source src="https://yang880529.github.io/music/C(11).mp3" type="audio/wav">
+      </audio>
       <div id="info">
         <p id='output'> </p>
       </div>
@@ -63,7 +63,7 @@
 	</head>
 	<body> 
 	<script>
-var camera, scene, renderer,controls,speedL=0,speedR=0;
+var camera, scene, renderer,controls;
 var k = 5,angle = 0;
 var opc = 0.5;
 const L = 300;
@@ -78,7 +78,7 @@ var musicbox;
 var lastChangeTime = 0;
 var keyNow='A';
 var faces;
-var speed=0, angle=0, vel=0,rotspeed=0;
+var angle=0,test = 0;
 var a=1;
 
 var Drumpose1 = {
@@ -520,26 +520,26 @@ var Smallkeys = [
 ];
 var Smallkeys2 = [
   [0, Smallpose2],
-  [0.0625, Smallpose1],
-  [0.125, Smallpose3],
-	[0.15625, Smallpose1],
-  [0.1875, Smallpose3],
-  [0.21875, Smallpose1],
-  [0.3125, Smallpose3],
-  [0.375, Smallpose1],
-	[0.40625, Smallpose3],
-  [0.4375, Smallpose1],
-  [0.46875, Smallpose3],
-  [0.5625, Smallpose1],
-  [0.625, Smallpose3],
-	[0.65625, Smallpose1],
-  [0.6875, Smallpose3],
-  [0.71875, Smallpose1],
-  [0.78125, Smallpose3],
-  [0.875, Smallpose1],
-	[0.90625, Smallpose3],
-  [0.9375, Smallpose1],
-  [0.96875, Smallpose3],
+  [0.046875, Smallpose1],
+  [0.109375, Smallpose3],
+	[0.140625, Smallpose1],
+  [0.171875, Smallpose3],
+  [0.203125, Smallpose1],
+  [0.296875, Smallpose3],
+  [0.359375, Smallpose1],
+	[0.390625, Smallpose3],
+  [0.421875, Smallpose1],
+  [0.453125, Smallpose3],
+  [0.546875, Smallpose1],
+  [0.609375, Smallpose3],
+	[0.640625, Smallpose1],
+  [0.671875, Smallpose3],
+  [0.703125, Smallpose1],
+  [0.765625, Smallpose3],
+  [0.859375, Smallpose1],
+	[0.890625, Smallpose3],
+  [0.921875, Smallpose1],
+  [0.953125, Smallpose3],
   [1, Smallpose2]
 ];
 
@@ -554,25 +554,25 @@ var Cymbalkeys = [
 ];
 var Cymbalkeys2 = [
   [0, Cymbalpose2],
-  [0.03125,Cymbalpose1],
-  [0.09375,Cymbalpose2],
-  [0.15625,Cymbalpose1],
-  [0.21875,Cymbalpose2],
-  [0.28125,Cymbalpose1],
-  [0.34375,Cymbalpose2],
-  [0.40625,Cymbalpose1],
-  [0.46875,Cymbalpose2],
-  [0.53125,Cymbalpose1],
-  [0.59375,Cymbalpose2],
-  [0.65625,Cymbalpose1],
-  [0.71875,Cymbalpose2],
-  [0.78125,Cymbalpose1],
-  [0.84375,Cymbalpose2],
-  [0.90625,Cymbalpose1],
-  [0.921875,Cymbalpose2],
-	[0.9375,Cymbalpose1],
-  [0.953125,Cymbalpose2],
-  [0.96875,Cymbalpose1],
+  [0.015625,Cymbalpose1],
+  [0.078125,Cymbalpose2],
+  [0.140625,Cymbalpose1],
+  [0.203125,Cymbalpose2],
+  [0.265625,Cymbalpose1],
+  [0.328125,Cymbalpose2],
+  [0.390625,Cymbalpose1],
+  [0.453125,Cymbalpose2],
+  [0.515625,Cymbalpose1],
+  [0.578125,Cymbalpose2],
+  [0.640625,Cymbalpose1],
+  [0.703125,Cymbalpose2],
+  [0.765625,Cymbalpose1],
+  [0.828125,Cymbalpose2],
+  [0.890625,Cymbalpose1],
+  [0.90625,Cymbalpose2],
+	[0.921875,Cymbalpose1],
+  [0.9375,Cymbalpose2],
+  [0.953125,Cymbalpose1],
   [1, Cymbalpose2]
 ];
 
@@ -592,14 +592,14 @@ var Drumkeys = [
 ];
 var Drumkeys2 = [
   [0, Drumpose13],
-  [0.03125,Drumpose11],
-  [0.15625,Drumpose12],
-  [0.28125,Drumpose11],
-  [0.40625,Drumpose12],
-  [0.53125,Drumpose11],
-  [0.65625,Drumpose12],
-  [0.78125,Drumpose11],
-  [0.90625,Drumpose12],
+  [0.015625,Drumpose11],
+  [0.140625,Drumpose12],
+  [0.265625,Drumpose11],
+  [0.390625,Drumpose12],
+  [0.515625,Drumpose11],
+  [0.640625,Drumpose12],
+  [0.765625,Drumpose11],
+  [0.890625,Drumpose12],
   [1, Drumpose13]
 ];
 
@@ -679,10 +679,8 @@ var keys5 = [
   [0.90625, pose41],
   [0.921875, pose45],
   [0.9375, pose43],
-  [0.9453125, pose51],
-  [0.953125, pose43],
-  [0.9609375, pose51],
-  [0.96875, pose43],
+  [0.953125, pose51],
+  [0.96875, pose51],
   [0.984375, pose51],
   [1, pose43]
 ];
@@ -716,6 +714,16 @@ function init() {
  	collisionSound3 = document.getElementById ('collisionsound3');
   collisionSound4 = document.getElementById ('collisionsound4');
   collisionSound5 = document.getElementById ('collisionsound5');
+  collisionSound6 = document.getElementById ('collisionsound6');
+  collisionSound7 = document.getElementById ('collisionsound7');
+  collisionSound8 = document.getElementById ('collisionsound8');
+  collisionSound9 = document.getElementById ('collisionsound9');
+  collisionSound10 = document.getElementById ('collisionsound10');
+  collisionSound11 = document.getElementById ('collisionsound11');
+  collisionSound12 = document.getElementById ('collisionsound12');
+  collisionSound13 = document.getElementById ('collisionsound13');
+  collisionSound14 = document.getElementById ('collisionsound14');
+  collisionSound15 = document.getElementById ('collisionsound15');
   scene = new THREE.Scene();
 
   renderer = new THREE.WebGLRenderer();
@@ -852,28 +860,7 @@ function init() {
   drum2.rotation.y = Math.PI/2;
   drum2.position.set(-100,0,68);
   GroupE.add(drum2);
-  
-  people[6] = buildDrumMan2();
-  car[6] = buildcar();
-  people[6][0].position.set(0,10,0);
-  car[6].add(people[6][0]);
-  car[6].rotation.y = Math.PI/2;
-  GroupE.add(car[6]);
-  
-  people[7] = buildCymbalMan2();
-  car[7] = buildcar();
-  people[7][0].position.set(0,10,0);
-  car[7].add(people[7][0]);
-  car[7].rotation.y = Math.PI/2;
-  GroupE.add(car[7]);
-  
-  people[8] = buildSmalldrumMan2();
-  car[8] = buildcar();
-  people[8][0].position.set(0,10,0);
-  car[8].add(people[8][0]);
-  car[8].rotation.y = Math.PI/2;
-  GroupE.add(car[8]);
-  ////////////////////////////////////////
+   ////////////////////////////////////////
   GroupF = new THREE.Group();
   CubeWorld.add(GroupF);
   
@@ -899,7 +886,7 @@ function init() {
 	CubeWorld.add (new THREE.AxesHelper (L/5));
   scene.add(CubeWorld);
 
-
+	Pianocylinder.rotation.x+=Math.PI*3/4;
 
   ////// create positionaudio
   var listener = new THREE.AudioListener();
@@ -2484,6 +2471,7 @@ function buildSmalldrumMan(){
   shadow.rotation.x=Math.PI/2;
   shadow.position.z=6.5;
   shadow.position.y=-9;
+  man.add(shadow);
   
 	leftarm[0].rotation.order = 'ZYX';
 	rightarm[0].rotation.order = 'ZYX';
@@ -3125,9 +3113,10 @@ function buildpiano(){
 	piano = new THREE.Group();
   var loader = new THREE.TextureLoader();
   loader.crossOrigin = '';
-  texture = loader.load('https://i.imgur.com/VE4QwOF.jpg');
-	var geometry = new THREE.BoxBufferGeometry( 40,40, 5 );
-	var material = new THREE.MeshPhongMaterial({map: texture});
+  texture = loader.load('https://i.imgur.com/DF8wSLs.jpg');
+  texture5 = loader.load('https://i.imgur.com/6LDllKV.jpg');
+	var geometry = new THREE.BoxBufferGeometry( 45,45, 5 );
+	var material = new THREE.MeshPhongMaterial({map: texture5});
 	table = new THREE.Mesh( geometry, material );
 	table.rotation.x=Math.PI/2;
   table.position.set(0,10,10);
@@ -3135,39 +3124,39 @@ function buildpiano(){
 	var material = new THREE.MeshPhongMaterial({map: texture});
 	tableleg = new THREE.Mesh( geometry, material );
 	tableleg.rotation.x=Math.PI/2;
-  tableleg.position.set(-15,-5,25);
+  tableleg.position.set(-18,-5,28);
   tableleg2 = new THREE.Mesh( geometry, material );
 	tableleg2.rotation.x=Math.PI/2;
-  tableleg2.position.set(15,-5,25);
+  tableleg2.position.set(18,-5,28);
   tableleg3 = new THREE.Mesh( geometry, material );
 	tableleg3.rotation.x=Math.PI/2;
-  tableleg3.position.set(-15,-5,-5);
+  tableleg3.position.set(-18,-5,-8);
  	tableleg4 = new THREE.Mesh( geometry, material );
 	tableleg4.rotation.x=Math.PI/2;
-  tableleg4.position.set(15,-5,-5);
+  tableleg4.position.set(18,-5,-8);
   loader.crossOrigin = '';
-  texture3 = loader.load('https://i.imgur.com/JvdxFO8.jpg');
-  var geometry = new THREE.BoxBufferGeometry( 39,2.5, 2.5 );
+  texture3 = loader.load('https://i.imgur.com/GsnzBly.jpg');
+  var geometry = new THREE.BoxBufferGeometry( 39,4, 2.5 );
 	var material = new THREE.MeshPhongMaterial({map: texture3});
   table2= new THREE.Group();
 	table2 = new THREE.Mesh( geometry, material );
   table2.rotation.y=Math.PI/12;
-  table2.position.set(0,13.1,15);
-  var geometry = new THREE.CylinderBufferGeometry( 39, 39, 2.5, 3,1,false,0,0.3 );
+  table2.position.set(0,14.2,15);
+  var geometry = new THREE.CylinderBufferGeometry( 39, 39, 4, 3,1,false,0,0.3 );
 	var material = new THREE.MeshPhongMaterial( {map: texture3,side:THREE.DoubleSide} );
 	table3 = new THREE.Mesh( geometry, material );
-	table3.position.set(-19,13.1,20);
+	table3.position.set(-19,14.21,20);
   table3.rotation.y=Math.PI/2;
-  var geometry = new THREE.BoxBufferGeometry( 40,2, 11.5 );
+  var geometry = new THREE.BoxBufferGeometry( 40,4, 11.5 );
 	var material = new THREE.MeshPhongMaterial({map: texture3});
 	table4 = new THREE.Mesh( geometry, material );
-  table4.position.set(0,13.35,24.5);
+  table4.position.set(0,14.2,24.5);
   loader.crossOrigin = '';
   texture4 = loader.load('https://i.imgur.com/6LDllKV.jpg');
-  var geometry = new THREE.BoxBufferGeometry( 40.1,2.5, 11.9 );
+  var geometry = new THREE.BoxBufferGeometry( 40.1,4, 11.9 );
 	var material = new THREE.MeshPhongMaterial({map: texture4});
 	table5 = new THREE.Mesh( geometry, material );
- 	table5.position.set(0,13.37,24);
+ 	table5.position.set(0,14.5,25);
 
   
   loader.crossOrigin = '';
@@ -3229,49 +3218,49 @@ function buildpiano(){
 	Pianokeys11.rotation.x=Math.PI/2;
   Pianokeys11.position.set(0,0,-5.8);
   Pianokey.add(Pianokeys);
-  Pianokey.position.set(-17.5,0,0);
+  Pianokey.position.set(-17.5,0.8,0);
   Pianokey.rotation.y=-Math.PI/12;
 	Pianokey2.add(Pianokeys2);
-  Pianokey2.position.set(-14,0,0);
+  Pianokey2.position.set(-14,0.8,0);
   Pianokey2.rotation.y=-Math.PI/12;
   Pianokey3.add(Pianokeys3);
-  Pianokey3.position.set(-10.5,0,0);
+  Pianokey3.position.set(-10.5,0.8,0);
   Pianokey3.rotation.y=-Math.PI/12;
   Pianokey4.add(Pianokeys4);
-  Pianokey4.position.set(-7,0,0);
+  Pianokey4.position.set(-7,0.8,0);
   Pianokey4.rotation.y=-Math.PI/12;
   Pianokey5.add(Pianokeys5);
-  Pianokey5.position.set(-3.5,0,0);
+  Pianokey5.position.set(-3.5,0.8,0);
   Pianokey5.rotation.y=-Math.PI/12;
   Pianokey6.add(Pianokeys6);
-  Pianokey6.position.set(0,0,0);
+  Pianokey6.position.set(0,0.5,0);
   Pianokey6.rotation.y=-Math.PI/12;
   Pianokey7.add(Pianokeys7);
-  Pianokey7.position.set(3.5,0,0);
+  Pianokey7.position.set(3.5,0.5,0);
   Pianokey7.rotation.y=-Math.PI/12;
   Pianokey8.add(Pianokeys8);
-  Pianokey8.position.set(7,0,0);
+  Pianokey8.position.set(7,0.8,0);
   Pianokey8.rotation.y=-Math.PI/12;
   Pianokey9.add(Pianokeys9);
-  Pianokey9.position.set(10.5,0,0);
+  Pianokey9.position.set(10.5,0.8,0);
   Pianokey9.rotation.y=-Math.PI/12;
   Pianokey10.add(Pianokeys10);
-  Pianokey10.position.set(14,0,0);
+  Pianokey10.position.set(14,0.8,0);
   Pianokey10.rotation.y=-Math.PI/12;
   Pianokey11.add(Pianokeys11);
-  Pianokey11.position.set(17.5,0,0);
+  Pianokey11.position.set(17.5,0.8,0);
   Pianokey11.rotation.y=-Math.PI/12;
   table2.add(Pianokey,Pianokey2,Pianokey3,Pianokey4,Pianokey5,Pianokey6,Pianokey7,Pianokey8,Pianokey9,Pianokey10,Pianokey11);
   var geometry = new THREE.CircleBufferGeometry( 6, 32,3.14,3.14 );
-	var material = new THREE.MeshPhongMaterial( {map: texture,side:THREE.DoubleSide } );
+	var material = new THREE.MeshPhongMaterial( {map: texture5,side:THREE.DoubleSide } );
 	circle = new THREE.Mesh( geometry, material );
   circle.rotation.set(Math.PI,Math.PI/2,0);
-	circle.position.set(20,12,-4);
+	circle.position.set(20.1,12,-4);
 	circle2 = new THREE.Mesh( geometry, material );
   circle2.rotation.set(Math.PI,Math.PI/2,0);
-	circle2.position.set(-20,12,-4);
+	circle2.position.set(-20.1,12,-4);
   texture2 = loader.load('https://i.imgur.com/DF8wSLs.jpg');
-  var geometry = new THREE.CylinderGeometry( 3, 3, 38, 32 );
+  var geometry = new THREE.CylinderGeometry( 3, 3, 40, 32 );
 	var material = new THREE.MeshPhongMaterial( {map: texture2 } );
   Pianocylinder= new THREE.Group();
 	Pianocylinder = new THREE.Mesh( geometry, material );
@@ -3289,7 +3278,7 @@ function buildpiano(){
   Pianocylinder3.position.set(-20,15,-4);
   Pianocylinder3.rotation.z=Math.PI/2;
   loader.crossOrigin = '';
-  texture4 = loader.load('https://i.imgur.com/6LDllKV.jpg');
+  texture4 = loader.load('https://i.imgur.com/0mWoA40.jpg');
   var geometry = new THREE.BoxBufferGeometry( 4,2, 2 );
 	var material = new THREE.MeshPhongMaterial({map: texture4});
   Pianohead2= new THREE.Group();
@@ -3417,28 +3406,10 @@ function buildpiano(){
   sphere51 = new THREE.Mesh( geometry, material );
   sphere51.position.set(1.5,6.8,2.6);
   sphere52 = new THREE.Mesh( geometry, material );
-  sphere52.position.set(1.2,6.8,2.7);
-  sphere53 = new THREE.Mesh( geometry, material );
-  sphere53.position.set(0.9,6.8,2.78);
-  sphere54 = new THREE.Mesh( geometry, material );
-  sphere54.position.set(-0.3,6.8,2.95);
+  sphere52.position.set(-0.3,6.8,2.95);
   
-  texture = loader.load('https://i.imgur.com/XQP0bm3.png');
-  alpha = loader.load('https://i.imgur.com/rf4FmX5.png');
-
-  var texMat = new THREE.MeshPhongMaterial({
-    map: texture,
-    alphaMap: alpha,
-    transparent: true,
-    side: THREE.DoubleSide
-  });
-  var shadow = new THREE.Mesh(new THREE.PlaneGeometry(55,55), texMat);
-  shadow.rotation.set(Math.PI/2,0,Math.PI/2);
-  shadow.position.set(5,-19.9,0);
-  
-	Pianocylinder.add(sphere,sphere2,sphere3,sphere4,sphere5,sphere6,sphere7,sphere8,sphere9,sphere10,sphere11,sphere12,sphere13,sphere14,sphere15,sphere16,sphere17,sphere18,sphere19,sphere20,sphere21,sphere22,sphere23,sphere24,sphere25,sphere26,sphere27,sphere28,sphere29,sphere30,sphere31,sphere32,sphere33,sphere34,sphere35,sphere36,sphere37,sphere38,sphere39,sphere40,sphere41,sphere42,sphere43,sphere44,sphere45,sphere46,sphere47,sphere48,sphere49,sphere50,sphere51,sphere52,sphere53,sphere54);
-  piano.add(table,tableleg,tableleg2,tableleg3,tableleg4,table2,table3,table4,table5,circle,circle2,Pianocylinder,Pianocylinder2,Pianocylinder3,Pianohead2,shadow);
-  
+	Pianocylinder.add(sphere,sphere2,sphere3,sphere4,sphere5,sphere6,sphere7,sphere8,sphere9,sphere10,sphere11,sphere12,sphere13,sphere14,sphere15,sphere16,sphere17,sphere18,sphere19,sphere20,sphere21,sphere22,sphere23,sphere24,sphere25,sphere26,sphere27,sphere28,sphere29,sphere30,sphere31,sphere32,sphere33,sphere34,sphere35,sphere36,sphere37,sphere38,sphere39,sphere40,sphere41,sphere42,sphere43,sphere44,sphere45,sphere46,sphere47,sphere48,sphere49,sphere50,sphere51,sphere52);
+  piano.add(table,tableleg,tableleg2,tableleg3,tableleg4,table2,table3,table4,table5,circle,circle2,Pianocylinder,Pianocylinder2,Pianocylinder3,Pianohead2);
     return piano;
   }
 function buildpianoMan(){
@@ -4126,2103 +4097,6 @@ function buildpianoleg2() {
     }));
   return new THREE.Mesh(geometry, materialArray);
 }
-///////////////////////////////
-function buildDrumMan2(){
-  let man = new THREE.Group();
-	//GroupA.add(mine);
-	let head = makeDHead();
-	let torso = makeDTorso();
-	man.add(torso);
-	head.position.y = 7.57*k-4.09*k;
-	torso.position.y = 4.09*k;
-	torso.add(head);
-
-	let leftarm = makeDArm();
-	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
-	leftarm[0].add(leftarm[1]);
-	torso.add (leftarm[0]);
-	let rightarm = makeDArm();
-	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
-	rightarm[0].add(rightarm[1]);
-	torso.add(rightarm[0]);
-
-
-	let leftleg = makeDLeg();
-	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
-	leftleg[0].add(leftleg[1]);
-	torso.add(leftleg[0]);
-
-
-	let rightleg = makeDLeg();
-	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
-	rightleg[0].add(rightleg[1]);
-	torso.add(rightleg[0]);
-
-	man.rotation.y=-Math.PI/2;	
-	man.position.y=0.01;
-	leftarm[0].rotation.z = -Math.PI/2;
-	rightarm[0].rotation.z = -Math.PI/2;
-	leftleg[0].rotation.z = -Math.PI/2;
-	rightleg[0].rotation.z = -Math.PI/2;
-	
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  texture = loader.load('https://i.imgur.com/XQP0bm3.png');
-  alpha = loader.load('https://i.imgur.com/XeDC2uO.png');
-
-  var texMat = new THREE.MeshPhongMaterial({
-    map: texture,
-    alphaMap: alpha,
-    transparent: true,
-    side: THREE.DoubleSide
-  });
-  var shadow = new THREE.Mesh(new THREE.PlaneGeometry(80,80), texMat);
-  shadow.rotation.x=Math.PI/2;
-  shadow.position.z=6.5;
-  shadow.position.y=-9;
-  man.add(shadow);
-  
-	leftarm[0].rotation.order = 'ZYX';
-	rightarm[0].rotation.order = 'ZYX';
-	leftleg[0].rotation.order = 'ZYX';
-	rightleg[0].rotation.order = 'ZYX';
-  man.rotation.order = 'ZYX';
-  return [man,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1],leftarm[2],rightarm[2]];
-}
-function makeDArm() {
-	var group = new THREE.Group();
- 	var group2 = new THREE.Group();
-
-  var geometry = new THREE.CylinderBufferGeometry(1, 1, 10, 32 );
-  var material = new THREE.MeshBasicMaterial( {color: 0x803d0a} );
-  stick= new THREE.Mesh( geometry, material );
-  body3=buildDarm();
-  body3.rotation.z=Math.PI/2;
-  body3.position.x = 1.92*k;
-  body6=buildDarm2();
-  body6.rotation.z=Math.PI/2;
-  body6.position.x = 1.92*k;
-  stick.position.set(2*k,0,-5);
-  stick.rotation.x=Math.PI/2;
-  group2.add(stick,body6);
-  group.add (group2,body3);
-  group2.position.x =2*k;
-
-	return [group,group2,stick];
-}
-function makeDLeg() {
-	var group = new THREE.Group();
-  var group2 = new THREE.Group();
-  body7=buildDleg();
-  body7.rotation.z=Math.PI/2;
-  body7.position.x = 2.046*k;
-  body8=buildDleg2();
-  body8.rotation.z=Math.PI/2;
-  body8.position.x = 2.046*k;
-  group2.add(body8);
-	group.add (group2,body7);
-
-  group2.position.x =2.045*k;
-  
-	return [group,group2];
-}
-function makeDHead() {
-	var headGroup = new THREE.Group();
-
-  headBody2=buildDface();
-  headBody2.rotation.y=Math.PI;
-	headGroup.add (headBody2);
-
-	return headGroup;
-}
-function makeDTorso () {
-	var group = new THREE.Group();
-  Torsobody2=buildDTorso();
-  Torsobody2.rotation.y=Math.PI;
-	group.add (Torsobody2);
-
-return group;
-
-}
-function buildDface() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.53*k/2, 0, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 0, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 2.53*k, 2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 2.53*k, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 0, -2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 2.53*k, -2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 0, -2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 2.53*k, -2.53*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/w9ecQHE.png');
-  let texture1 = loader.load('https://i.imgur.com/eurfyeB.png');
-  let texture2 = loader.load('https://i.imgur.com/C4LDaUa.png');
-  let texture3 = loader.load('https://i.imgur.com/CAW1ivf.png');
-  let texture4 = loader.load('https://i.imgur.com/Ea7TDJr.png');
-  let texture5 = loader.load('https://i.imgur.com/tm3kMEu.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture1
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture5
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildDTorso() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.53*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 3.48*k, 1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 3.48*k, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 3.48*k, -1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 3.48*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/xgm2XHs.png');
-  let texture1 = loader.load('https://i.imgur.com/lAEtuWa.png');
-  let texture2 = loader.load('https://i.imgur.com/jCLMpBH.png');
-  let texture3 = loader.load('https://i.imgur.com/lAEtuWa.png');
-  let texture4 = loader.load('https://i.imgur.com/zRzqrqa.png');
-  let texture5 = loader.load('https://i.imgur.com/SlIV2tr.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture1
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture5
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildDarm() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/pr90G1k.png');
-  let texture2 = loader.load('https://i.imgur.com/E8sdMmm.png');
-  let texture3 = loader.load('https://i.imgur.com/oPq5ZXS.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildDarm2() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/xzplHXb.png');
-  let texture2 = loader.load('https://i.imgur.com/oPq5ZXS.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildDleg() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/LecROT6.png');
-  let texture2 = loader.load('https://i.imgur.com/aGjVUCT.png');
-  let texture3 = loader.load('https://i.imgur.com/oPq5ZXS.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildDleg2() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/46Fuiz2.png');
-  let texture2 = loader.load('https://i.imgur.com/FzhnKNf.png');
-  let texture3 = loader.load('https://i.imgur.com/oPq5ZXS.png');
-  let texture4 = loader.load('https://i.imgur.com/xTKa4fq.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture2
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-///////////////////////////////
-function buildCymbalMan2(){
-  let man = new THREE.Group();
-	//GroupA.add(mine);
-	let head = makeCHead();
-	let torso = makeCTorso();
-	man.add(torso);
-	head.position.y = 7.57*k-4.09*k;
-	torso.position.y = 4.09*k;
-	torso.add(head);
-  var loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  var colormap = loader.load ('https://i.imgur.com/54uWXuj.jpg');
-  var geometry = new THREE.CylinderBufferGeometry(5, 10, 1, 32 );
-  var material = new THREE.MeshLambertMaterial( {map: colormap} );
-  stick= new THREE.Mesh( geometry, material );
-  stick2= new THREE.Mesh( geometry, material );
-  var geometry = new THREE.BoxGeometry(2, 1, 1, 32 );
-  var material = new THREE.MeshLambertMaterial( {color: 'red'} );
-  line= new THREE.Mesh( geometry, material );
-	line2= new THREE.Mesh( geometry, material );
-  
-	let leftarm = makeCArm();
-  stick.position.set(2*k,3,0);
-  stick.rotation.z+=Math.PI*3/4;
-  line.position.set(2*k,1,0);
-  line.rotation.z=Math.PI/4;
-	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
-	leftarm[0].add(leftarm[1]);
-	leftarm[1].add(stick,line);
-	torso.add (leftarm[0]);
-
-  
-	let rightarm = makeCArm();
-  stick2.position.set(2*k,-3,0);
-  stick2.rotation.z=Math.PI/5;
-  line2.position.set(2*k,-1,0);
-  line2.rotation.z=-Math.PI/4;
-	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
-	rightarm[0].add(rightarm[1]);
-	rightarm[1].add(stick2,line2);
-	torso.add(rightarm[0]);
-
-  
-  
-	let leftleg = makeCLeg();
-	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
-	leftleg[0].add(leftleg[1]);
-	torso.add(leftleg[0]);
-
-
-	let rightleg = makeCLeg();
-	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
-	rightleg[0].add(rightleg[1]);
-	torso.add(rightleg[0]);
-
-	man.rotation.y=-Math.PI/2;	
-	man.position.y=0.01;
-	leftarm[0].rotation.z = -Math.PI/2;
-	rightarm[0].rotation.z = -Math.PI/2;
-	leftleg[0].rotation.z = -Math.PI/2;
-	rightleg[0].rotation.z = -Math.PI/2;
-	
-  texture = loader.load('https://i.imgur.com/XQP0bm3.png');
-  alpha = loader.load('https://i.imgur.com/XeDC2uO.png');
-
-  var texMat = new THREE.MeshPhongMaterial({
-    map: texture,
-    alphaMap: alpha,
-    transparent: true,
-    side: THREE.DoubleSide
-  });
-  var shadow = new THREE.Mesh(new THREE.PlaneGeometry(80,80), texMat);
-  shadow.rotation.x=Math.PI/2;
-  shadow.position.z=6.5;
-  shadow.position.y=-9;
-  man.add(shadow);
-  
-	leftarm[0].rotation.order = 'ZYX';
-	rightarm[0].rotation.order = 'ZYX';
-	leftleg[0].rotation.order = 'ZYX';
-	rightleg[0].rotation.order = 'ZYX';
-  man.rotation.order = 'ZYX';
-  return [man,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
-}
-function makeCArm() {
-	var group = new THREE.Group();
- 	var group2 = new THREE.Group();
-  body3=buildCarm();
-  body3.rotation.z=Math.PI/2;
-  body3.position.x = 1.92*k;
-  body8=buildCarm2();
-  body8.rotation.z=Math.PI/2;
-  body8.position.x = 1.92*k;
-  group2.add(body8);
-  group.add (group2,body3);
-  group2.position.x =2*k;
-
-	return [group,group2];
-}
-function makeCLeg() {
-	var group = new THREE.Group();
-  var group2 = new THREE.Group();
-
-  body7=buildCleg();
-  body7.rotation.z=Math.PI/2;
-  body7.position.x = 2.046*k;
-  body8=buildCleg2();
-  body8.rotation.z=Math.PI/2;
-  body8.position.x = 2.046*k;
-  group2.add(body8);
-	group.add (group2,body7);
-
-  group2.position.x =2.045*k;
-
-	return [group,group2];
-}
-function makeCHead() {
-	var headGroup = new THREE.Group();
-
-  headBody2=buildCface();
-  headBody2.rotation.y=Math.PI;
-	headGroup.add (headBody2);
-
-	return headGroup;
-}
-function makeCTorso () {
-	var group = new THREE.Group();
-  Torsobody2=buildCTorso();
-  Torsobody2.rotation.y=Math.PI;
-	group.add (Torsobody2);
-
-
-return group;
-
-}
-function buildCface() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.53*k/2, 0, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 0, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 2.53*k, 2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 2.53*k, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 0, -2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 2.53*k, -2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 0, -2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 2.53*k, -2.53*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/vGfbnJ4.png');
-  let texture1 = loader.load('https://i.imgur.com/yTmUllv.png');
-  let texture2 = loader.load('https://i.imgur.com/RlEm7ti.png');
-  let texture3 = loader.load('https://i.imgur.com/iO09wxW.png');
-  let texture4 = loader.load('https://i.imgur.com/WUgVBQI.png');
-  let texture5 = loader.load('https://i.imgur.com/wh39Bzb.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture1
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture5
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildCTorso() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.53*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 3.48*k, 1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 3.48*k, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 3.48*k, -1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 3.48*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/NhahCGk.png');
-  let texture1 = loader.load('https://i.imgur.com/niaaCxS.png');
-  let texture2 = loader.load('https://i.imgur.com/blPPWGx.png');
-  let texture3 = loader.load('https://i.imgur.com/niaaCxS.png');
-  let texture4 = loader.load('https://i.imgur.com/5m43LF4.png');
-  let texture5 = loader.load('https://i.imgur.com/YVbGSU6.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture1
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture5
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildCarm() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/xvNhyQp.png');
-  let texture2 = loader.load('https://i.imgur.com/kSu9Zb7.png');
-  let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildCarm2() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/Ctw7GJ8.png');
-  let texture2 = loader.load('https://i.imgur.com/jbiC8uF.png');
-  let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
-  let texture4 = loader.load('https://i.imgur.com/tcBBwtR.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildCleg() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/EkfVYYX.png');
-  let texture2 = loader.load('https://i.imgur.com/UmnQd9g.png');
-  let texture3 = loader.load('https://i.imgur.com/PGa2Tps.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildCleg2() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/oEIUZeg.png');
-  let texture2 = loader.load('https://i.imgur.com/ptEYblZ.png');
-  let texture3 = loader.load('https://i.imgur.com/PGa2Tps.png');
-  let texture4 = loader.load('https://i.imgur.com/LNyknhy.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture2
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-///////////////////////////////
-function buildSmalldrumMan2(){
-  let man = new THREE.Group();
-	let head = makeSHead();
-	let torso = makeSTorso();
-  let durm=buildSmalldrum();
-	man.add(torso);
-	head.position.y = 7.57*k-4.09*k;
-	torso.position.y = 4.09*k;
-	torso.add(head,durm);
-
-	let leftarm = makeSArm();
-	leftarm[0].position.set (-1.88*k, 7.57*k-4.09*k, 0);
-	leftarm[0].add(leftarm[1]);
-	torso.add (leftarm[0]);
-	let rightarm = makeSArm();
-	rightarm[0].position.set (1.88*k, 7.57*k-4.09*k, 0);
-	rightarm[0].add(rightarm[1]);
-	torso.add(rightarm[0]);
-
-
-	let leftleg = makeSLeg();
-	leftleg[0].position.set  (-0.63*k, 4.09*k-4.09*k, 0);
-	leftleg[0].add(leftleg[1]);
-	torso.add(leftleg[0]);
-
-
-	let rightleg = makeSLeg();
-	rightleg[0].position.set (0.63*k, 4.09*k-4.09*k, 0);
-	rightleg[0].add(rightleg[1]);
-	torso.add(rightleg[0]);
-
-	man.rotation.y=-Math.PI/2;	
-	man.position.y=0.01;
-	leftarm[0].rotation.z = -Math.PI/2;
-	rightarm[0].rotation.z = -Math.PI/2;
-	leftleg[0].rotation.z = -Math.PI/2;
-	rightleg[0].rotation.z = -Math.PI/2;
-	
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  texture = loader.load('https://i.imgur.com/XQP0bm3.png');
-  alpha = loader.load('https://i.imgur.com/XeDC2uO.png');
-
-  var texMat = new THREE.MeshPhongMaterial({
-    map: texture,
-    alphaMap: alpha,
-    transparent: true,
-    side: THREE.DoubleSide
-  });
-  var shadow = new THREE.Mesh(new THREE.PlaneGeometry(80,80), texMat);
-  shadow.rotation.x=Math.PI/2;
-  shadow.position.z=6.5;
-  shadow.position.y=-9;
-  man.add(shadow);
-  
-	leftarm[0].rotation.order = 'ZYX';
-	rightarm[0].rotation.order = 'ZYX';
-	leftleg[0].rotation.order = 'ZYX';
-	rightleg[0].rotation.order = 'ZYX';
-  man.rotation.order = 'ZYX';
-  return [man,head,torso,leftarm[0],leftarm[1],rightarm[0],rightarm[1],leftleg[0],leftleg[1],rightleg[0],rightleg[1]];
-}
-function makeSArm() {
-	var group = new THREE.Group();
- 	var group2 = new THREE.Group();
-  var geometry = new THREE.CylinderBufferGeometry(1, 0.5, 10, 32 );
-  var material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
-  stick= new THREE.Mesh( geometry, material );
-  var geometry = new THREE.DodecahedronBufferGeometry(1,5 );
-  var material = new THREE.MeshLambertMaterial( {color: 0xcc7818} );
-  ball= new THREE.Mesh( geometry, material );
-  body3=buildSarm();
-  body3.rotation.z=Math.PI/2;
-  body3.position.x = 1.92*k;
-  body6=buildSarm2();
-  body6.rotation.z=Math.PI/2;
-  body6.position.x = 1.92*k;
-  stick.position.set(2*k,0,-5);
-  stick.rotation.x=Math.PI/2;
-  ball.position.set(2*k,0,-10);
-  group2.add(body6,ball,stick);
-  group.add (group2,body3);
-
-  group2.position.x =2*k;
-
-	return [group,group2,stick];
-}
-function makeSLeg() {
-	var group = new THREE.Group();
-  var group2 = new THREE.Group();
-
-  body7=buildSleg();
-  body7.rotation.z=Math.PI/2;
-  body7.position.x = 2.046*k;
-  body8=buildSleg2();
-  body8.rotation.z=Math.PI/2;
-  body8.position.x = 2.046*k;
-  group2.add(body8);
-	group.add (group2,body7);
-
-  group2.position.x =2.045*k;
-  
-
-	return [group,group2];
-}
-function makeSHead() {
-	var headGroup = new THREE.Group();
-  headBody2=buildSface();
-  headBody2.rotation.y=Math.PI;
-	headGroup.add (headBody2);
-
-	return headGroup;
-}
-function makeSTorso() {
-	var group = new THREE.Group();
-  Torsobody2=buildSTorso();
-  Torsobody2.rotation.y=Math.PI;
-	group.add (Torsobody2);
-
-return group;
-
-}
-function buildSface() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.53*k/2, 0, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 0, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 2.53*k, 2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 2.53*k, 2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 0, -2.53*k/2),
-    new THREE.Vector3(2.53*k/2, 2.53*k, -2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 0, -2.53*k/2),
-    new THREE.Vector3(-2.53*k/2, 2.53*k, -2.53*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/BtDPcbh.png');
-  let texture1 = loader.load('https://i.imgur.com/cv3TzQd.png');
-  let texture2 = loader.load('https://i.imgur.com/36aiY95.png');
-  let texture3 = loader.load('https://i.imgur.com/2JYosHM.png');
-  let texture4 = loader.load('https://i.imgur.com/Stcqc6K.png');
-  let texture5 = loader.load('https://i.imgur.com/lEoB8O9.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture1
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture5
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildSTorso() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-2.53*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 3.48*k, 1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 3.48*k, 1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(2.53*k/2, 3.48*k, -1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-2.53*k/2, 3.48*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/7GxmdYZ.png');
-  let texture1 = loader.load('https://i.imgur.com/3548Oz2.png');
-  let texture2 = loader.load('https://i.imgur.com/5cyRP5O.png');
-  let texture3 = loader.load('https://i.imgur.com/3548Oz2.png');
-  let texture4 = loader.load('https://i.imgur.com/YEDHshi.png');
-  let texture5 = loader.load('https://i.imgur.com/OJT2Wlv.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture1
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture5
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildSarm() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/GPHs90v.png');
-  let texture2 = loader.load('https://i.imgur.com/eYjYbnV.png');
-  let texture3 = loader.load('https://i.imgur.com/T6zYdS1.png');
-  let texture4 = loader.load('https://i.imgur.com/OYNbb4h.png');
-  let texture5 = loader.load('https://i.imgur.com/I1eCs2C.png');
-  let texture6 = loader.load('https://i.imgur.com/9rOUw6w.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture5
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture6
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildSarm2() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, 1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(1.25*k/2, 1.93*k, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 0, -1.25*k/2),
-    new THREE.Vector3(-1.25*k/2, 1.93*k, -1.25*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/vq4I74T.png');
-  let texture2 = loader.load('https://i.imgur.com/9rOUw6w.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildSleg() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/BzmQIN9.png');
-  let texture2 = loader.load('https://i.imgur.com/9rOUw6w.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
-function buildSleg2() {
-  let geometry = new THREE.Geometry();
-  geometry.vertices.push(
-    new THREE.Vector3(-1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, 1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(1.27*k/2, 2.046*k, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 0, -1.27*k/2),
-    new THREE.Vector3(-1.27*k/2, 2.046*k, -1.27*k/2),
-  );
-
-
-  let face;
-  face = new THREE.Face3(0, 1, 2);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(2, 3, 0);
-  face.materialIndex = 0;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 4, 5);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 2, 1);
-  face.materialIndex = 1;
-  geometry.faces.push(face);
-  face = new THREE.Face3(4, 6, 7);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(7, 5, 4);
-  face.materialIndex = 2;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 0, 3);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 7, 6);
-  face.materialIndex = 3;
-  geometry.faces.push(face);
-  face = new THREE.Face3(3, 2, 5);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(5, 7, 3);
-  face.materialIndex = 4;
-  geometry.faces.push(face);
-  face = new THREE.Face3(1, 0, 6);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  face = new THREE.Face3(6, 4, 1);
-  face.materialIndex = 5;
-  geometry.faces.push(face);
-  
-  
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(0, 0), new THREE.Vector2(1, 0), new THREE.Vector2(1, 1)]);
-  geometry.faceVertexUvs[0].push([new THREE.Vector2(1, 1), new THREE.Vector2(0, 1), new THREE.Vector2(0, 0)]);
-  geometry.computeFaceNormals();
-  geometry.computeVertexNormals();
-
-
-  let loader = new THREE.TextureLoader();
-  loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/OZq5os9.png');
-  let texture2 = loader.load('https://i.imgur.com/g4TAAOG.png');
-  let texture3 = loader.load('https://i.imgur.com/9rOUw6w.png');
-  let texture4 = loader.load('https://i.imgur.com/I1eCs2C.png');
-  materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
-      map: texture2
-    }), 
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture2
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture3
-    }),
-    new THREE.MeshBasicMaterial({
-      map: texture4
-    }));
-  return new THREE.Mesh(geometry, materialArray);
-}
 ////////////////////////////////
 function buildtire() {
 
@@ -6268,7 +4142,6 @@ function buildcar(){
   box.rotation.set(Math.PI/2,0,Math.PI/2);
   box.position.set(0,10,0);
   c.add(tire1,tire2,box);
-  c.add (new THREE.AxesHelper (L/3));
   return c;
 }
 function buildBackground(){
@@ -6299,7 +4172,7 @@ function buildBackground(){
 }
 
 function Drumkeyframe(t) {
-	T = 480/67.5;
+	T = 475/68.5;
   var s = ((t - ts) % T) / T;
 
   for (var i = 1; i < Drumkeys.length; i++) {
@@ -6349,7 +4222,7 @@ function Drumkeyframe2(t) {
 
 }
 function Cymbalkeyframe(t) {
-	T = 240/75;
+	T = 240/75.5;
   var s = ((t - ts) % T) / T;
 
   for (var i = 1; i < Cymbalkeys.length; i++) {
@@ -6399,7 +4272,7 @@ function Cymbalkeyframe2(t) {
 
 }
 function Smallkeyframe(t) {
-	T = 960/100;
+	T = 960/104;
   var s = ((t - ts) % T) / T;
 
   for (var i = 1; i < Smallkeys.length; i++) {
@@ -6595,14 +4468,15 @@ function animate() {
   controls.update();
 
   setAllFacesTransparent();
-   // go through all faces, determine which one facing camera
+
 	let which = searchFace();
   var timeFromStart = clock.getElapsedTime();
 	var eT = (timeFromStart - lastChangeTime ).toFixed(0);
-  var output = `${keyNow} : ${eT} `;
+  //var d = GroupD.children[0].rotation;
+  //var output = `${keyNow} : ${eT} ${d.x} ${d.y} ${d.z}`;
   
-  $('#output').text (output);
-  	
+  //$('#output').text (output);
+
   if (keyNow != undefined && keyNow !== which) {
     keyNow=which;
     lastChangeTime =  timeFromStart;
@@ -6637,10 +4511,12 @@ function animate() {
   	if(people[0][6].rotation.y<0.013&&people[0][6].rotation.z>0.002){
 			collisionsound2.play();
       }
+  	
   soundVal += 0.003;
+  soundVal = THREE.Math.clamp (soundVal, 0, 0.4);
 	soundtrack.volume = soundVal;
 
-	soundVal = THREE.Math.clamp (soundVal, 0, 0.4);
+
 		soundTrack.play()
 	}
   else{
@@ -6763,59 +4639,82 @@ function animate() {
     soundTrack3.pause();
   }
   
-  if(GroupE.children[0].position.distanceTo(GroupE.children[1].position)<=3){
-  GroupE.children[5].visible = true;
-  GroupE.children[6].visible = true;
-  GroupE.children[7].visible = true;
+  if(GroupE.children[0].position.distanceTo(GroupE.children[1].position)<=3&&(Math.abs(GroupD.children[0].rotation.y)<=Math.PI/2||Math.abs(GroupD.children[0].rotation.y)>=4.7)){
+  test = 1;
+  GroupA.children[0].visible = true;
+  people[0][11].visible = true;
+  people[0][12].visible = true;
+  GroupB.children[0].visible = true;
+  people[1][11].visible = true;
+  people[1][12].visible = true;
+  GroupC.children[0].visible = true;
+  people[2][11].visible = true;
+  people[2][12].visible = true;
+  people[2][13].visible = true;
 
   GroupE.children[3].visible = true;
   GroupE.children[4].visible = true;
-  GroupE.children[5].position.set(-L/2+50,0,L/2-80);
-  GroupE.children[6].position.set(0,0,L/2-50);
-  GroupE.children[7].position.set(L/2-40,0,L/2-80);
+  GroupA.children[0].position.set(-L/2+50,-80,-L/2);
+  GroupB.children[0].position.set(-L/2,-L/2,L/2-40);
+  GroupC.children[0].position.set(L/2-40,-L+80,L/2);
   Drumkeyframe2(clock.getElapsedTime());   
-  people[6][3].rotation.y = intKey[0];
-  people[6][4].rotation.y = intKey[1];
-  people[6][5].rotation.y = intKey[2];
-  people[6][6].rotation.y = intKey[3];
-  people[6][7].rotation.y = intKey[4];
-  people[6][8].rotation.y = intKey[5];
-  people[6][9].rotation.y = intKey[6];
-  people[6][10].rotation.y = intKey[7];
-  people[6][1].rotation.y = intKey[8];
-  people[6][2].rotation.y = intKey[9];
+  people[0][3].rotation.y = intKey[0];
+  people[0][4].rotation.y = intKey[1];
+  people[0][5].rotation.y = intKey[2];
+  people[0][6].rotation.y = intKey[3];
+  people[0][7].rotation.y = intKey[4];
+  people[0][8].rotation.y = intKey[5];
+  people[0][9].rotation.y = intKey[6];
+  people[0][10].rotation.y = intKey[7];
+  people[0][1].rotation.y = intKey[8];
+  people[0][2].rotation.y = intKey[9];
+  if(people[0][4].rotation.y<0.013){
+		collisionsound.play();
+  }
+  if(people[0][6].rotation.y<0.013){
+		collisionsound.play();
+  }
   /////////////////////////
   Cymbalkeyframe2(clock.getElapsedTime()); 
-  people[7][3].rotation.y =intKey2[0];
-  people[7][4].rotation.y =intKey2[1];
-  people[7][5].rotation.y = intKey2[2];
-  people[7][6].rotation.y =intKey2[3];
-  people[7][7].rotation.y = intKey2[4];
-  people[7][8].rotation.y = intKey2[5];
-  people[7][9].rotation.y =intKey2[6];
-  people[7][10].rotation.y =intKey2[7];
-  people[7][1].rotation.x= intKey2[8];
-  people[7][2].rotation.y = intKey2[9];
-  people[7][4].rotation.z = intKey2[10];
-  people[7][6].rotation.z = intKey2[11];
+  people[1][3].rotation.y =intKey2[0];
+  people[1][4].rotation.y =intKey2[1];
+  people[1][5].rotation.y = intKey2[2];
+  people[1][6].rotation.y =intKey2[3];
+  people[1][7].rotation.y = intKey2[4];
+  people[1][8].rotation.y = intKey2[5];
+  people[1][9].rotation.y =intKey2[6];
+  people[1][10].rotation.y =intKey2[7];
+  people[1][1].rotation.x= intKey2[8];
+  people[1][2].rotation.y = intKey2[9];
+  people[1][4].rotation.z = intKey2[10];
+  people[1][6].rotation.z = intKey2[11];
+  if(people[1][6].rotation.z<-0.7175){
+    	collisionsound3.play();
+    }
   /////////////////////////
   Smallkeyframe2(clock.getElapsedTime()); 
-  people[8][3].rotation.y = intKey3[0];
-  people[8][4].rotation.y = intKey3[1];
-  people[8][5].rotation.y = intKey3[2];
-  people[8][6].rotation.y = intKey3[3];
-  people[8][7].rotation.y = intKey3[4];
-  people[8][8].rotation.y = intKey3[5];
-  people[8][9].rotation.y = intKey3[6];
-  people[8][10].rotation.y= intKey3[7];
-  people[8][1].rotation.y = intKey3[8];
-  people[8][2].rotation.y = intKey3[9];
- 	people[8][3].rotation.z= intKey3[10];
-  people[8][5].rotation.z= intKey3[11];
- 	people[8][4].rotation.x= intKey3[12];
-  people[8][6].rotation.x= intKey3[13];
+  people[2][3].rotation.y = intKey3[0];
+  people[2][4].rotation.y = intKey3[1];
+  people[2][5].rotation.y = intKey3[2];
+  people[2][6].rotation.y = intKey3[3];
+  people[2][7].rotation.y = intKey3[4];
+  people[2][8].rotation.y = intKey3[5];
+  people[2][9].rotation.y = intKey3[6];
+  people[2][10].rotation.y= intKey3[7];
+  people[2][1].rotation.y = intKey3[8];
+  people[2][2].rotation.y = intKey3[9];
+ 	people[2][3].rotation.z= intKey3[10];
+  people[2][5].rotation.z= intKey3[11];
+ 	people[2][4].rotation.x= intKey3[12];
+  people[2][6].rotation.x= intKey3[13];
+  if(people[2][4].rotation.x>1.7){
+			collisionsound5.play();
+    }
+ if(people[2][6].rotation.x<-1.7){
+			collisionsound5.play();
+    }
   /////////////////////////
-  Pianocylinder.rotation.x-=0.00515;
+  Pianocylinder.rotation.x-=0.00525;
   Pianohead2.rotation.x-=0.0212;
   Pmankeyframe(clock.getElapsedTime());   
   people[4][3].rotation.y = intKey4[0];
@@ -6842,11 +4741,51 @@ function animate() {
   Pianokey9.rotation.x =intKey5[7];
   Pianokey10.rotation.x =intKey5[8];
   Pianokey11.rotation.x =intKey5[9];
+    if(Pianokey.rotation.x>0.19){
+      collisionsound6.play();
+    }
+    if(Pianokey3.rotation.x>0.19){
+      collisionsound7.play();
+    }
+    if(Pianokey4.rotation.x>0.19){
+      collisionsound8.play();
+    }
+    if(Pianokey5.rotation.x>0.19){
+      collisionsound9.play();
+    }
+    if(Pianokey6.rotation.x>0.19){
+      collisionsound10.play();
+    }
+    if(Pianokey7.rotation.x>0.19){
+      collisionsound11.play();
+    }
+    if(Pianokey8.rotation.x>0.19){
+      collisionsound12.play();
+    }
+    if(Pianokey9.rotation.x>0.19){
+      collisionsound13.play();
+    }
+    if(Pianokey10.rotation.x>0.19){
+      collisionsound14.play();
+    }
+    if(Pianokey11.rotation.x>0.19){
+      collisionsound15.play();
+    }
 	}
   else{
-    GroupE.children[5].visible = false;
-    GroupE.children[6].visible = false;
-    GroupE.children[7].visible = false;
+  	if(test){
+      GroupA.children[0].visible = false;
+      people[0][11].visible = false;
+      people[0][12].visible = false;
+      GroupB.children[0].visible = false;
+      people[1][11].visible = false;
+      people[1][12].visible = false;
+      GroupC.children[0].visible = false;
+      people[2][11].visible = false;
+      people[2][12].visible = false;
+      people[2][13].visible = false;
+      test = 0;
+    }
     GroupE.children[3].visible = false;
     GroupE.children[4].visible = false;
   	people[4][3].rotation.y = 0;
@@ -7481,6 +5420,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[0][13].visible = false;
+    people[1][13].visible = false;
   	alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -7502,7 +5442,6 @@ var triStep = .90;
   } else { // turning == 2: finish crossing ... always a straight line
   	if (GroupD.children[0].position.z<0) {
       if(GroupA.children[0].rotation.y<Math.PI/2){
-      people[0][13].visible = true;
       GroupA.children[0].rotation.y += 0.05;
       GroupB.children[0].rotation.y += 0.05;
       GroupC.children[0].rotation.y += 0.05;
@@ -7513,6 +5452,7 @@ var triStep = .90;
       else moving = false;
     }
     else{
+    	if(GroupD.children[0].position.z <= L/2-L/kk) people[1][13].visible = true;
     	GroupA.children[0].position.y -= triStep;
       GroupB.children[0].position.z -= triStep;
       GroupC.children[0].position.y += triStep;
@@ -7586,6 +5526,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[0][13].visible = false;
+    people[4][11].visible = false;
   	alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -7605,6 +5546,12 @@ var triStep = .90;
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } else { // turning == 2: finish crossing ... always a straight line
+  if(GroupD.children[0].position.z<=L/2-L/kk){
+  	people[4][11].visible = true;
+    people[0][13].visible = true;
+    people[1][13].visible = true;
+    people[2][14].visible = true;
+  }
 	GroupA.children[0].position.y -= triStep;
   GroupB.children[0].position.z -= triStep;
   GroupC.children[0].position.y += triStep;
@@ -7612,7 +5559,6 @@ var triStep = .90;
   GroupE.children[0].position.z -= triStep;
   GroupF.children[0].position.z += triStep;
   	if (GroupD.children[0].position.z<0) {
-    	people[0][13].visible = true;
   		moving = false;
     }
   }
@@ -7690,6 +5636,7 @@ function AtoC(){
 
   } else if (turning === 1) { // in crossing
   	people[0][13].visible = false;
+    people[1][13].visible = false;
   	alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -7711,6 +5658,7 @@ function AtoC(){
   } 
   else if(turning ===2){
   	if (GroupD.children[0].position.z> -L/2) {
+    	if(GroupD.children[0].position.z<=L/2-L/kk)people[1][13].visible = true;
       GroupA.children[0].position.y -= triStep;
       GroupB.children[0].position.z -= triStep;
       GroupC.children[0].position.y += triStep;
@@ -7792,7 +5740,7 @@ function AtoC(){
     else{
     	if (GroupD.children[0].position.y>-L/2){
         if(GroupA.children[0].rotation.y<Math.PI/2){
-          people[1][13].visible = true;
+          
           GroupA.children[0].rotation.y += 0.05;
           GroupB.children[0].rotation.z -= 0.05;
           GroupC.children[0].rotation.y += 0.05;
@@ -7803,6 +5751,7 @@ function AtoC(){
         else moving = false;
       }
       else{
+      if(GroupD.children[0].position.y>=-L+L/kk)people[2][14].visible = true;
       GroupA.children[0].position.x -= triStep;
       GroupB.children[0].position.y -= triStep;
       GroupC.children[0].position.x -= triStep;
@@ -7815,6 +5764,7 @@ function AtoC(){
   }
   else if (turning === 3) { // in crossing
   	people[1][13].visible = false;
+    people[2][14].visible = false;
   	alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -7909,6 +5859,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[1][13].visible = false;
+    people[2][14].visible = false;
   	alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -7930,7 +5881,7 @@ var triStep = .90;
   } else { // turning == 2: finish crossing ... always a straight line
   	if (GroupD.children[0].position.y>-L/2){
       if(GroupA.children[0].rotation.y<Math.PI/2){
-      	people[1][13].visible = true;
+      	
       	GroupA.children[0].rotation.y += 0.05;
       	GroupB.children[0].rotation.z -= 0.05;
         GroupC.children[0].rotation.y += 0.05;
@@ -7941,6 +5892,7 @@ var triStep = .90;
        else moving = false;
     }
     else{
+    if(GroupD.children[0].position.y>=-L+L/kk)people[2][14].visible = true;
     GroupA.children[0].position.x -= triStep;
     GroupB.children[0].position.y -= triStep;
     GroupC.children[0].position.x -= triStep;
@@ -8013,6 +5965,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[1][13].visible = false;
+    people[4][11].visible = false;
     alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8036,7 +5989,6 @@ var triStep = .90;
   	if (GroupD.children[0].position.y>-L/2){
   		
       if(GroupA.children[0].rotation.z<Math.PI+Math.PI/2){
-      	people[1][13].visible = true;
       	GroupA.children[0].rotation.z += 0.05;
       	GroupB.children[0].rotation.y -= 0.05;
         GroupC.children[0].rotation.z -= 0.05;
@@ -8047,6 +5999,12 @@ var triStep = .90;
       else moving = false;
     }
     else{
+    	if(GroupD.children[0].position.y>= -L+L/kk){
+      	people[0][13].visible = true;
+        people[1][13].visible = true;
+        people[2][14].visible = true;
+        people[4][11].visible = true;
+      }
       GroupA.children[0].position.x -= triStep;
       GroupB.children[0].position.y -= triStep;
       GroupC.children[0].position.x -= triStep;
@@ -8244,6 +6202,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[2][14].visible = false;
+    people[1][13].visible = false;
     alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8267,7 +6226,7 @@ var triStep = .90;
   	if (GroupD.children[0].position.z>0){
   		
       if(GroupA.children[0].rotation.y > Math.PI/2){
-      	people[2][14].visible = true;
+      	
       	GroupA.children[0].rotation.y -= 0.05;
       	GroupB.children[0].rotation.y -= 0.05;
         GroupC.children[0].rotation.y -= 0.05;
@@ -8278,6 +6237,7 @@ var triStep = .90;
       else moving = false;
     }
     else{
+    	if(GroupD.children[0].position.z>=-L/2+L/kk)people[1][13].visible = true;
       GroupA.children[0].position.y += triStep;
       GroupB.children[0].position.z += triStep;
       GroupC.children[0].position.y -= triStep;
@@ -8350,6 +6310,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[2][14].visible = false;
+    people[4][11].visible = true;
     alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8373,7 +6334,6 @@ var triStep = .90;
   	if (GroupD.children[0].position.z>0){
   		
       if(GroupA.children[0].rotation.z < Math.PI + Math.PI/2){
-      	people[2][14].visible = true;
       	GroupA.children[0].rotation.z += 0.05;
       	GroupB.children[0].rotation.y -= 0.05;
         GroupC.children[0].rotation.z -= 0.05;
@@ -8384,6 +6344,12 @@ var triStep = .90;
       else moving = false;
     }
     else{
+    	if(GroupD.children[0].position.z>=-L/2+L/kk){
+      	people[0][13].visible = true;
+        people[1][13].visible = true;
+        people[2][14].visible = true;
+        people[4][11].visible = true;
+      }
       GroupA.children[0].position.y += triStep;
       GroupB.children[0].position.z += triStep;
       GroupC.children[0].position.y -= triStep;
@@ -8466,6 +6432,7 @@ function CtoA(){
 
   } else if (turning === 1){ // in crossing
   	people[2][14].visible = false;
+    people[1][13].visible = false;
     alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8487,6 +6454,7 @@ function CtoA(){
   } 
   else if(turning === 2){ 
   	if (GroupD.children[0].position.z<L/2){
+    	if(GroupD.children[0].position.z>=-L/2+L/kk)people[1][13].visible = true;
       GroupA.children[0].position.y += triStep;
       GroupB.children[0].position.z += triStep;
       GroupC.children[0].position.y -= triStep;
@@ -8568,7 +6536,7 @@ function CtoA(){
 		else {
     	if (GroupD.children[0].position.y>-L/2){
         if(GroupA.children[0].rotation.y>Math.PI/2){
-          people[1][13].visible = true;
+          
           GroupA.children[0].rotation.y -= 0.05;
           GroupB.children[0].rotation.z -= 0.05;
           GroupC.children[0].rotation.y -= 0.05;
@@ -8579,6 +6547,7 @@ function CtoA(){
         else moving = false;
     	}
       else{
+      	if(GroupD.children[0].position.y>=-L+L/kk)people[0][13].visible = true;
         GroupA.children[0].position.x -= triStep;
         GroupB.children[0].position.y -= triStep;
         GroupC.children[0].position.x -= triStep;
@@ -8589,7 +6558,8 @@ function CtoA(){
     }
   }
   else if (turning === 3) { // in crossing
-  people[1][13].visible = false;
+  	people[1][13].visible = false;
+    people[0][13].visible = false;
   	alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8684,6 +6654,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[4][11].visible = false;
+    people[0][13].visible = false;
     alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8707,7 +6678,7 @@ var triStep = .90;
   	if (GroupD.children[0].position.x<0){
   		
       if(GroupA.children[0].rotation.y < Math.PI/2){
-      	people[4][11].visible = true;
+      	
       	GroupA.children[0].rotation.y += 0.05;
       	GroupB.children[0].rotation.z += 0.05;
         GroupC.children[0].rotation.y += 0.05;
@@ -8718,6 +6689,7 @@ var triStep = .90;
       else moving = false;
     }
     else{
+    	if(GroupD.children[0].position.x<=L/2-L/kk)people[0][13].visible = true;
       GroupA.children[0].position.z += triStep;
       GroupB.children[0].position.x += triStep;
       GroupC.children[0].position.z -= triStep;
@@ -8790,6 +6762,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[4][11].visible = false;
+    people[2][14].visible = true;
     alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8813,7 +6786,6 @@ var triStep = .90;
   	if (GroupD.children[0].position.x<0){
   		
       if(GroupA.children[0].rotation.y > -Math.PI/2-Math.PI){
-      	people[4][11].visible = true;
       	GroupA.children[0].rotation.y -= 0.05;
       	GroupB.children[0].rotation.z -= 0.05;
         GroupC.children[0].rotation.y += 0.05;
@@ -8824,6 +6796,7 @@ var triStep = .90;
       else moving = false;
     }
     else{
+    	if(GroupD.children[0].position.x<=L/2-L/kk)people[2][14].visible = true;
       GroupA.children[0].position.z += triStep;
       GroupB.children[0].position.x += triStep;
       GroupC.children[0].position.z -= triStep;
@@ -8906,6 +6879,7 @@ var triStep = .90;
 
   } else if (turning === 1) { // in crossing
   	people[4][11].visible = false;
+    people[1][13].visible = false;
     alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -8929,7 +6903,6 @@ var triStep = .90;
   	if (GroupD.children[0].position.x<0){
   		
       if(GroupA.children[0].rotation.y < Math.PI/2){
-      	people[4][11].visible = true;
       	GroupA.children[0].rotation.y += 0.05;
       	GroupB.children[0].rotation.y += 0.05;
         GroupC.children[0].rotation.y += 0.05;
@@ -8940,6 +6913,7 @@ var triStep = .90;
       else moving = false;
     }
     else{
+    	if(GroupD.children[0].position.x<=L/2-L/kk)people[1][13].visible = true;
       GroupA.children[0].position.z += triStep;
       GroupB.children[0].position.x += triStep;
       GroupC.children[0].position.z -= triStep;
