@@ -78,8 +78,7 @@ var musicbox;
 var lastChangeTime = 0;
 var keyNow='A';
 var faces;
-var angle=0,test = 0;
-var a=1;
+var angle=0,test = 0,count = 0;
 
 var Drumpose1 = {
         Dtheta1: 1.2057796021989051,
@@ -738,7 +737,6 @@ function init() {
   ////////////////////////////////////////////////////////////////
   /*var gridXZ = new THREE.GridHelper(200, 20, 'red', 'white');
   scene.add(gridXZ);*/
-////////////////
 	CubeWorld = new THREE.Group();
 	GroupA = new THREE.Group();
   CubeWorld.add(GroupA);
@@ -813,14 +811,6 @@ function init() {
   GroupD = new THREE.Group();
   CubeWorld.add(GroupD);
   
-  people[3] = buildCymbalMan();
-  car[3] = buildcar();
-  people[3][0].position.set(0,10,0);
-  car[3].add(people[3][0]);
-  GroupD.add(car[3]);
-  GroupD.children[0].position.set(0,-L/2, L/2);
-  GroupD.children[0].rotation.copy(new THREE.Euler (Math.PI/2, 0, 0, 'ZYX'));
-  
   circle = new THREE.Mesh( circlegeometry, circlematerial );
   circle.rotation.x=-Math.PI/2;
   circle.position.y=1;
@@ -830,6 +820,29 @@ function init() {
   GroupD.add(floorD);
   GroupD.rotation.z = Math.PI/2;
   GroupD.position.x = -L/2;
+  
+  let loader = new THREE.TextureLoader();
+
+  // load a resource
+  loader.load(
+    // resource URL
+    'https://i.imgur.com/3GKmjuK.png',
+    // Function when resource is loaded
+    function(texture) {
+      // do something with the texture
+      // Plane with default texture coordinates [0,1]x[0,1]
+      var texMat = new THREE.MeshBasicMaterial({
+        map: texture,
+        alphaTest: 0.5
+      });
+      mesh = new THREE.Mesh(buildLogo(), texMat);
+      GroupD.add(mesh);
+      GroupD.children[2].position.set(0,0.02,0);
+      GroupD.children[2].rotation.set(-Math.PI/2,0,-Math.PI/2);
+      texture.wrapS = THREE.RepeatWrapping;
+      texture.wrapT = THREE.RepeatWrapping;
+    }
+  );
   ////////////////////////////////////////
   GroupE = new THREE.Group();
   CubeWorld.add(GroupE);
@@ -864,15 +877,6 @@ function init() {
   GroupF = new THREE.Group();
   CubeWorld.add(GroupF);
   
-  people[5] = buildCymbalMan();
-  car[5] = buildcar();
-  people[5][0].position.set(0,10,0);
-  car[5].add(people[5][0]);
-  car[5].rotation.y = Math.PI/2;
-  GroupF.add(car[5]);
-  GroupF.children[0].position.set(0,-L/2, -L/2);
-  GroupF.children[0].rotation.copy(new THREE.Euler (-Math.PI/2, 0, -Math.PI/2, 'ZYX'));
-  
   circle = new THREE.Mesh( circlegeometry, circlematerial );
   circle.rotation.x=-Math.PI/2;
   circle.position.y=1;
@@ -882,6 +886,22 @@ function init() {
   GroupF.add(floorF);
   GroupF.rotation.x = Math.PI;
   GroupF.position.y = -L/2;
+  
+  loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  texture = loader.load('https://i.imgur.com/v51N88A.png');
+  alpha = loader.load('https://i.imgur.com/zZsPHVR.png');
+
+  var texMat = new THREE.MeshBasicMaterial({
+    map: texture,
+    alphaMap: alpha,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+  let word = new THREE.Mesh(new THREE.PlaneGeometry(300,300), texMat);
+  word.rotation.x-=Math.PI/2;
+  word.position.y=0.1;
+  GroupF.add(word);
   //////////////////////////////////////
 	CubeWorld.add (new THREE.AxesHelper (L/5));
   scene.add(CubeWorld);
@@ -4170,6 +4190,34 @@ function buildBackground(){
   renderer.shadowMap.type = THREE.PCFShadowMap;
   return back;
 }
+function buildLogo() {
+  var geometry = new THREE.Geometry();
+  geometry.vertices.push(
+    new THREE.Vector3(-50, -60, 0),
+    new THREE.Vector3(50, -60, 0),
+    new THREE.Vector3(50, 60, 0),
+    new THREE.Vector3(-50, 60, 0)
+  );
+
+  var face;
+  face = new THREE.Face3(0, 1, 2);
+  geometry.faces.push(face);
+  face = new THREE.Face3(0, 2, 3);
+  geometry.faces.push(face);
+
+  st0 = new THREE.Vector2(0, 0.5);
+  st1 = new THREE.Vector2(0.25, 0.5);
+  st2 = new THREE.Vector2(0.25, 1);
+  st3 = new THREE.Vector2(0, 1);
+  geometry.faceVertexUvs[0].push([st0, st1, st2]);
+  geometry.faceVertexUvs[0].push([st0, st2, st3]);
+
+  geometry.computeBoundingSphere();
+  geometry.computeFaceNormals();
+  geometry.computeVertexNormals();
+  return geometry;
+}
+
 
 function Drumkeyframe(t) {
 	T = 475/68.5;
@@ -4380,37 +4428,50 @@ function searchFace () {
 	var normals = {B: new THREE.Vector3(1,0,0), E: new THREE.Vector3(0,1,0),A: new THREE.Vector3(0,0,1),D: new THREE.Vector3(-1,0,0), F: new THREE.Vector3(0,-1,0), C: new THREE.Vector3(0,0,-1)};
 	var centers = {B: new THREE.Vector3(L/2,0,0), E: new THREE.Vector3(0,L/2,0), A: new THREE.Vector3(0,0,L/2),D: new THREE.Vector3(-L/2,0,0), F: new THREE.Vector3(0,-L/2,0), C: new THREE.Vector3(0,0,-L/2)};
   
-  let dd, point;
+  let dd, point,dota,dotb,dotc,dotd,dote,dotf;
   point = camera.position.clone().sub (centers['B']).normalize();
+  dotb = normals['B'].dot (point);
   if ((dd = normals['B'].dot (point)) > maxDot) {
   	maxDot = dd;
     which = 'B';
   }
   point = camera.position.clone().sub (centers['E']).normalize();
+  dote = normals['E'].dot (point);
   if ((dd = normals['E'].dot (point)) > maxDot) {
   	maxDot = dd;
     which = 'E';
   }
   point = camera.position.clone().sub (centers['A']).normalize();
+  //var output = `${point.x} ${point.y} ${point.z} `;
+  
+  dota = normals['A'].dot (point);
   if ((dd = normals['A'].dot (point)) > maxDot) {
   	maxDot = dd;
     which = 'A';
   }
+  
   point = camera.position.clone().sub (centers['D']).normalize();
+  dotd = normals['D'].dot (point);
   if ((dd = normals['D'].dot (point)) > maxDot) {
   	maxDot = dd;
     which = 'D';
   }
   point = camera.position.clone().sub (centers['F']).normalize();
+  dotf = normals['F'].dot (point);
   if ((dd = normals['F'].dot (point)) > maxDot) {
   	maxDot = dd;
     which = 'F';
   }
   point = camera.position.clone().sub (centers['C']).normalize();
+  dotc = normals['C'].dot (point);
   if ((dd = normals['C'].dot (point)) > maxDot) {
   	maxDot = dd;
     which = 'C';
   }
+  
+  var output = `${dota} ${dotb} ${dotc}  ${dotd} ${dote} ${dotf} `;
+  //$('#output').text (output);
+  
 	return which;
 }
 
@@ -4464,18 +4525,27 @@ function setAllFacesTransparent () {
     faces['C'].visible = false;
   }
 }
+function textureAnimate() {
+  if (GroupD.children[2]) {
+    var texture = GroupD.children[2].material.map;
+    texture.offset.x += 0.25;
+    if (texture.offset.x === Math.floor(texture.offset.x))
+      texture.offset.y += 0.5;
+  }
+}
 function animate() {
   controls.update();
-
+	count++;
+  if (count % 50 === 0) {  // a crude way to set animation frequency
+    textureAnimate();
+  }
   setAllFacesTransparent();
 
 	let which = searchFace();
   var timeFromStart = clock.getElapsedTime();
 	var eT = (timeFromStart - lastChangeTime ).toFixed(0);
   //var d = GroupD.children[0].rotation;
-  //var output = `${keyNow} : ${eT} ${d.x} ${d.y} ${d.z}`;
   
-  //$('#output').text (output);
 
   if (keyNow != undefined && keyNow !== which) {
     keyNow=which;
@@ -6949,7 +7019,6 @@ function render() {
   renderer.render(scene, camera);
 
 }
-
 	</script>
 	</body>
 </html>
