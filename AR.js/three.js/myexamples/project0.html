@@ -51,23 +51,6 @@
 	}
 </script>
 <script>
-class Button {
-	constructor (size, x, y){
-		this.size = size;
-		this.centerX = x;
-		this.centerY = y;
-	}
-	d1To (v) { // 1-norm
-		return Math.abs (v[0]-this.centerX) + Math.abs(v[1]-this.centerY);
-	}
-	d2To (v) { // 2-norm
-		return Math.sqrt ( (v[0]-this.centerX)*(v[0]-this.centerX) 
-				+ (v[1]-this.centerY)*(v[1]-this.centerY) );
-	}
-	dInfTo (v) { // inf-norm
-		return Math.max( Math.abs (v[0]-this.centerX), Math.abs(v[1]-this.centerY) )
-	}
-}
 class Path{
   constructor(pos1,euler1,euler2,moving){
     this.pos1 = pos1;
@@ -484,7 +467,7 @@ var intKey1 = [], intKey2 = [],intKey3 = [];
 var soundTrack;
 var isDimming = false, soundVal = 1.0, sign = 1.0;
 var line;
-var L = 1,kk = 8/300; 
+var L = 1,kk = 80/3; 
 var path = [],alpha;
 ////////////////////////
 init();
@@ -513,55 +496,7 @@ function init() {
 	// Create a camera
 	camera = new THREE.Camera();
 	scene.add(camera);
-	sceneHUD = new THREE.Scene();
-	// eye-coordinate bounds
-	halfH = 10;
-	halfW = halfH * whRatio;
-	cameraHUD = new THREE.OrthographicCamera (-halfW,halfW, halfH,-halfH, -10,10);
-
-	var buttonSize = halfH/3;
-	button[0] = new THREE.Mesh (new THREE.PlaneGeometry(buttonSize, buttonSize), 
-			new THREE.MeshBasicMaterial({color:"yellow", transparent:true, opacity:0.8}));	
-	detect[0] = new Button (buttonSize, -halfH, -halfH/2);
-	button[0].position.set (detect[0].centerX, detect[0].centerY, 0);
-	sceneHUD.add (button[0]);
-  button[1] = new THREE.Mesh (new THREE.PlaneGeometry(buttonSize, buttonSize), 
-			new THREE.MeshBasicMaterial({color:"blue", transparent:true, opacity:0.8}));	
-	detect[1] = new Button (buttonSize, 0, -halfH/2);
-	button[1].position.set (detect[1].centerX, detect[1].centerY, 0);
-	sceneHUD.add (button[1]);
-
   //currentPlane = 'PX';
-  pos1 = new THREE.Vector3(0, 0, 0);
-  euler1 = new THREE.Euler (0, Math.PI/2, 0, 'ZYX');
-  //nextPlane = 'PY';
-  euler2 = new THREE.Euler (0,Math.PI,0,'ZYX');
-	moving = 'PX1PY1'; 
-  path[0] = new Path(pos1,euler1,euler2,moving);
-
-  //currentPlane = 'PX';
-  pos1 = new THREE.Vector3(L/2, 0, 0);
-  euler1 = new THREE.Euler (-Math.PI/2, -Math.PI/2, 0, 'ZYX');
-  //nextPlane = 'PZ';
-  euler2 = new THREE.Euler (Math.PI/2, 0, Math.PI,'ZYX');	
-  moving = 'PX1PZ1'; 
-  path[1] = new Path(pos1,euler1,euler2,moving);
-
-  //currentPlane = 'PX';
-  pos1 = new THREE.Vector3(L/2, 0, 0);
-  euler1 = new THREE.Euler (0, 0, -Math.PI/2, 'ZYX');
-  //nextPlane = 'NY';
-  euler2 = new THREE.Euler (0,0,-Math.PI,'ZYX');  
-	moving = 'PX1PY2'; 
-  path[2] = new Path(pos1,euler1,euler2,moving);
-
-  //currentPlane = 'PX';
-  pos1 = new THREE.Vector3(L/2, 0, 0);
-  euler1 = new THREE.Euler (Math.PI/2, Math.PI/2, 0, 'ZYX');
-  //nextPlane = 'NZ';
-  euler2 = new THREE.Euler (-Math.PI/2, 0, Math.PI,'ZYX');
-  moving = 'PX1PZ2'; 
-  path[3] = new Path(pos1,euler1,euler2,moving);
 
 	arToolkitSource = new THREEx.ArToolkitSource({
 		// to read from the webcam 
@@ -596,7 +531,33 @@ function init() {
 		patternUrl : THREEx.ArToolkitContext.baseURL + '../data/data/patt.Aletter',
 	})
 	scene.add (markerA);
-	GroupA = new THREE.Group();
+	
+  //currentPlane = 'A';
+  pos1 = new THREE.Vector3(L/2, 0, 0);  // starting pos
+  euler1 = new THREE.Euler (0, 0, 0, 'ZYX');  // starting orientation
+  //nextPlane = 'B';
+  euler2 = new THREE.Euler (0, 0, -Math.PI/2,'ZYX');
+  //moving = 'PxtoPz'; 
+  path[0] = new Path(pos1,euler1,euler2,'PxtoPz');
+
+
+  //currentPlane = 'PX';
+  pos1 = new THREE.Vector3(L/2, 0, 0);
+  euler1 = new THREE.Euler (0, 0, -Math.PI/2, 'ZYX');
+  //nextPlane = 'NY';
+  euler2 = new THREE.Euler (0,0,-Math.PI,'ZYX');  
+	moving = 'PX1PY2'; 
+  path[1] = new Path(pos1,euler1,euler2,moving);
+
+  //currentPlane = 'PX';
+  pos1 = new THREE.Vector3(L/2, 0, 0);
+  euler1 = new THREE.Euler (Math.PI/2, Math.PI/2, 0, 'ZYX');
+  //nextPlane = 'NZ';
+  euler2 = new THREE.Euler (-Math.PI/2, 0, Math.PI,'ZYX');
+  moving = 'PX1PZ2'; 
+  path[2] = new Path(pos1,euler1,euler2,moving);
+  
+  GroupA = new THREE.Group();
 	markerA.add(GroupA);
 	let inA = addMarkerA();
 	GroupA.add(inA[0],inA[1])
@@ -605,9 +566,8 @@ function init() {
   men[0][0].position.set(0,0.1,0);
   car[0].add(men[0][0]);
   car[0].rotation.y = Math.PI/2;
+  car[0].rotation.order = 'ZYX';
   GroupA.add(car[0]);
-  GroupA.children[2].position.copy (path[0].pos1);
-  GroupA.children[2].rotation.copy (path[0].euler1);
   let drum = buildDrum();
   drum.rotation.y = Math.PI/2;
 	GroupA.add(drum);
@@ -698,6 +658,7 @@ function init() {
   car[5].rotation.y = -Math.PI/2;
   GroupF.add(car[5]);
   ///////////////////////////////////////
+  
 
 	var ambient = new THREE.AmbientLight( 0x666666 );
 	scene.add(ambient)
@@ -724,12 +685,6 @@ function onResize(){
 		if( arToolkitContext.arController !== null ){
 			arToolkitSource.copySizeTo(arToolkitContext.arController.canvas)	
 		}
-		whRatio = window.innerWidth/window.innerHeight;
-		halfW = halfH * whRatio;
-		cameraHUD.left = -halfW;
-		cameraHUD.right = halfW;
-		cameraHUD.top = halfH;
-		cameraHUD.bottom = -halfH;
 	}	
 function buildDrumMan(){
   mine = new THREE.Group();
@@ -785,6 +740,7 @@ function buildDrumMan(){
 	leftleg[0].rotation.z = -Math.PI/2;
 	rightleg[0].rotation.z = -Math.PI/2;
 	
+  mine.rotation.order = 'ZYX';
 	leftarm[0].rotation.order = 'ZYX';
 	rightarm[0].rotation.order = 'ZYX';
 	leftleg[0].rotation.order = 'ZYX';
@@ -1051,7 +1007,7 @@ function addMarkerF(){
 	circle.position.y=0.01;
 	return [planeMesh,circle];
 }	
-function update(start,end,group) {
+function update(start,end,g1,g2) {
    // o1, x1, z1
    let o1 = start.position.clone();
    let x1 = start.localToWorld (new THREE.Vector3(1,0,0)).sub(o1);
@@ -1062,49 +1018,14 @@ function update(start,end,group) {
    let x2 = end.localToWorld (new THREE.Vector3(1,0,0)).sub(o2);
    let z2 = end.localToWorld (new THREE.Vector3(0,0,1)).sub(o2);
    
-   // box position (eye coord)
-   manPosEye = start.localToWorld (manPos.clone());
-   let manPos2 = manPosEye.sub (o2);;
-	group.children[2].position.x = manPos2.dot (x2);   
-	group.children[2].position.z = manPos2.dot (z2);   
-}
-function pickCompute (ndcX, ndcY) {
-	// use 2D algorithm 	
-	let dist1 = detect[0].dInfTo ([halfW * ndcX, halfH * ndcY]);	
-	$('#touch').text ('Mouse-dist-Button: ' + dist1.toFixed(2))
-  let dist2 = detect[1].dInfTo ([halfW * ndcX, halfH * ndcY]);	
-	if (dist1 < detect[0].size/2) {
-		console.log ('picked')
-		HUD1 = !HUD1;
-	}
-  if (dist2 < detect[1].size/2) {
-		console.log ('picked')
-		HUD2 = !HUD2;
-	}
+  // man position (eye coord)
+  manPosEye = start.localToWorld (manPos.clone());
+  let manPos2 = manPosEye.sub (o2);;
+	g2.children[2].position.x = manPos2.dot (x2);   
+	g2.children[2].position.z = manPos2.dot (z2);
+  g2.children[2].rotation.copy(g1.children[2].rotation);   
 }
 
-function onMouseDown (event) {
-	console.log ('in mouse down')
-	event.preventDefault();
-	let ndcX = (event.clientX / window.innerWidth) * 2 - 1;
-	let ndcY = -(event.clientY / window.innerHeight) * 2 + 1;
-
-	pickCompute (ndcX, ndcY);		
-}	
-
-function onTouchStart (event) {
-	console.log ('in touch start')
-
-	if (event.touches.length == 1) {
-		
-		event.preventDefault();
-		let ndcX = ( event.touches[0].pageX / window.innerWidth ) * 2 - 1;
-		let ndcY = - ( event.touches[0].pageY / window.innerHeight ) * 2 + 1;
-
-		pickCompute (ndcX, ndcY);		
-		
-	}	
-}	
 function makeArm() {
 	var group = new THREE.Group();
  	var group2 = new THREE.Group();
@@ -1610,7 +1531,7 @@ function Visible(m1,m2,g1,g2){
   let a2 = m2.position.clone()
   let y2 = m2.localToWorld (new THREE.Vector3(0,1,0)).sub(a2);
   let z = new THREE.Vector3(0,0,-1);
-
+  
   if(y1.dot(z.clone())>=y2.dot(z.clone())){
     g1.children[2].visible = true;
     g2.children[2].visible = false;
@@ -1620,34 +1541,45 @@ function Visible(m1,m2,g1,g2){
     g2.children[2].visible = true;
   }
 }
-function PxtoPy() {
+function PxtoPzA() {
 var triStep = .009;
 //console.log (`turning is ${turning} alpha is ${alpha}`);
 
   if (path[0].turning === 0) {
-  	GroupA.children[2].position.y += triStep;
-  
-  	if (GroupA.children[2].position.y > L/2-L/kk) {// ready to cross
+  	setTimeout("GroupA.children[2].position.x += 0.009;",1000);
+    GroupA.children[2].rotation.copy(path[0].euler1);
+  	if (GroupA.children[2].position.x > L/2) {// ready to cross
+      
       path[0].turning = 1;
-      path[0].pos1 = new THREE.Vector3(0, L/2-L/kk, 0);
-      pos2 = new THREE.Vector3(-L/kk, L/2, 0);
-
+      path[0].pos1 = new THREE.Vector3(L/2,0,0);
+      pos2 = new THREE.Vector3(L/2+L/kk,-L/kk,0);
+      
       quat1 = new THREE.Quaternion();
       quat1.setFromEuler(path[0].euler1);
       quat2 = new THREE.Quaternion();
       quat2.setFromEuler(path[0].euler2);
       alpha = 0;
-    }  
+    }
 
-  } else if (path[0].turning === 1) { // in crossing
-  	alpha = Cross(path[0],GroupA,quat1,quat2,pos2);  // update alpha
-  	
-
-  } else { // turning == 2: finish crossing ... always a straight line
-  GroupA.children[2].position.x -= triStep;
-	//console.log (`x is ${plane.position.x}`)
-  	if (GroupA.children[2].position.x < 0) 
-    path[0].moving = false;
+  } 
+  else if (path[0].turning === 1) { // in crossing
+  	alpha = Cross(path[0],GroupA,quat1,quat2,pos2); // update alpha
+    GroupA.children[2].rotation.copy(path[0].euler2); 
+    GroupA.children[2].position.copy(pos2); 
+  } 
+  else { // turning == 2: finish crossing ... always a straight line
+    setTimeout("GroupA.children[2].position.y -= 0.009;",1000);
+  	if (GroupA.children[2].position.y < -L/kk) 
+      path[0].moving = false;
+  }
+}
+function move(){
+  switch(path[0].moving){
+    case 'PxtoPz':
+      PxtoPzA();
+    break;
+    default:
+			return;
   }
 }
 function animate() {
@@ -1658,9 +1590,8 @@ function animate() {
 	renderer.clear();
 	renderer.render( scene, camera );
   stats.update();
-	//button.material.visible = markerA.visible;
 	scene.visible = camera.visible
-	//renderer.render (sceneHUD, cameraHUD);
+  var dt = new THREE.Clock();
   
   GroupA.children[0].visible = false;
   GroupB.children[0].visible = false;
@@ -1668,16 +1599,29 @@ function animate() {
   GroupD.children[0].visible = false;
   GroupE.children[0].visible = false;
   GroupF.children[0].visible = false;
-  /*theta += 0.01;
-	manPos.set ( 0.5*Math.cos(theta), 0.1, 0.5*Math.sin(theta) )	
-	GroupA.children[3].position.copy (manPos)*/
-  //update(markerA,markerB,GroupB);
+
+  //update(markerA,markerB,GroupA,GroupB);
   //update(markerA,markerC,GroupC);
-  //PxtoPy();
-  if(markerA.visible) GroupA.children[2].visible = true;
+  if(markerA.visible) {
+    let d = setTimeout(undefined, 1000);
+    GroupA.children[2].visible = true;
+    if(d>=500){
+      GroupA.children[3].visible = false;
+      move();
+    }
+    /*if(time>=3){
+      path[0].moving = 'PxtoPz';
+      console.log(path[0].moving);
+    }*/
+    //let p = new THREE.Vector3(L/2+L/kk,-L/kk,0);
+	  //GroupA.children[2].position.copy (p);
+  }
   else GroupA.children[2].visible = false;
 
-  if(markerB.visible)GroupB.children[2].visible = true;
+  if(markerB.visible){
+    GroupB.children[2].visible = true;
+    
+  }
   else GroupB.children[2].visible = false;
 
   if(markerC.visible)GroupC.children[2].visible = true;
@@ -1741,7 +1685,7 @@ function animate() {
     Visible(markerC,markerF,GroupC,GroupF);
   }
 
-  if(GroupA.children[3].position.distanceTo(GroupA.children[1].position)<=0.2){
+  if(GroupA.children[2].position.distanceTo(GroupA.children[1].position)<=0.2){
     men[0][11].visible = true;
     men[0][12].visible = true;
     Drumkeyframe(clock.getElapsedTime()); 
