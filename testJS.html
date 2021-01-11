@@ -794,6 +794,21 @@ function init() {
   GroupA.add(pointA);
   pointA.rotation.y = -Math.PI/2;
   pointA.position.set(80,0.2,0);
+  let loader = new THREE.TextureLoader();
+  loader.crossOrigin = '';
+  let texture = loader.load('https://i.imgur.com/vK0CXzl.png');
+
+  var texMat = new THREE.MeshPhongMaterial({
+    map: texture,
+    alphaTest: 0.5,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+  let taigo = new THREE.Mesh(new THREE.PlaneGeometry(240,200), texMat);
+  taigo.rotation.x=-Math.PI/2;
+  taigo.position.y=0.03;
+  GroupA.add(taigo);
+  GroupA.children[5].visible = false;
   ////////////////////////////////////////
   GroupB = new THREE.Group();
   CubeWorld.add(GroupB);
@@ -819,6 +834,19 @@ function init() {
   let pointB = buildPointer();
   GroupB.add(pointB);
   pointB.position.set(0,0.2,-80);
+  texture = loader.load('https://i.imgur.com/DKoClgt.png');
+
+  var texMat = new THREE.MeshPhongMaterial({
+    map: texture,
+    alphaTest: 0.5,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+  let tonba = new THREE.Mesh(new THREE.PlaneGeometry(240,200), texMat);
+  tonba.rotation.z=Math.PI/2;
+  tonba.rotation.x=-Math.PI/2;
+  tonba.position.y=0.03;
+  GroupB.add(tonba);
   ////////////////////////////////////////
   GroupC = new THREE.Group();
   CubeWorld.add(GroupC);
@@ -844,6 +872,18 @@ function init() {
   GroupC.add(pointC);
   pointC.rotation.y = Math.PI/2;
   pointC.position.set(-80,0.2,0);
+  texture = loader.load('https://i.imgur.com/bSbIyhB.png');
+
+  var texMat = new THREE.MeshPhongMaterial({
+    map: texture,
+    alphaTest: 0.5,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+  let siogo = new THREE.Mesh(new THREE.PlaneGeometry(200,200), texMat);
+  siogo.rotation.x=Math.PI/2;
+  siogo.position.y=0.03;
+  GroupC.add(siogo);
   ////////////////////////////////////////
   GroupD = new THREE.Group();
   CubeWorld.add(GroupD);
@@ -858,7 +898,7 @@ function init() {
   GroupD.rotation.z = Math.PI/2;
   GroupD.position.x = -L/2;
   
-  let loader = new THREE.TextureLoader();
+  loader = new THREE.TextureLoader();
 
   // load a resource
   loader.load(
@@ -916,6 +956,19 @@ function init() {
   GroupE.add(pointE);
   pointE.rotation.y = -Math.PI/2;
   pointE.position.set(80,0.2,0);
+  texture = loader.load('https://i.imgur.com/lnnkqyd.png');
+
+  var texMat = new THREE.MeshPhongMaterial({
+    map: texture,
+    alphaTest: 0.5,
+    transparent: true,
+    side: THREE.DoubleSide
+  });
+  let jihoy = new THREE.Mesh(new THREE.PlaneGeometry(200,200), texMat);
+  jihoy.rotation.z=Math.PI/2;
+  jihoy.rotation.x=-Math.PI/2;
+  jihoy.position.y=0.03;
+  GroupE.add(jihoy);
    ////////////////////////////////////////
   GroupF = new THREE.Group();
   CubeWorld.add(GroupF);
@@ -932,8 +985,8 @@ function init() {
   
   loader = new THREE.TextureLoader();
   loader.crossOrigin = '';
-  let texture = loader.load('https://i.imgur.com/v51N88A.png');
-  let alpha = loader.load('https://i.imgur.com/zZsPHVR.png');
+  texture = loader.load('https://i.imgur.com/v51N88A.png');
+  alpha = loader.load('https://i.imgur.com/zZsPHVR.png');
 
   var texMat = new THREE.MeshBasicMaterial({
     map: texture,
@@ -948,6 +1001,12 @@ function init() {
   //////////////////////////////////////
 	CubeWorld.add (new THREE.AxesHelper (L/5));
   scene.add(CubeWorld);
+  var edgegeometry = new THREE.BoxBufferGeometry( L, L, L );
+  var edgematerial = new THREE.MeshBasicMaterial( {color: 0xff0000} );
+  let cube = new THREE.Mesh( edgegeometry, edgematerial );
+  let edges = new THREE.EdgesHelper(  cube, 0x0000ff );//設定邊框，可以旋轉
+
+  scene.add( edges );
   ////// create positionaudio
   var listener = new THREE.AudioListener();
   listener.crossOrigin = "anonymous";
@@ -1097,7 +1156,7 @@ function makeDrumArm() {
 	var group = new THREE.Group();
  	var group2 = new THREE.Group();
   var geometry = new THREE.CylinderBufferGeometry(1, 1, 10, 32 );
-  var material = new THREE.MeshLambertMaterial( {color: 0x803d0a} );
+  var material = new THREE.MeshBasicMaterial( {color: 0x803d0a} );
   let stick= new THREE.Mesh( geometry, material );
   let body3=buildDrumarm();
   body3.rotation.z=Math.PI/2;
@@ -1220,7 +1279,7 @@ function buildDrumface() {
   let texture4 = loader.load('https://i.imgur.com/TLdR62i.png');
   let texture5 = loader.load('https://i.imgur.com/E57CwUJ.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }),
     new THREE.MeshPhongMaterial({
@@ -1316,7 +1375,7 @@ function buildDrumTorso() {
   let texture4 = loader.load('https://i.imgur.com/iADRREk.png');
   let texture5 = loader.load('https://i.imgur.com/ZPH1PVI.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }),
     new THREE.MeshPhongMaterial({
@@ -1411,7 +1470,7 @@ function buildDrumarm() {
   let texture2 = loader.load('https://i.imgur.com/xWC8zfg.png');
   let texture3 = loader.load('https://i.imgur.com/eA5BB9i.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -1504,7 +1563,7 @@ function buildDrumarm2() {
   loader.crossOrigin = '';
   let texture = loader.load('https://i.imgur.com/eA5BB9i.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -1599,7 +1658,7 @@ function buildDrumleg() {
   let texture2 = loader.load('https://i.imgur.com/6mpD0ol.png');
   let texture3 = loader.load('https://i.imgur.com/eA5BB9i.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -1694,7 +1753,7 @@ function buildDrumleg2() {
   let texture2 = loader.load('https://i.imgur.com/eA5BB9i.png');
   let texture3 = loader.load('https://i.imgur.com/Xsw5JHL.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -2674,7 +2733,7 @@ function buildSmalldrumface() {
   let texture4 = loader.load('https://i.imgur.com/TLdR62i.png');
   let texture5 = loader.load('https://i.imgur.com/E57CwUJ.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }),
     new THREE.MeshPhongMaterial({
@@ -2770,7 +2829,7 @@ function buildSmalldrumTorso() {
   let texture4 = loader.load('https://i.imgur.com/zhr9X0w.png');
   let texture5 = loader.load('https://i.imgur.com/2wd7fMD.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }),
     new THREE.MeshPhongMaterial({
@@ -2865,7 +2924,7 @@ function buildSmalldrumarm() {
   let texture2 = loader.load('https://i.imgur.com/APu9VDq.png');
   let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -2959,7 +3018,7 @@ function buildSmalldrumarm2() {
   let texture = loader.load('https://i.imgur.com/eA5BB9i.png');
   let texture2 = loader.load('https://i.imgur.com/zDr6SGt.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -3054,7 +3113,7 @@ function buildSmalldrumleg() {
   let texture2 = loader.load('https://i.imgur.com/UmnQd9g.png');
   let texture3 = loader.load('https://i.imgur.com/zDr6SGt.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -3148,7 +3207,7 @@ function buildSmalldrumleg2() {
   let texture = loader.load('https://i.imgur.com/DuEEa4x.png');
   let texture2 = loader.load('https://i.imgur.com/zDr6SGt.png');
   let materialArray = [];
-  materialArray.push(new THREE.MeshLambertMaterial({
+  materialArray.push(new THREE.MeshBasicMaterial({
       map: texture
     }), 
     new THREE.MeshPhongMaterial({
@@ -4210,7 +4269,7 @@ function buildBackground(){
   loader.crossOrigin = '';
   let texture = loader.load('https://i.imgur.com/TMNe2WF.jpg');
   let floor = new THREE.Mesh(new THREE.PlaneGeometry(L, L),
-  new THREE.MeshPhongMaterial({map: texture,side: THREE.DoubleSide}));
+  new THREE.MeshBasicMaterial({map: texture,side: THREE.DoubleSide}));
   floor.rotation.x = -Math.PI / 2;
   floor.receiveShadow = true;
   back.add(floor);
@@ -5430,7 +5489,6 @@ function animate() {
   render();
 
 }
-
 function AtoB() {
 var triStep = .90;
   if (turning === 0) {
@@ -5505,6 +5563,7 @@ var triStep = .90;
   } else if (turning === 1) { // in crossing
   	people[0][13].visible = false;
     people[1][13].visible = false;
+    
   	alpha[0] = Cross(GroupA,pos1[0],pos2[0],quat1[0],quat2[0],alpha[0]);
     alpha[1] = Cross(GroupB,pos1[1],pos2[1],quat1[1],quat2[1],alpha[1]);
     alpha[2] = Cross(GroupC,pos1[2],pos2[2],quat1[2],quat2[2],alpha[2]);
@@ -5536,6 +5595,8 @@ var triStep = .90;
       else moving = false;
     }
     else{
+      GroupA.children[5].visible = true;
+      GroupB.children[4].visible = false;
     	if(GroupD.children[0].position.z <= L/2-L/kk) people[1][13].visible = true;
     	GroupA.children[0].position.y -= triStep;
       GroupB.children[0].position.z -= triStep;
@@ -5629,8 +5690,11 @@ var triStep = .90;
     GroupE.children[0].rotation.copy(euler2[4])
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
-  } else { // turning == 2: finish crossing ... always a straight line
-  if(GroupD.children[0].position.z<=L/2-L/kk){
+  } 
+  else { // turning == 2: finish crossing ... always a straight line
+    GroupA.children[5].visible = true;
+    GroupE.children[6].visible = false;
+    if(GroupD.children[0].position.z<=L/2-L/kk){
   	people[4][11].visible = true;
     people[0][13].visible = true;
     people[1][13].visible = true;
@@ -5741,7 +5805,10 @@ function AtoC(){
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } 
   else if(turning ===2){
+
   	if (GroupD.children[0].position.z> -L/2) {
+      GroupA.children[5].visible = true;
+      GroupB.children[4].visible = false;
     	if(GroupD.children[0].position.z<=L/2-L/kk)people[1][13].visible = true;
       GroupA.children[0].position.y -= triStep;
       GroupB.children[0].position.z -= triStep;
@@ -5822,6 +5889,7 @@ function AtoC(){
       alpha[5] = 0;
     }
     else{
+
     	if (GroupD.children[0].position.y>-L/2){
         if(GroupA.children[0].rotation.y<Math.PI/2){
           
@@ -5835,13 +5903,15 @@ function AtoC(){
         else moving = false;
       }
       else{
-      if(GroupD.children[0].position.y>=-L+L/kk)people[2][14].visible = true;
-      GroupA.children[0].position.x -= triStep;
-      GroupB.children[0].position.y -= triStep;
-      GroupC.children[0].position.x -= triStep;
-      GroupD.children[0].position.y += triStep;
-      GroupE.children[0].position.x -= triStep;
-      GroupF.children[0].position.x -= triStep;
+        GroupB.children[4].visible = true;
+        GroupC.children[4].visible = false;
+        if(GroupD.children[0].position.y>=-L+L/kk)people[2][14].visible = true;
+        GroupA.children[0].position.x -= triStep;
+        GroupB.children[0].position.y -= triStep;
+        GroupC.children[0].position.x -= triStep;
+        GroupD.children[0].position.y += triStep;
+        GroupE.children[0].position.x -= triStep;
+        GroupF.children[0].position.x -= triStep;
       }
 
     }
@@ -5962,8 +6032,11 @@ var triStep = .90;
     GroupE.children[0].rotation.copy(euler2[4])
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
-  } else { // turning == 2: finish crossing ... always a straight line
-  	if (GroupD.children[0].position.y>-L/2){
+  } 
+  else { // turning == 2: finish crossing ... always a straight line
+    GroupB.children[4].visible = true;
+    GroupC.children[4].visible = false;
+    if (GroupD.children[0].position.y>-L/2){
       if(GroupA.children[0].rotation.y<Math.PI/2){
       	
       	GroupA.children[0].rotation.y += 0.05;
@@ -6069,7 +6142,8 @@ var triStep = .90;
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } else { // turning == 2: finish crossing ... always a straight line
-	
+    GroupB.children[4].visible = true;
+    GroupE.children[6].visible = false;
   	if (GroupD.children[0].position.y>-L/2){
   		
       if(GroupA.children[0].rotation.z<Math.PI+Math.PI/2){
@@ -6190,7 +6264,9 @@ var triStep = .90;
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } else { // turning == 2: finish crossing ... always a straight line
-  	if (GroupA.children[0].position.x < 0&&GroupD.children[0].position.y>-L/2){
+    GroupB.children[4].visible = true;
+    GroupA.children[5].visible = false;
+    if (GroupA.children[0].position.x < 0&&GroupD.children[0].position.y>-L/2){
       if(GroupA.children[0].rotation.y>Math.PI/2){
       	people[1][13].visible = true;
       	GroupA.children[0].rotation.y -= 0.05;
@@ -6308,7 +6384,8 @@ var triStep = .90;
   } else { // turning == 2: finish crossing ... always a straight line
 	
   	if (GroupD.children[0].position.z>0){
-  		
+  		GroupC.children[4].visible = true;
+      GroupB.children[4].visible = false;
       if(GroupA.children[0].rotation.y > Math.PI/2){
       	
       	GroupA.children[0].rotation.y -= 0.05;
@@ -6414,7 +6491,8 @@ var triStep = .90;
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } else { // turning == 2: finish crossing ... always a straight line
-	
+    GroupC.children[4].visible = true;
+    GroupE.children[6].visible = false;
   	if (GroupD.children[0].position.z>0){
   		
       if(GroupA.children[0].rotation.z < Math.PI + Math.PI/2){
@@ -6538,6 +6616,8 @@ function CtoA(){
   } 
   else if(turning === 2){ 
   	if (GroupD.children[0].position.z<L/2){
+      GroupC.children[4].visible = true;
+      GroupB.children[4].visible = false;
     	if(GroupD.children[0].position.z>=-L/2+L/kk)people[1][13].visible = true;
       GroupA.children[0].position.y += triStep;
       GroupB.children[0].position.z += triStep;
@@ -6618,6 +6698,8 @@ function CtoA(){
       alpha[5] = 0;
     }  
 		else {
+      GroupB.children[4].visible = true;
+      GroupA.children[5].visible = false;
     	if (GroupD.children[0].position.y>-L/2){
         if(GroupA.children[0].rotation.y>Math.PI/2){
           
@@ -6758,7 +6840,8 @@ var triStep = .90;
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } else { // turning == 2: finish crossing ... always a straight line
-	
+    GroupE.children[6].visible = true;
+    GroupA.children[5].visible = false;
   	if (GroupD.children[0].position.x<0){
   		
       if(GroupA.children[0].rotation.y < Math.PI/2){
@@ -6866,7 +6949,8 @@ var triStep = .90;
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } else { // turning == 2: finish crossing ... always a straight line
-	
+    GroupE.children[6].visible = true;
+    GroupC.children[4].visible = false;
   	if (GroupD.children[0].position.x<0){
   		
       if(GroupA.children[0].rotation.y > -Math.PI/2-Math.PI){
@@ -6983,7 +7067,8 @@ var triStep = .90;
     GroupF.children[0].position.copy(pos2[5])
     GroupF.children[0].rotation.copy(euler2[5])// update alpha
   } else { // turning == 2: finish crossing ... always a straight line
-	
+    GroupE.children[6].visible = true;
+    GroupB.children[4].visible = false;
   	if (GroupD.children[0].position.x<0){
   		
       if(GroupA.children[0].rotation.y < Math.PI/2){
